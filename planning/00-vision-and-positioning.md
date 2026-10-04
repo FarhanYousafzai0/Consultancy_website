@@ -9,13 +9,16 @@ Make it simple for international students to find German universities they can a
 - Every fact shown (deadline, fee, IELTS score) has a source link and a "last verified" date.
 - AI is used to explain results, answer questions from our verified data, and help with documents.
 
-## Target students (to confirm in Phase 1)
-- Pakistani and South Asian students first (home market of the consultancy).
-- Main groups:
-  - FSc/HSSC holders aiming for a Bachelor's (usually need Studienkolleg or 1–2 years of university first).
-  - BS/BSc graduates aiming for a Master's (largest English-taught market).
-  - Ausbildung (vocational training) seekers.
-  - PhD candidates (smaller group, DAAD-funded routes).
+## Business model (decided in Phase 1)
+A **consultancy that uses free software** to attract students. The platform is free and useful; revenue comes mainly from consultant services: shortlisting, full application handling, documents (SOP/LOM/CV), scholarship applications. Main goal: **growth** (the consultancy has fewer than 20 clients/year today).
+
+## Target students (decided in Phase 1)
+- **Pakistani students only** at launch (rules built per country so more can be added later).
+- Groups and launch depth:
+  - **BS/BSc → Master's — full depth** (verified programs, matching, scholarships, checklists).
+  - **FSc/HSSC → Bachelor's — medium** (eligibility check, Studienkolleg / foundation / private routes, curated list, consultant handoff).
+  - **Ausbildung — medium, free self-serve** (eligibility check, live listings, guides; no consultant handoff yet).
+  - PhD — later.
 
 ## Real student problems we solve
 1. **"Am I eligible?"** — school certificate recognition (HZB), Studienkolleg, APS certificate. Most students learn this too late.

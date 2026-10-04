@@ -12,6 +12,8 @@
 | Scholarships for Bachelor's are rare | Disappointed users | Say it honestly; redirect to cost strategy (tuition-free states, working-student jobs, Deutschlandstipendium after enrolling) |
 | Sources are in German | Extraction errors | German-first extraction, human check, translation for UI |
 | No agent commissions from public universities | Revenue | Revenue from consultant services, AI document credits, affiliates, possibly private universities / featured listings |
+| Paid first consultation lowers lead-to-consultation rate | Fewer than 30 consultations in 3 months | Free WhatsApp chat answers basics; watch the funnel in PostHog; revisit a free call if consultations stay low |
+| Legal docs from a generator only, company in Pakistan, data in EU | Policies may not fit the setup | Choose a generator that covers GDPR + non-EU company; revisit lawyer review if EU users grow |
 | Strong free competitors (MyGermanUniversity, Deutics) | Hard to stand out | Win on eligibility rules for our countries, honesty, human consultant layer |
 
 ## Open questions (for Phase 5 grill-me)

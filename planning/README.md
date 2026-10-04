@@ -22,20 +22,25 @@ Everything we decide before building lives here. When planning is done, this fol
 | `06-risks-and-challenges.md` | What can go wrong and how we handle it |
 | `07-build-roadmap.md` | Build order after planning is finished |
 | `decisions-log.md` | Every decision we make, with date and reason |
+| `design/design-system.md` | Colors, fonts, buttons, cards, badges, layout rules |
+| `design/preview.html` | Visual preview of the design system (open in browser) |
+| `design/sitemap-and-flows.md` | All pages, eligibility check steps, 6 user flows |
+| `phases/prd.md` | Product requirements (MVP) |
+| `research/interview-guide.md` | Student interview script and notes template |
 | `phases/` | The 6 planning phases, each with open questions for grill-me |
 
 ## Planning phase status
 
 | # | Phase | Grilled | Status | Done on |
 |---|---|---|---|---|
-| 1 | [Discovery & Research](phases/01-discovery-and-research.md) | [ ] | Not started | — |
-| 2 | [Product Definition](phases/02-product-definition.md) | [ ] | Not started | — |
-| 3 | [UX & Design](phases/03-ux-and-design.md) | [ ] | Not started | — |
-| 4 | [Data & Technical Planning](phases/04-data-and-technical-planning.md) | [ ] | Not started | — |
-| 5 | [Business & Legal](phases/05-business-and-legal.md) | [ ] | Not started | — |
-| 6 | [Delivery Plan](phases/06-delivery-plan.md) | [ ] | Not started | — |
+| 1 | [Discovery & Research](phases/01-discovery-and-research.md) | [x] | Research in progress (interviews) | — |
+| 2 | [Product Definition](phases/02-product-definition.md) | [x] | PRD v1 drafted — confirm after interviews | — |
+| 3 | [UX & Design](phases/03-ux-and-design.md) | [ ] | Grilling | — |
+| 4 | [Data & Technical Planning](phases/04-data-and-technical-planning.md) | [x] | Grilled — schema, matching spec, pilot remaining | — |
+| 5 | [Business & Legal](phases/05-business-and-legal.md) | [x] | Grilled — pricing page, partners, legal docs remaining | — |
+| 6 | [Delivery Plan](phases/06-delivery-plan.md) | [x] | Done — building started | 2026-10-05 |
 
-Status values: **Not started** → **Grilling** → **Done**
+Status values: **Not started** → **Grilling** → **Research in progress** (grilled, deliverables being produced) → **Done**
 
 ### Rule: when is a phase Done?
 A phase can be marked **Done** (and we move to the next one) only when:

@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Design System Preview v0.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<style>
+  :root {
+    --lime-50: #F7FDE6;
+    --lime-100: #EEFBC9;
+    --lime-200: #E2F79E;
+    --lime-300: #D4F56A; /* primary */
+    --lime-400: #C2E84A; /* hover */
+    --lime-500: #A6CF2C;
+    --forest-700: #3D7310;
+    --forest-800: #2F5D0A; /* green text on white */
+    --forest-900: #1E3D06;
+
+    --ink: #0F1110;
+    --ink-soft: #2A2D2B;
+    --grey-600: #5F635F;
+    --grey-400: #9A9E99;
+    --grey-200: #E4E5E2;
+    --grey-100: #F0F1EE; /* flat section cards */
+    --white: #FFFFFF;
+
+    --amber-bg: #FEF3D7;
+    --amber: #F5A524;
+    --amber-text: #7A4F00;
+    --slate-bg: #E7EDF3;
+    --slate-text: #3B5166;
+    --red: #DC2626;
+    --red-bg: #FDECEC;
+    --whatsapp: #25D366;            /* floating button only */
+    --whatsapp-dark: #0E7A4F;       /* inline button, white text ~5.4:1 */
+    --whatsapp-dark-hover: #0B6941;
+
+    --radius-card: 20px;
+    --shadow-card: 0 4px 24px rgba(15, 17, 16, 0.06);
+    --shadow-card-hover: 0 10px 32px rgba(15, 17, 16, 0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Plus Jakarta Sans", system-ui, sans-serif; color: var(--ink); background: var(--white); line-height: 1.5; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 48px 24px 120px; }
+  .label { font-family: "JetBrains Mono", monospace; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--grey-600); display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+  .label::before { content: ""; width: 6px; height: 6px; background: var(--ink); border-radius: 2px; }
+  section { margin-bottom: 72px; }
+  h1 { font-size: 56px; font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; }
+  h2 { font-size: 30px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 24px; }
+  h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+  .muted { color: var(--grey-600); }
+  .grid { display: grid; gap: 16px; }
+  .g4 { grid-template-columns: repeat(4, 1fr); }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 860px) { .g4, .g3 { grid-template-columns: 1fr 1fr; } h1 { font-size: 36px; } }
+  @media (max-width: 520px) {
+    .g4, .g3 { grid-template-columns: 1fr !important; }
+    .wrap { padding: 28px 16px 120px; }
+    h1 { font-size: 32px; }
+    h2 { font-size: 24px; }
+    .hero { padding: 24px 20px; border-radius: 24px; }
+    .phone { width: 100%; }
+    .type-row { flex-direction: column; gap: 4px; }
+  }
+
+  /* Swatches */
+  .swatch { border-radius: 16px; overflow: hidden; background: var(--white); box-shadow: var(--shadow-card); }
+  .swatch .chip { height: 88px; }
+  .swatch .meta { padding: 12px 14px; font-size: 13px; }
+  .swatch .meta b { display: block; font-size: 14px; }
+  .swatch code { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--grey-600); }
+
+  /* Buttons */
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .btn { font-family: inherit; font-weight: 600; font-size: 15px; border: 0; cursor: pointer; border-radius: 999px; height: 44px; padding: 0 22px; display: inline-flex; align-items: center; gap: 10px; transition: background .15s, box-shadow .15s, transform .15s; }
+  .btn:focus-visible { outline: 3px solid var(--forest-800); outline-offset: 3px; }
+  .btn-primary { background: var(--lime-300); color: var(--ink); padding-right: 6px; }
+  .btn-primary:hover { background: var(--lime-400); }
+  .btn-primary .arrow { width: 32px; height: 32px; border-radius: 999px; background: var(--ink); color: var(--lime-300); display: grid; place-items: center; font-size: 16px; }
+  .btn-secondary { background: var(--lime-100); color: var(--forest-800); }
+  .btn-secondary:hover { background: var(--lime-200); }
+  .btn-outline { background: var(--white); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--grey-200); }
+  .btn-outline:hover { box-shadow: inset 0 0 0 1.5px var(--grey-400); }
+  .btn-ghost { background: transparent; color: var(--ink); }
+  .btn-ghost:hover { background: var(--grey-100); }
+  .btn-dark { background: var(--ink); color: var(--white); }
+  .btn-whatsapp { background: var(--whatsapp-dark); color: var(--white); }
+  .btn-whatsapp:hover { background: var(--whatsapp-dark-hover); }
+  .btn-sm { height: 36px; font-size: 14px; padding: 0 16px; }
+  .btn-lg { height: 52px; font-size: 16px; padding: 0 26px; }
+  .btn-lg.btn-primary { padding-right: 8px; }
+  .btn-lg .arrow { width: 38px; height: 38px; }
+
+  /* Badges */
+  .badge { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 12px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .b-verified { background: var(--lime-100); color: var(--forest-800); }
+  .b-predicted { background: var(--amber-bg); color: var(--amber-text); }
+  .b-unverified { background: var(--grey-100); color: var(--grey-600); }
+  .b-reach { background: var(--amber-bg); color: var(--amber-text); }
+  .b-match { background: var(--lime-300); color: var(--ink); }
+  .b-safety { background: var(--slate-bg); color: var(--slate-text); }
+  .b-neutral { background: var(--grey-100); color: var(--ink-soft); }
+  .b-error { background: var(--red-bg); color: var(--red); }
+
+  /* Cards */
+  .card-flat { background: var(--grey-100); border-radius: var(--radius-card); padding: 24px; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; }
+  .card-lime { background: var(--lime-300); }
+  .card-ink { background: var(--ink); color: var(--white); }
+  .card-ink .muted { color: var(--grey-400); }
+  .stat { font-size: 44px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+
+  .card { background: var(--white); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 20px; transition: box-shadow .2s, transform .2s; }
+  .card:hover { box-shadow: var(--shadow-card-hover); transform: translateY(-2px); }
+  .card .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .uni { font-size: 13px; color: var(--grey-600); display: flex; align-items: center; gap: 6px; }
+  .prog { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; margin: 4px 0 12px; }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; padding: 14px 0; border-top: 1px solid var(--grey-100); border-bottom: 1px solid var(--grey-100); margin: 12px 0; }
+  .fact { font-size: 13px; color: var(--grey-600); display: flex; gap: 8px; align-items: center; }
+  .fact b { color: var(--ink); font-weight: 600; }
+  .fact i { font-size: 16px; color: var(--ink-soft); }
+  .icon-btn { width: 40px; height: 40px; border-radius: 999px; border: 0; background: var(--grey-100); display: grid; place-items: center; font-size: 18px; cursor: pointer; color: var(--ink); }
+  .icon-btn:hover { background: var(--grey-200); }
+  .card .actions { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+
+  /* Hero */
+  .hero { border-radius: 28px; padding: 48px; background: linear-gradient(135deg, #DCEBF7 0%, #F4F8EC 60%, var(--lime-100) 100%); position: relative; overflow: hidden; }
+  .hero p { max-width: 520px; margin: 16px 0 28px; font-size: 17px; color: var(--ink-soft); }
+  .hero .highlight { color: var(--forest-800); }
+  .elig { margin-top: 28px; background: var(--white); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 16px; display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 10px; align-items: center; }
+  .field { background: var(--grey-100); border-radius: 999px; height: 48px; padding: 0 18px; display: flex; align-items: center; justify-content: space-between; font-size: 14px; color: var(--grey-600); }
+  @media (max-width: 860px) { .hero { padding: 28px; } .elig { grid-template-columns: 1fr; } }
+
+  /* Result */
+  .result { display: flex; gap: 16px; align-items: flex-start; }
+  .result .dot { width: 44px; height: 44px; border-radius: 999px; background: var(--lime-300); display: grid; place-items: center; font-size: 22px; flex-shrink: 0; }
+
+  /* Mobile mock */
+  .phone { width: 340px; border-radius: 36px; background: var(--white); box-shadow: 0 20px 60px rgba(15,17,16,.12); overflow: hidden; border: 8px solid var(--ink); }
+  .phone .screen { padding: 20px 16px 0; height: 560px; overflow: hidden; background: #FAFAF8; }
+  .tabbar { display: flex; justify-content: space-around; padding: 10px 6px 16px; background: var(--white); border-top: 1px solid var(--grey-100); }
+  .tab { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; color: var(--grey-600); font-weight: 600; }
+  .tab i { font-size: 22px; }
+  .tab.active { color: var(--ink); }
+  .tab.active i { background: var(--lime-300); border-radius: 999px; padding: 4px 14px; }
+  .fab { position: fixed; right: 24px; bottom: 24px; width: 56px; height: 56px; border-radius: 999px; background: var(--whatsapp); display: grid; place-items: center; font-size: 28px; box-shadow: 0 8px 24px rgba(37,211,102,.35); color: var(--white); }
+
+  .type-row { display: flex; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--grey-100); }
+  .type-row code { font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--grey-600); width: 160px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <section>
+    <div class="label">Design system v0.2 · Preview</div>
+    <div class="hero">
+      <div class="label">For Pakistani students</div>
+      <h1>Study in Germany.<br/><span class="highlight">Know where you stand.</span></h1>
+      <p>Find out in 60 seconds if you can study in Germany — and which programs you can actually get into. Verified data. Real consultants.</p>
+      <div class="row">
+        <button class="btn btn-primary btn-lg">Check my eligibility <span class="arrow"><i class="ph ph-arrow-up-right"></i></span></button>
+        <button class="btn btn-outline btn-lg"><i class="ph ph-magnifying-glass"></i> Browse programs</button>
+      </div>
+      <div class="elig">
+        <div class="field">Your qualification <i class="ph ph-caret-down"></i></div>
+        <div class="field">Target degree <i class="ph ph-caret-down"></i></div>
+        <div class="field">Field of study <i class="ph ph-caret-down"></i></div>
+        <div class="field">IELTS score <i class="ph ph-caret-down"></i></div>
+        <button class="btn btn-dark">Check <i class="ph ph-arrow-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLORS -->
+  <section>
+    <div class="label">Colors</div>
+    <h2>Palette</h2>
+    <div class="grid g4">
+      <div class="swatch"><div class="chip" style="background:var(--lime-300)"></div><div class="meta"><b>Lime (primary)</b><code>#D4F56A</code><br/>Main buttons, Match tag</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--lime-400)"></div><div class="meta"><b>Lime hover</b><code>#C2E84A</code><br/>Hover / pressed</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--lime-100)"></div><div class="meta"><b>Lime soft</b><code>#EEFBC9</code><br/>Tints, Verified badge</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--forest-800)"></div><div class="meta"><b>Forest (green text)</b><code>#2F5D0A</code><br/>Links, checks on white</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--ink)"></div><div class="meta"><b>Ink</b><code>#0F1110</code><br/>Text, black accents</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--grey-600)"></div><div class="meta"><b>Grey text</b><code>#5F635F</code><br/>Secondary text</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--grey-100)"></div><div class="meta"><b>Grey surface</b><code>#F0F1EE</code><br/>Flat cards, inputs</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--white); box-shadow: inset 0 0 0 1px var(--grey-200)"></div><div class="meta"><b>White</b><code>#FFFFFF</code><br/>Background</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--amber)"></div><div class="meta"><b>Amber</b><code>#F5A524</code><br/>Predicted, Reach, warnings</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--slate-bg)"></div><div class="meta"><b>Slate</b><code>#E7EDF3 / #3B5166</code><br/>Safety tag</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--red)"></div><div class="meta"><b>Red</b><code>#DC2626</code><br/>Errors only</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--whatsapp-dark)"></div><div class="meta"><b>WhatsApp dark</b><code>#0E7A4F</code><br/>Inline consultant button</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--whatsapp)"></div><div class="meta"><b>WhatsApp bright</b><code>#25D366</code><br/>Floating button only</div></div>
+    </div>
+  </section>
+
+  <!-- TYPE -->
+  <section>
+    <div class="label">Typography</div>
+    <h2>Plus Jakarta Sans + JetBrains Mono labels</h2>
+    <div class="type-row"><code>Display 56 / 800</code><span style="font-size:44px;font-weight:800;letter-spacing:-.03em">Know where you stand</span></div>
+    <div class="type-row"><code>H1 40 / 700</code><span style="font-size:32px;font-weight:700;letter-spacing:-.02em">Your matches</span></div>
+    <div class="type-row"><code>H2 30 / 700</code><span style="font-size:26px;font-weight:700">Scholarships for you</span></div>
+    <div class="type-row"><code>H3 22 / 600</code><span style="font-size:20px;font-weight:600">M.Sc. Computer Science</span></div>
+    <div class="type-row"><code>Body 16 / 400</code><span>You need a Studienkolleg (a one-year foundation course) before a Bachelor's.</span></div>
+    <div class="type-row"><code>Small 14 / 500</code><span style="font-size:14px;font-weight:500" class="muted">Last verified 12 Sep 2026 · Source: uni-saarland.de</span></div>
+    <div class="type-row"><code>Label mono 12</code><span class="label" style="margin:0">Section label</span></div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section>
+    <div class="label">Buttons</div>
+    <h2>Pill buttons</h2>
+    <div class="row" style="margin-bottom:16px">
+      <button class="btn btn-primary">Check my eligibility <span class="arrow"><i class="ph ph-arrow-up-right"></i></span></button>
+      <button class="btn btn-secondary"><i class="ph ph-plus"></i> Add to shortlist</button>
+      <button class="btn btn-outline"><i class="ph ph-sliders-horizontal"></i> Filters</button>
+      <button class="btn btn-ghost">Skip for now</button>
+      <button class="btn btn-dark">Continue <i class="ph ph-arrow-right"></i></button>
+      <button class="btn btn-whatsapp"><i class="ph-fill ph-whatsapp-logo" style="font-size:20px"></i> Ask a consultant</button>
+    </div>
+    <div class="row">
+      <button class="btn btn-primary btn-sm">Small</button>
+      <button class="btn btn-primary">Default 44px</button>
+      <button class="btn btn-primary btn-lg">Large 52px <span class="arrow"><i class="ph ph-arrow-up-right"></i></span></button>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <section>
+    <div class="label">Badges</div>
+    <h2>Trust & match badges</h2>
+    <div class="row" style="margin-bottom:12px">
+      <span class="badge b-verified"><i class="ph-bold ph-check-circle"></i> Verified 12 Sep 2026</span>
+      <span class="badge b-predicted"><i class="ph-bold ph-clock-countdown"></i> Predicted from last year</span>
+      <span class="badge b-unverified"><i class="ph-bold ph-question"></i> Not yet verified</span>
+    </div>
+    <div class="row">
+      <span class="badge b-reach">Reach</span>
+      <span class="badge b-match">Match</span>
+      <span class="badge b-safety">Safety</span>
+      <span class="badge b-neutral">Public</span>
+      <span class="badge b-neutral">Private</span>
+      <span class="badge b-error"><i class="ph-bold ph-warning-circle"></i> Deadline passed</span>
+    </div>
+  </section>
+
+  <!-- PROGRAM CARDS -->
+  <section>
+    <div class="label">Program cards · white + floating shadow</div>
+    <h2>Your matches</h2>
+    <div class="grid g3">
+      <div class="card">
+        <div class="top">
+          <div>
+            <div class="uni"><i class="ph ph-graduation-cap"></i> Saarland University</div>
+            <div class="prog">M.Sc. Computer Science</div>
+          </div>
+          <span class="badge b-match">Match</span>
+        </div>
+        <div class="row" style="gap:6px"><span class="badge b-neutral">Public</span><span class="badge b-neutral">English</span></div>
+        <div class="facts">
+          <div class="fact"><i class="ph ph-map-pin"></i><b>Saarbrücken</b></div>
+          <div class="fact"><i class="ph ph-translate"></i>IELTS <b>6.5</b></div>
+          <div class="fact"><i class="ph ph-calendar-blank"></i><b>15 Mar 2027</b></div>
+          <div class="fact"><i class="ph ph-wallet"></i><b>€0</b> + €300 fee</div>
+        </div>
+        <div class="actions">
+          <span class="badge b-verified"><i class="ph-bold ph-check-circle"></i> Verified 12 Sep</span>
+          <div class="row" style="gap:6px"><button class="icon-btn" aria-label="Compare"><i class="ph ph-arrows-left-right"></i></button><button class="icon-btn" aria-label="Save"><i class="ph ph-bookmark-simple"></i></button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="top">
+          <div>
+            <div class="uni"><i class="ph ph-graduation-cap"></i> TU Munich</div>
+            <div class="prog">M.Sc. Data Engineering</div>
+          </div>
+          <span class="badge b-reach">Reach</span>
+        </div>
+        <div class="row" style="gap:6px"><span class="badge b-neutral">Public</span><span class="badge b-neutral">English</span></div>
+        <div class="facts">
+          <div class="fact"><i class="ph ph-map-pin"></i><b>Munich</b></div>
+          <div class="fact"><i class="ph ph-translate"></i>IELTS <b>6.5</b></div>
+          <div class="fact"><i class="ph ph-calendar-blank"></i><b>31 May 2027</b></div>
+          <div class="fact"><i class="ph ph-wallet"></i><b>€6,000</b>/sem</div>
+        </div>
+        <div class="actions">
+          <span class="badge b-predicted"><i class="ph-bold ph-clock-countdown"></i> Predicted</span>
+          <div class="row" style="gap:6px"><button class="icon-btn" aria-label="Compare"><i class="ph ph-arrows-left-right"></i></button><button class="icon-btn" aria-label="Save"><i class="ph ph-bookmark-simple"></i></button></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="top">
+          <div>
+            <div class="uni"><i class="ph ph-graduation-cap"></i> Hochschule Mittweida</div>
+            <div class="prog">M.Sc. Applied Computer Science</div>
+          </div>
+          <span class="badge b-safety">Safety</span>
+        </div>
+        <div class="row" style="gap:6px"><span class="badge b-neutral">Public</span><span class="badge b-neutral">English</span></div>
+        <div class="facts">
+          <div class="fact"><i class="ph ph-map-pin"></i><b>Mittweida</b></div>
+          <div class="fact"><i class="ph ph-translate"></i>IELTS <b>6.0</b></div>
+          <div class="fact"><i class="ph ph-calendar-blank"></i><b>15 Jul 2027</b></div>
+          <div class="fact"><i class="ph ph-wallet"></i><b>€0</b> + €110 fee</div>
+        </div>
+        <div class="actions">
+          <span class="badge b-unverified"><i class="ph-bold ph-question"></i> Not yet verified</span>
+          <div class="row" style="gap:6px"><button class="icon-btn" aria-label="Compare"><i class="ph ph-arrows-left-right"></i></button><button class="icon-btn" aria-label="Save"><i class="ph ph-bookmark-simple"></i></button></div>
+        </div>
+      </div>
+    </div>
+    <p class="muted" style="font-size:13px;margin-top:12px">Program data on this page is illustrative only.</p>
+  </section>
+
+  <!-- FLAT SECTION CARDS -->
+  <section>
+    <div class="label">Section cards · flat grey / lime / ink</div>
+    <h2>Stats & highlights</h2>
+    <div class="grid g4">
+      <div class="card-flat"><div class="muted" style="font-size:14px">Verified programs</div><div class="stat">180+</div></div>
+      <div class="card-flat card-lime"><div style="font-size:14px">Free forever</div><div><div class="stat">100%</div><div style="font-size:14px;margin-top:8px">Eligibility check and matching never behind a paywall.</div></div></div>
+      <div class="card-flat card-ink"><div class="muted" style="font-size:14px">Scholarships tracked</div><div><div class="stat">60+</div><div class="muted" style="font-size:14px;margin-top:8px">DAAD, foundations, Deutschlandstipendium</div></div></div>
+      <div class="card-flat"><div class="muted" style="font-size:14px">Next deadline on your list</div><div><div class="stat">14 days</div><div class="muted" style="font-size:14px;margin-top:8px">Saarland · M.Sc. CS</div></div></div>
+    </div>
+  </section>
+
+  <!-- ELIGIBILITY RESULT -->
+  <section>
+    <div class="label">Eligibility result</div>
+    <h2>Honest answer card</h2>
+    <div class="grid g3" style="grid-template-columns: 2fr 1fr;">
+      <div class="card" style="padding:28px">
+        <div class="result">
+          <div class="dot"><i class="ph-bold ph-check"></i></div>
+          <div>
+            <h3>You can apply directly for a Master's</h3>
+            <p class="muted" style="margin:6px 0 16px">Your 4-year BS (16 years of education) meets the usual requirement. With IELTS 6.5 you qualify for <b style="color:var(--ink)">42 programs</b>.</p>
+            <div class="row" style="gap:8px;margin-bottom:20px">
+              <span class="badge b-verified"><i class="ph-bold ph-check-circle"></i> Degree accepted</span>
+              <span class="badge b-predicted"><i class="ph-bold ph-warning"></i> APS certificate needed</span>
+            </div>
+            <div class="row">
+              <button class="btn btn-primary">See my 42 matches <span class="arrow"><i class="ph ph-arrow-up-right"></i></span></button>
+              <button class="btn btn-whatsapp"><i class="ph-fill ph-whatsapp-logo" style="font-size:20px"></i> Ask a consultant</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-flat card-ink">
+        <div class="label" style="color:var(--grey-400)">Next step</div>
+        <div>
+          <h3 style="color:var(--white)">Apply for APS early</h3>
+          <p class="muted" style="font-size:14px;margin:8px 0 16px">Required for your visa. It can take several weeks.</p>
+          <button class="btn btn-primary btn-sm">Read the guide</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOBILE -->
+  <section>
+    <div class="label">Mobile · bottom tab bar</div>
+    <h2>Mobile-first</h2>
+    <div class="phone">
+      <div class="screen">
+        <div class="label">Your matches · 42</div>
+        <div class="row" style="gap:8px;margin-bottom:14px;flex-wrap:nowrap;overflow:hidden">
+          <span class="badge b-match">All</span><span class="badge b-neutral">Reach 8</span><span class="badge b-neutral">Match 26</span><span class="badge b-neutral">Safety 8</span>
+        </div>
+        <div class="card" style="padding:16px">
+          <div class="top"><div><div class="uni"><i class="ph ph-graduation-cap"></i> Saarland University</div><div class="prog" style="font-size:16px">M.Sc. Computer Science</div></div><span class="badge b-match">Match</span></div>
+          <div class="facts" style="margin:6px 0">
+            <div class="fact"><i class="ph ph-translate"></i>IELTS <b>6.5</b></div>
+            <div class="fact"><i class="ph ph-calendar-blank"></i><b>15 Mar</b></div>
+          </div>
+          <span class="badge b-verified"><i class="ph-bold ph-check-circle"></i> Verified 12 Sep</span>
+        </div>
+        <div class="card" style="padding:16px;margin-top:12px">
+          <div class="top"><div><div class="uni"><i class="ph ph-graduation-cap"></i> TU Munich</div><div class="prog" style="font-size:16px">M.Sc. Data Engineering</div></div><span class="badge b-reach">Reach</span></div>
+          <div class="facts" style="margin:6px 0">
+            <div class="fact"><i class="ph ph-translate"></i>IELTS <b>6.5</b></div>
+            <div class="fact"><i class="ph ph-calendar-blank"></i><b>31 May</b></div>
+          </div>
+          <span class="badge b-predicted"><i class="ph-bold ph-clock-countdown"></i> Predicted</span>
+        </div>
+      </div>
+      <div class="tabbar">
+        <div class="tab"><i class="ph ph-house"></i>Home</div>
+        <div class="tab"><i class="ph ph-magnifying-glass"></i>Search</div>
+        <div class="tab active"><i class="ph-fill ph-target"></i>Matches</div>
+        <div class="tab"><i class="ph ph-medal"></i>Scholarships</div>
+        <div class="tab"><i class="ph ph-user"></i>Profile</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+<a class="fab" href="#" aria-label="Ask a consultant on WhatsApp"><i class="ph-fill ph-whatsapp-logo"></i></a>
+</body>
+</html>

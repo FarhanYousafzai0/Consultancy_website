@@ -9,7 +9,8 @@ This is the master feature list. Status values: **MVP** (first release), **Later
 |---|---|
 | Verified program records (language, IELTS/TOEFL/Duolingo/MOI, German level, deadlines per year, fees, route, documents, source link, last verified date) | MVP |
 | Germany-only results | MVP |
-| Start narrow: English-taught Master's in CS, engineering, data, business (~a few hundred programs) | MVP |
+| 150–200 English-taught Master's: CS/IT, data/AI, electrical & mechanical engineering, business/management | MVP |
+| All public Studienkollegs + 30–50 English-taught Bachelor's (public & private) | MVP |
 | Bachelor's route incl. Studienkolleg + foundation year info | MVP |
 | Public and private universities, clearly labeled | MVP |
 | All fields / German-taught programs / PhD positions | Later |
@@ -53,9 +54,10 @@ This is the master feature list. Status values: **MVP** (first release), **Later
 ### F. AI Advisor
 | Feature | Status |
 |---|---|
-| Chat that answers only from our verified data, with source + date | Later (Build phase 3) |
-| "I don't know" + hand off to human consultant | Later (Build phase 3) |
-| Knowledge base: blocked account, APS, visa, uni-assist, anabin guides | Later (Build phase 3) |
+| Limited chat: answers only from our guides + top 20 student questions | MVP |
+| "I don't have verified information" + WhatsApp consultant handoff | MVP |
+| Knowledge base: blocked account, APS, visa, uni-assist, anabin, Studienkolleg guides | MVP |
+| Full advisor with tools (search programs, check eligibility, deadlines) + sources | Later (Build phase 3) |
 
 ### G. Documents
 | Feature | Status |
@@ -76,7 +78,9 @@ This is the master feature list. Status values: **MVP** (first release), **Later
 ### I. Ausbildung
 | Feature | Status |
 |---|---|
-| Ausbildung listings via Bundesagentur für Arbeit Jobsuche API + BERUFENET | Later |
+| Ausbildung eligibility check (German level, school certificate recognition) | MVP |
+| Ausbildung listings via Bundesagentur für Arbeit Jobsuche API + BERUFENET | MVP |
+| Ausbildung matching, application tracking, employer documents | Later |
 
 ### J. Consultancy Layer
 | Feature | Status |
@@ -111,7 +115,3 @@ This is the master feature list. Status values: **MVP** (first release), **Later
 - Pay-to-rank listings that change match results.
 
 ## Open scope questions (for Phase 2 grill-me)
-- Is Ausbildung MVP or Later? (current: Later)
-- Do private universities appear in MVP matching? (current: yes, labeled)
-- Is the AI chat needed at launch for marketing, even in a limited form?
-- Which languages does the UI support at launch? (English only? Urdu?)

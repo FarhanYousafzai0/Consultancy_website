@@ -17,7 +17,7 @@ Matching is cheap code, so it runs **live and unlimited** whenever the profile c
 
 ## AI Advisor design
 - Answers through **tools** that query our database: `search_programs`, `check_eligibility(profile, program)`, `get_deadlines`, `list_scholarships`, `get_document_checklist`.
-- **Retrieval** (pgvector) over a curated knowledge base: APS, blocked account, visa, uni-assist, anabin, Studienkolleg guides.
+- **Retrieval** (MongoDB Atlas Vector Search) over a curated knowledge base: APS, blocked account, visa, uni-assist, anabin, Studienkolleg guides.
 - Every factual answer cites source + last verified date.
 - Missing data → "I don't have verified information" + offer a human consultant.
 - Test set of known questions/answers to measure accuracy before release.
@@ -45,14 +45,42 @@ Matching is cheap code, so it runs **live and unlimited** whenever the profile c
 **No public API:** DAAD, anabin, uni-assist, most scholarship databases → own curation + partnership talks.
 **No third-party score verification:** IELTS/ETS verify for universities only → OCR + manual check on our side.
 
-## Architecture direction (to confirm)
-- Web app (responsive), EU-hosted backend and database (GDPR).
-- Postgres (e.g. Supabase) with pgvector for search and retrieval.
-- Scheduled jobs for crawling, re-checks, and alerts.
-- Admin panel for data review.
+## Tech stack (decided 2026-10-05)
 
-## Open questions (for Phase 4 grill-me)
-- Do we rebuild from scratch or reuse an existing codebase? (Workspace currently empty.)
-- Which framework and hosting? (e.g. Next.js + Supabase EU region)
-- Monthly AI budget limit at launch?
-- Do students' answers stay in the browser before sign-up (like Deutics), or do we store them?
+| Layer | Choice |
+|---|---|
+| Framework | Next.js (App Router) + React |
+| Styling / UI | Tailwind CSS + shadcn/ui, Motion (animation) |
+| UI extras | Recharts (charts), cmdk (command/search palette), Vaul (mobile drawers/bottom sheets), Sonner (toasts) |
+| Client state | Zustand |
+| Server state | TanStack Query |
+| Long lists | TanStack Virtual (program/scholarship lists) |
+| URL state | nuqs (search filters in the URL — shareable, SEO-friendly) |
+| Forms | React Hook Form + Zod |
+| Database | MongoDB Atlas, Frankfurt (EU) |
+| DB library | Mongoose |
+| Vector search (AI chat) | MongoDB Atlas Vector Search + Gemini embeddings |
+| Auth | Better Auth (MongoDB adapter): Google sign-in + email one-time code |
+| AI | Google Gemini Flash — budget ≤ $50/month, hard limit + alerts |
+| Email | Resend (alerts, login codes) |
+| Analytics | PostHog (EU cloud) |
+| Hosting | Vercel (EU region) |
+| Crawler | Own: Playwright + PDF parsing, weekly on GitHub Actions |
+
+## Architecture
+```mermaid
+flowchart LR
+  U[Student browser] --> V[Next.js on Vercel EU]
+  V --> M[(MongoDB Atlas Frankfurt)]
+  V --> G[Gemini Flash]
+  V --> R[Resend email]
+  V --> P[PostHog EU]
+  V --> BA[Bundesagentur fur Arbeit API]
+  GH[GitHub Actions weekly crawler] --> S[University & scholarship pages]
+  GH --> G
+  GH --> M
+  A[Admin review queue] --> M
+```
+
+- Eligibility answers stay in the browser until sign-up; only anonymous counts go to PostHog.
+- Crawler writes changed pages + AI-extracted drafts to a review collection; nothing goes live without human approval.

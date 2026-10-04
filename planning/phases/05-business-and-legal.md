@@ -1,9 +1,9 @@
 # Phase 5 — Business & Legal
 
-**Status:** Not started
+**Status:** Grilled — pricing page, partners, legal docs remaining
 **Duration:** 1–2 weeks (runs in parallel with Phases 3–4)
 **Depends on:** Phase 2
-**Grill-me session:** Not done
+**Grill-me session:** Done (2026-10-05)
 
 ## Goal
 Know how the platform earns money and stays compliant.
@@ -38,5 +38,14 @@ Pricing is decided and partner conversations have started.
 5. Where is the company registered, and does it affect GDPR setup?
 6. Who reviews the legal documents?
 
-## Answers
-_Filled in during the grill-me session._
+## Answers (2026-10-05)
+- **Q1 — Main revenue year one:** consultant packages (main) + disclosed affiliates (blocked account, health insurance).
+- **Q2 — AI tools pricing (later):** one-time credit packs, no subscription.
+- **Q3 — Package prices:** reuse current consultancy prices; show "from PKR X" on the site.
+- **Q4 — Private university commissions:** not at launch; if added later, always disclosed and never affects ranking.
+- **Q5 — Company:** registered in **Pakistan**. Data still hosted in EU (Frankfurt).
+- **Q6 — Legal docs:** generated with a GDPR policy tool (no lawyer review planned — see risks).
+- **First consultation:** **paid** from the start. WhatsApp chat itself is free. Exception: interviewees in Phase 1 get a free session as a research thank-you.
+
+## Grill-me result
+All open questions answered. Remaining before **Done**: pricing page draft (needs current prices from founder), affiliate partner sign-ups, generate legal documents.
