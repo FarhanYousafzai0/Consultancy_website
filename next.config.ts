@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  serverExternalPackages: ["mongodb", "mongoose", "mongodb-memory-server"],
 };
 
 export default nextConfig;

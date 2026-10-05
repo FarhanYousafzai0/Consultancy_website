@@ -9,6 +9,9 @@ import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { getAuth } from "@/lib/auth/auth";
 import { getSession } from "@/lib/auth/session";
 
+/** Auth + MongoDB — must not prerender during Vercel build. */
+export const dynamic = "force-dynamic";
+
 async function signOutAction() {
   "use server";
   const auth = await getAuth();

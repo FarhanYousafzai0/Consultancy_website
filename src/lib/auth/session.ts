@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { getAuth, isAdminEmail } from "@/lib/auth/auth";
+import { getMongoUri } from "@/lib/db/connect";
 
 export type AppSession = {
   email: string;
@@ -9,6 +10,9 @@ export type AppSession = {
 };
 
 export async function getSession(): Promise<AppSession | null> {
+  // Build / preview without env: treat as logged out instead of crashing prerender.
+  if (!getMongoUri()) return null;
+
   const auth = await getAuth();
   const session = await auth.api.getSession({
     headers: await headers(),

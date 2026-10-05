@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { ProgramsBrowser } from "@/components/programs/programs-browser";
 
 export const metadata = {
@@ -7,5 +8,9 @@ export const metadata = {
 };
 
 export default function ProgramsPage() {
-  return <ProgramsBrowser />;
+  return (
+    <Suspense fallback={<div className="px-4 py-16 text-center">Loading programs…</div>}>
+      <ProgramsBrowser />
+    </Suspense>
+  );
 }

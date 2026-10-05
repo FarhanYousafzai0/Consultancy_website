@@ -1,4 +1,6 @@
 import { setServers } from "node:dns";
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { MongoClient, type Db } from "mongodb";
 import mongoose from "mongoose";
 
@@ -51,7 +53,7 @@ async function resolveUri(): Promise<string> {
       const { MongoMemoryServer } = await import("mongodb-memory-server");
       const server = await MongoMemoryServer.create({
         binary: {
-          downloadDir: "D:\\dev-cache\\mongodb-binaries",
+          downloadDir: path.join(tmpdir(), "parwaz-mongodb-binaries"),
         },
         instance: {
           dbName: "parwaz",
