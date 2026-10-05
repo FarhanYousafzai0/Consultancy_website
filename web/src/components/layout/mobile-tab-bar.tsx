@@ -4,8 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { House, MagnifyingGlass, Medal, Target, User } from "@phosphor-icons/react";
 import { cn } from "cn";
+import { authClient } from "@/lib/auth/auth-client";
 
-const tabs = [
+type Tab = {
+  href: string;
+  label: string;
+  icon: typeof House;
+};
+
+const guestTabs: Tab[] = [
   { href: "/", label: "Home", icon: House },
   { href: "/programs", label: "Search", icon: MagnifyingGlass },
   { href: "/check", label: "Matches", icon: Target },
@@ -13,8 +20,21 @@ const tabs = [
   { href: "/login", label: "Profile", icon: User },
 ];
 
+const userTabs: Tab[] = [
+  { href: "/dashboard", label: "Home", icon: House },
+  { href: "/programs", label: "Search", icon: MagnifyingGlass },
+  { href: "/dashboard/matches", label: "Matches", icon: Target },
+  { href: "/scholarships", label: "Scholarships", icon: Medal },
+  { href: "/dashboard/profile", label: "Profile", icon: User },
+];
+
 export function MobileTabBar() {
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
+  const tabs = session ? userTabs : guestTabs;
+
+  // Hide on admin routes
+  if (pathname.startsWith("/admin")) return null;
 
   return (
     <nav
@@ -23,7 +43,10 @@ export function MobileTabBar() {
     >
       <ul className="flex justify-around px-1 pt-2 pb-3">
         {tabs.map(({ href, label, icon: Icon }) => {
-          const active = href === "/" ? pathname === "/" : pathname.startsWith(href);
+          const active =
+            href === "/" || href === "/dashboard"
+              ? pathname === href
+              : pathname.startsWith(href);
           return (
             <li key={href}>
               <Link
@@ -40,7 +63,7 @@ export function MobileTabBar() {
                     active && "bg-primary"
                   )}
                 >
-                  <Icon weight={active ? "fill" : "regular"} className="size-[22px]" />
+                  <Icon weight={active ? "fill" : "regular"} className="size-5" />
                 </span>
                 {label}
               </Link>

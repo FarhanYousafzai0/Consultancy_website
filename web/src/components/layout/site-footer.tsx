@@ -35,33 +35,37 @@ const groups = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 bg-ink pb-28 text-white md:pb-0">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-[1.4fr_repeat(3,1fr)] md:px-6">
-        <div className="space-y-4">
-          <Logo variant="light" />
-          <p className="max-w-xs text-sm text-white/60">
-            Honest answers for Pakistani students planning to study in Germany. We advise — universities decide.
+    <footer className="mt-24 px-4 pb-28 md:px-6 md:pb-8">
+      <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl bg-ink text-white shadow-card">
+        <div className="grid gap-10 px-5 py-14 md:grid-cols-[1.4fr_repeat(3,1fr)] md:px-8">
+          <div className="space-y-4">
+            <Logo variant="light" />
+            <p className="max-w-xs text-sm text-white/60">
+              Honest answers for Pakistani students planning to study in Germany. We advise — universities decide.
+            </p>
+          </div>
+          {groups.map((group) => (
+            <div key={group.title}>
+              <p className="mb-4 font-mono text-xs uppercase tracking-[0.08em] text-white/50">
+                {group.title}
+              </p>
+              <ul className="space-y-2.5">
+                {group.links.map((link) => (
+                  <li key={link.href}>
+                    <Link href={link.href} className="text-sm text-white/80 hover:text-primary">
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div className="border-t border-white/10">
+          <p className="px-5 py-6 text-xs text-white/50 md:px-8">
+            © {new Date().getFullYear()} {site.name}. Program data is verified against official sources — always confirm on the university website before applying.
           </p>
         </div>
-        {groups.map((group) => (
-          <div key={group.title}>
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.08em] text-white/50">{group.title}</p>
-            <ul className="space-y-2.5">
-              {group.links.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-white/80 hover:text-primary">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-      <div className="border-t border-white/10">
-        <p className="mx-auto max-w-6xl px-4 py-6 text-xs text-white/50 md:px-6">
-          © {new Date().getFullYear()} {site.name}. Program data is verified against official sources — always confirm on the university website before applying.
-        </p>
       </div>
     </footer>
   );

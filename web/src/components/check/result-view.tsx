@@ -9,10 +9,10 @@ import {
   CheckCircle,
   Info,
   ListChecks,
-  WhatsappLogo,
 } from "@phosphor-icons/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import {
   evaluateEligibility,
   isProfileComplete,
@@ -28,6 +28,7 @@ import {
   whatsappSummary,
 } from "@/lib/eligibility";
 import { whatsappLink } from "@/lib/site";
+import { MatchesPanel } from "@/components/check/matches-panel";
 
 export function ResultView() {
   const router = useRouter();
@@ -180,15 +181,7 @@ export function ResultView() {
         </ol>
       </section>
 
-      <section className="mt-4 rounded-2xl border border-dashed border-border bg-muted/60 p-6">
-        <p className="section-label">Program matches</p>
-        <h2 className="mt-3 text-lg font-bold">Verified matches come next</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Once we load verified programs into the database, this page will show
-          your top 3 Reach / Match / Safety programs and how many you qualify
-          for. Your answers stay saved in this browser so matching can use them.
-        </p>
-      </section>
+      <MatchesPanel answers={answers} />
 
       <section className="mt-4 rounded-2xl bg-white p-6 shadow-card">
         <h2 className="text-lg font-bold">Your answers</h2>
@@ -237,14 +230,14 @@ export function ResultView() {
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         {result.showConsultant ? (
           <Button asChild size="lg" variant="whatsapp">
-            <a
+            <Link
               href={whatsappLink(whatsappSummary(answers))}
               target="_blank"
               rel="noopener noreferrer"
             >
-              <WhatsappLogo weight="fill" />
-              Ask a consultant
-            </a>
+              <WhatsAppIcon className="text-white" />
+              Let&apos;s have a chat!
+            </Link>
           </Button>
         ) : null}
         <Button
@@ -263,13 +256,12 @@ export function ResultView() {
       <section className="mt-6 rounded-2xl bg-ink p-6 text-white">
         <h2 className="text-lg font-bold">Save my results</h2>
         <p className="mt-2 text-sm text-white/70">
-          Accounts are not open yet. Your answers stay in this browser for now.
-          When sign-up launches, you will be able to save matches, shortlists and
-          deadline alerts.
+          Create a free account to keep your matches, build a shortlist, and
+          pick up where you left off on any device.
         </p>
         <Button asChild size="lg" className="mt-5 pr-2">
-          <Link href="/">
-            Back to home
+          <Link href="/signup?next=/dashboard">
+            Save my results
             <span className="grid size-9 place-items-center rounded-full bg-ink text-primary">
               <ArrowRight weight="bold" className="size-4" />
             </span>

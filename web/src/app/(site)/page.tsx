@@ -9,10 +9,10 @@ import {
   ListChecks,
   MagnifyingGlass,
   Student,
-  WhatsappLogo,
 } from "@phosphor-icons/react/ssr";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { whatsappLink } from "@/lib/site";
 
 const goals = [
@@ -185,10 +185,14 @@ export default function HomePage() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="whatsapp">
-              <a href={whatsappLink("Hi! I'd like help applying to Germany.")} target="_blank" rel="noopener noreferrer">
-                <WhatsappLogo weight="fill" />
-                Ask a consultant
-              </a>
+              <Link
+                href={whatsappLink("Hi! I'd like help applying to Germany.")}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <WhatsAppIcon className="text-white" />
+                Let&apos;s have a chat!
+              </Link>
             </Button>
           </div>
         </div>
