@@ -48,6 +48,7 @@ export default async function DashboardShortlistPage() {
             status: item.status,
             completedDocuments: item.completedDocuments,
             targetIntake: item.targetIntake,
+            outcome: item.outcome,
             documents: item.program?.requiredDocuments ?? [],
             intakes: item.program?.intakes ?? [],
             deadline: resolveDeadline(item),

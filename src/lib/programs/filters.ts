@@ -10,6 +10,8 @@ export type ProgramFilters = {
   germanRequired?: string;
   tuition?: "free" | "under_1500" | "any" | "";
   openDeadline?: boolean;
+  /** English only, or German & English — DAAD international programmes. */
+  international?: boolean;
 };
 
 export function applyProgramFilters(
@@ -34,17 +36,18 @@ export function applyProgramFilters(
     ) {
       return false;
     }
-    if (filters.language) {
-      if (filters.language === "english") {
-        if (
-          program.languageOfInstruction !== "english" &&
-          program.languageOfInstruction !== "both"
-        ) {
-          return false;
-        }
-      } else if (program.languageOfInstruction !== filters.language) {
-        return false;
-      }
+    if (
+      filters.language &&
+      program.languageOfInstruction !== filters.language
+    ) {
+      return false;
+    }
+    if (
+      filters.international &&
+      program.languageOfInstruction !== "english" &&
+      program.languageOfInstruction !== "both"
+    ) {
+      return false;
     }
     if (filters.ieltsMax != null && filters.ieltsMax > 0) {
       if (program.ieltsMin != null && program.ieltsMin > filters.ieltsMax + 0.01) {

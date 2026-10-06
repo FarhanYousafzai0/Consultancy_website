@@ -23,6 +23,7 @@ import { matchPrograms } from "@/lib/matching/match";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
+import { AfterAdmissionChecklist } from "@/components/dashboard/after-admission-checklist";
 import { whatsappLink } from "@/lib/site";
 
 export const metadata = { title: "Dashboard" };
@@ -211,6 +212,13 @@ export default async function DashboardHomePage() {
           </Button>
         </section>
       </div>
+
+      <section className="rounded-2xl bg-white p-6 shadow-card">
+        <AfterAdmissionChecklist
+          compact
+          initialCompleted={profile?.afterAdmissionCompleted ?? []}
+        />
+      </section>
 
       <section className="rounded-2xl bg-white p-6 shadow-card">
         <p className="section-label">Saved scholarships</p>

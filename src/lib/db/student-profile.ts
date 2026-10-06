@@ -1,5 +1,6 @@
 import type { EligibilityAnswers } from "@/lib/eligibility/types";
 import { emptyAnswers } from "@/lib/eligibility/types";
+import { filterValidCompletedIds } from "@/lib/after-admission/steps";
 import { connectMongo } from "./connect";
 import {
   StudentProfileModel,
@@ -42,6 +43,23 @@ export async function upsertStudentProfile(
   const doc = await StudentProfileModel.findOneAndUpdate(
     { userId },
     { $set: { userId, ...answers } },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  ).lean();
+  return docToProfile(doc as never);
+}
+
+export async function setAfterAdmissionCompleted(
+  userId: string,
+  completed: string[]
+): Promise<StudentProfileRecord> {
+  await connectMongo();
+  const afterAdmissionCompleted = filterValidCompletedIds(completed);
+  const doc = await StudentProfileModel.findOneAndUpdate(
+    { userId },
+    {
+      $set: { afterAdmissionCompleted },
+      $setOnInsert: { userId },
+    },
     { upsert: true, new: true, setDefaultsOnInsert: true }
   ).lean();
   return docToProfile(doc as never);

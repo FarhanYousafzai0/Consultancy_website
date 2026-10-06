@@ -6,12 +6,15 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
+  APPLICATION_OUTCOMES,
   APPLICATION_STATUSES,
+  applicationOutcomeLabel,
   applicationStatusLabel,
   buildTimeline,
   docProgress,
   intakeKey,
   resolveDeadline,
+  type ApplicationOutcome,
   type ApplicationStatus,
   type TargetIntake,
 } from "@/lib/applications/progress";
@@ -26,6 +29,7 @@ export type ApplicationCardItem = {
   status: ApplicationStatus;
   completedDocuments: string[];
   targetIntake: TargetIntake | null;
+  outcome: ApplicationOutcome | null;
   documents: string[];
   intakes: ProgramIntake[];
   deadline: string | null;
@@ -105,6 +109,7 @@ export function ShortlistManager({
         status: ApplicationStatus;
         completedDocuments: string[];
         targetIntake: TargetIntake | null;
+        outcome: ApplicationOutcome | null;
         program: {
           requiredDocuments?: string[];
           intakes?: ProgramIntake[];
@@ -124,6 +129,7 @@ export function ShortlistManager({
             status: next.status,
             completedDocuments: next.completedDocuments,
             targetIntake: next.targetIntake,
+            outcome: next.outcome ?? null,
             documents,
             intakes,
             name: next.program?.name ?? item.name,
@@ -272,7 +278,7 @@ export function ShortlistManager({
                 </Button>
               </div>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 <label className="block space-y-1.5">
                   <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                     Status
@@ -292,6 +298,44 @@ export function ShortlistManager({
                     {APPLICATION_STATUSES.map((s) => (
                       <option key={s} value={s}>
                         {applicationStatusLabel(s)}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label className="block space-y-1.5">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    Result (optional)
+                  </span>
+                  <select
+                    className="w-full rounded-full border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-primary/40"
+                    value={item.outcome ?? ""}
+                    disabled={
+                      busy ||
+                      !(
+                        item.status === "submitted" ||
+                        item.status === "offer" ||
+                        item.status === "rejected" ||
+                        item.status === "withdrawn"
+                      )
+                    }
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      const outcome = value
+                        ? (value as ApplicationOutcome)
+                        : null;
+                      void patch(item.programId, { outcome }, (prev) => ({
+                        ...prev,
+                        outcome,
+                      }));
+                    }}
+                  >
+                    <option value="">
+                      {applicationOutcomeLabel(null)}
+                    </option>
+                    {APPLICATION_OUTCOMES.map((o) => (
+                      <option key={o} value={o}>
+                        {applicationOutcomeLabel(o)}
                       </option>
                     ))}
                   </select>

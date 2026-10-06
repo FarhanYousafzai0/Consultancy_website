@@ -319,6 +319,26 @@ We do not arrange housing in this phase. Use official Studentenwerk sites and ve
     status: "published",
   },
   {
+    title: "Anmeldung — registering your address in Germany",
+    slug: "anmeldung-germany",
+    topic: "faq",
+    body: `Anmeldung is the mandatory registration of your residential address at the local citizens' office (Bürgeramt / Einwohnermeldeamt), usually within two weeks of moving in.
+
+Why it matters:
+- Needed for tax ID, many bank accounts, and residence-permit paperwork
+- Your landlord often provides a Wohnungsgeberbestätigung (landlord confirmation)
+
+Steps (confirm locally — cities differ):
+1. Book an appointment at your city Bürgeramt as soon as you have a lease.
+2. Bring passport, rental contract / landlord confirmation, and completed registration form.
+3. Keep the Meldebescheinigung (registration certificate) safe.
+
+Parwaz does not book appointments. Follow your city's official website for forms and booking.`,
+    sourceUrl: "https://www.bmi.bund.de/EN/topics/administrative-reform/administrative-reform-node.html",
+    lastVerifiedAt: verified,
+    status: "published",
+  },
+  {
     title: "English-taught Master's for CS / IT",
     slug: "faq-cs-masters",
     topic: "faq",

@@ -3,30 +3,37 @@ import { connectMongo } from "./connect";
 import { getProgram } from "./programs";
 import type { ProgramRecord } from "./types";
 import {
+  APPLICATION_OUTCOMES,
   APPLICATION_STATUSES,
   CLOSED_APPLICATION_STATUSES,
+  applicationOutcomeLabel,
   applicationStatusLabel,
   buildTimeline,
   docProgress,
   intakeKey,
+  normalizeOutcome,
   normalizeStatus,
   normalizeTargetIntake,
   resolveDeadline,
   shortlistProgressSchema,
+  type ApplicationOutcome,
   type ApplicationStatus,
   type ShortlistProgressPatch,
   type TargetIntake,
 } from "@/lib/applications/progress";
 
 export {
+  APPLICATION_OUTCOMES,
   APPLICATION_STATUSES,
   CLOSED_APPLICATION_STATUSES,
+  applicationOutcomeLabel,
   applicationStatusLabel,
   buildTimeline,
   docProgress,
   intakeKey,
   resolveDeadline,
   shortlistProgressSchema,
+  type ApplicationOutcome,
   type ApplicationStatus,
   type ShortlistProgressPatch,
   type TargetIntake,
@@ -51,6 +58,12 @@ const ShortlistSchema = new Schema(
     },
     completedDocuments: { type: [String], default: [] },
     targetIntake: { type: TargetIntakeSchema, default: null },
+    outcome: {
+      type: String,
+      enum: APPLICATION_OUTCOMES,
+      default: null,
+    },
+    outcomeAt: { type: String, default: null },
   },
   { timestamps: true }
 );
@@ -71,6 +84,8 @@ export type ShortlistItem = {
   status: ApplicationStatus;
   completedDocuments: string[];
   targetIntake: TargetIntake | null;
+  outcome: ApplicationOutcome | null;
+  outcomeAt: string | null;
   createdAt: string;
   updatedAt: string;
   program: ProgramRecord | null;
@@ -83,6 +98,8 @@ function docToItem(
     status?: string;
     completedDocuments?: string[];
     targetIntake?: TargetIntake | null;
+    outcome?: string | null;
+    outcomeAt?: string | null;
     createdAt?: Date;
     updatedAt?: Date;
   },
@@ -96,6 +113,11 @@ function docToItem(
       ? doc.completedDocuments.filter((d): d is string => typeof d === "string")
       : [],
     targetIntake: normalizeTargetIntake(doc.targetIntake),
+    outcome: normalizeOutcome(doc.outcome),
+    outcomeAt:
+      typeof doc.outcomeAt === "string" && doc.outcomeAt
+        ? doc.outcomeAt
+        : null,
     createdAt: (doc.createdAt ?? new Date()).toISOString(),
     updatedAt: (doc.updatedAt ?? doc.createdAt ?? new Date()).toISOString(),
     program,
@@ -154,6 +176,12 @@ export async function updateShortlistProgress(
   if (rest.targetIntake !== undefined) {
     $set.targetIntake = rest.targetIntake;
   }
+  if (rest.outcome !== undefined) {
+    $set.outcome = rest.outcome;
+    $set.outcomeAt = rest.outcome
+      ? new Date().toISOString()
+      : null;
+  }
   if (Object.keys($set).length === 0) {
     const existing = await ShortlistModel.findOne({ userId, programId }).lean();
     if (!existing) return null;
@@ -197,4 +225,26 @@ export async function isOnShortlist(
   await connectMongo();
   const doc = await ShortlistModel.findOne({ userId, programId }).lean();
   return Boolean(doc);
+}
+
+export async function countOutcomes(): Promise<
+  Record<ApplicationOutcome, number>
+> {
+  await connectMongo();
+  const rows = await ShortlistModel.aggregate<{
+    _id: ApplicationOutcome;
+    count: number;
+  }>([
+    { $match: { outcome: { $in: [...APPLICATION_OUTCOMES] } } },
+    { $group: { _id: "$outcome", count: { $sum: 1 } } },
+  ]);
+  const out: Record<ApplicationOutcome, number> = {
+    admitted: 0,
+    rejected: 0,
+    withdrew: 0,
+  };
+  for (const row of rows) {
+    if (row._id in out) out[row._id] = row.count;
+  }
+  return out;
 }

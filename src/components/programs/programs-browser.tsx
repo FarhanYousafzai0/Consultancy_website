@@ -17,6 +17,12 @@ import {
   useEligibilityHydrated,
   useEligibilityStore,
 } from "@/lib/eligibility";
+import {
+  DAAD_PROGRAMMES_URL,
+  courseTypeLabel,
+  isSupportedCourseType,
+  subjectGroupOptions,
+} from "@/lib/daad/catalog";
 
 type ProgramListItem = {
   id: string;
@@ -28,6 +34,7 @@ type ProgramListItem = {
   city: string;
   state: string;
   languageOfInstruction: string;
+  internationalProgramme?: boolean;
   ieltsMin: number | null;
   germanRequired: string;
   tuitionPerSemesterEur: number;
@@ -77,6 +84,14 @@ export function ProgramsBrowser() {
     "qualify",
     parseAsBoolean.withDefault(false)
   );
+  const [international, setInternational] = useQueryState(
+    "international",
+    parseAsBoolean.withDefault(false)
+  );
+  const [courseType, setCourseType] = useQueryState(
+    "courseType",
+    parseAsString.withDefault("")
+  );
 
   const [programs, setPrograms] = useState<ProgramListItem[]>([]);
   const [total, setTotal] = useState(0);
@@ -96,6 +111,8 @@ export function ProgramsBrowser() {
         tuition,
         openDeadline,
         qualify,
+        international,
+        courseType,
         completedAt: answers.completedAt,
       }),
     [
@@ -109,6 +126,8 @@ export function ProgramsBrowser() {
       tuition,
       openDeadline,
       qualify,
+      international,
+      courseType,
       answers.completedAt,
     ]
   );
@@ -128,6 +147,7 @@ export function ProgramsBrowser() {
       if (germanRequired) params.set("germanRequired", germanRequired);
       if (tuition) params.set("tuition", tuition);
       if (openDeadline) params.set("openDeadline", "1");
+      if (international) params.set("international", "1");
       if (qualify && hasProfile) {
         params.set("qualify", "1");
         params.set("profile", JSON.stringify(answers));
@@ -158,13 +178,23 @@ export function ProgramsBrowser() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 pb-28 pt-4 md:px-6 md:pb-16 md:pt-8">
-      <p className="section-label">Programs</p>
+      <p className="section-label">International programmes</p>
       <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.03em] md:text-4xl">
-        Find programs you can actually aim for
+        International programmes in Germany
       </h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">
-        Published, source-linked programs. Filters stay in the URL so you can share
-        a search.
+        Search the way the{" "}
+        <a
+          href={DAAD_PROGRAMMES_URL}
+          className="font-semibold text-forest underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          DAAD international programme database
+        </a>{" "}
+        does. Each result also shows public or private, and whether it is taught
+        for international students. We list programmes we have verified — we do
+        not copy DAAD&apos;s full catalogue.
       </p>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[260px_1fr]">
@@ -193,20 +223,14 @@ export function ProgramsBrowser() {
             ]}
           />
           <FilterSelect
-            label="Field"
+            label="Subject group"
             value={field}
             onChange={setField}
             options={[
               ["", "Any"],
-              ["computer_science", "Computer Science"],
-              ["engineering", "Engineering"],
-              ["data", "Data / AI"],
-              ["business", "Business"],
-              ["natural_sciences", "Natural Sciences"],
-              ["health", "Health"],
-              ["social_sciences", "Social Sciences"],
-              ["arts", "Arts"],
-              ["other", "Other"],
+              ...subjectGroupOptions.map(
+                (option) => [option.value, option.label] as [string, string]
+              ),
             ]}
           />
           <FilterSelect
@@ -220,14 +244,14 @@ export function ProgramsBrowser() {
             ]}
           />
           <FilterSelect
-            label="Language"
+            label="Course language"
             value={language}
             onChange={setLanguage}
             options={[
               ["", "Any"],
-              ["english", "English"],
-              ["german", "German"],
-              ["both", "Both"],
+              ["english", "English only"],
+              ["german", "German only"],
+              ["both", "German & English"],
             ]}
           />
           <FilterSelect
@@ -269,6 +293,16 @@ export function ProgramsBrowser() {
           <label className="flex items-center gap-2 text-sm font-semibold">
             <input
               type="checkbox"
+              checked={international}
+              onChange={(e) => setInternational(e.target.checked)}
+              className="size-4 rounded border-border"
+            />
+            International programmes only
+          </label>
+
+          <label className="flex items-center gap-2 text-sm font-semibold">
+            <input
+              type="checkbox"
               checked={openDeadline}
               onChange={(e) => setOpenDeadline(e.target.checked)}
               className="size-4 rounded border-border"
@@ -302,6 +336,28 @@ export function ProgramsBrowser() {
         </aside>
 
         <section>
+          {courseType && !isSupportedCourseType(courseType) ? (
+            <div className="mb-4 rounded-2xl bg-amber-soft p-4 text-sm text-amber-ink">
+              <p className="font-semibold">
+                {courseTypeLabel(courseType) ?? "This course type"} is not in our
+                catalogue yet.
+              </p>
+              <p className="mt-1">
+                DAAD lists PhD schools, language courses, prep courses, and joint
+                degrees. We currently verify Bachelor&apos;s and Master&apos;s
+                programmes for Pakistani applicants.{" "}
+                <a
+                  href={DAAD_PROGRAMMES_URL}
+                  className="font-semibold underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open the DAAD database
+                </a>
+                .
+              </p>
+            </div>
+          ) : null}
           <div className="mb-4 flex items-center justify-between gap-3">
             <p className="text-sm text-muted-foreground">
               {loading ? "Loading…" : `${total} program${total === 1 ? "" : "s"}`}
@@ -321,6 +377,8 @@ export function ProgramsBrowser() {
                 void setTuition(null);
                 void setOpenDeadline(null);
                 void setQualify(null);
+                void setInternational(null);
+                void setCourseType(null);
               }}
             >
               Clear filters
@@ -354,7 +412,16 @@ export function ProgramsBrowser() {
                         {program.tier}
                       </Badge>
                     ) : null}
-                    <Badge variant="neutral">{program.universityType}</Badge>
+                    <Badge variant="neutral">
+                      {program.universityType === "public" ? "Public" : "Private"}
+                    </Badge>
+                    {program.internationalProgramme ||
+                    program.languageOfInstruction === "english" ||
+                    program.languageOfInstruction === "both" ? (
+                      <Badge variant="verified">International programme</Badge>
+                    ) : (
+                      <Badge variant="neutral">German-taught</Badge>
+                    )}
                     <Badge variant="verified">
                       {program.lastVerifiedAt
                         ? `Verified · ${program.lastVerifiedAt}`

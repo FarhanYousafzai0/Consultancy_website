@@ -22,6 +22,7 @@ export async function GET(request: Request) {
     germanRequired: searchParams.get("germanRequired") ?? "",
     tuition: (searchParams.get("tuition") as ProgramFilters["tuition"]) || "",
     openDeadline: searchParams.get("openDeadline") === "1",
+    international: searchParams.get("international") === "1",
   };
 
   let programs = await listPrograms({ status: "published" });
@@ -56,6 +57,9 @@ export async function GET(request: Request) {
       city: p.city,
       state: p.state,
       languageOfInstruction: p.languageOfInstruction,
+      internationalProgramme:
+        p.languageOfInstruction === "english" ||
+        p.languageOfInstruction === "both",
       ieltsMin: p.ieltsMin,
       germanRequired: p.germanRequired,
       tuitionPerSemesterEur: p.tuitionPerSemesterEur,

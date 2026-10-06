@@ -70,16 +70,16 @@ This is the master feature list. Status values: **MVP** (first release), **Later
 ### H. Application & After Admission
 | Feature | Status |
 |---|---|
-| Application tracker (status + document checkboxes per program) | Later |
-| Personal timeline tied to real deadlines | Later |
-| After-admission steps: APS, blocked account, insurance, visa appointment, housing, Anmeldung | Later |
-| Partner offers (Expatrio, Fintiba, Coracle, insurance) | Later |
+| Application tracker (status + document checkboxes per program) | Done (Shortlist) |
+| Personal timeline tied to real deadlines | Done (Applications + alerts) |
+| After-admission steps: APS, blocked account, insurance, visa appointment, housing, Anmeldung | Done (dashboard checklist) |
+| Partner offers (Expatrio, Fintiba, Coracle, insurance) | Done (static disclosed links) |
 
 ### I. Ausbildung
 | Feature | Status |
 |---|---|
-| Ausbildung eligibility check (German level, school certificate recognition) | MVP |
-| Ausbildung listings via Bundesagentur für Arbeit Jobsuche API + BERUFENET | MVP |
+| Ausbildung eligibility check (German level, school certificate recognition) | Done |
+| Ausbildung listings via Bundesagentur für Arbeit Jobsuche API + BERUFENET | Done (Jobsuche; BERUFENET later) |
 | Ausbildung matching, application tracking, employer documents | Later |
 
 ### J. Consultancy Layer
@@ -92,9 +92,10 @@ This is the master feature list. Status values: **MVP** (first release), **Later
 ### K. Growth & Community
 | Feature | Status |
 |---|---|
-| SEO landing pages generated from the database | Later |
-| Students report admit/reject outcomes | Later |
-| Webinars, success stories, Q&A community | Later |
+| SEO landing pages generated from the database | Done (allowlisted `/study/[field]` + sitemap) |
+| Students report admit/reject outcomes | Done (Shortlist; no public %) |
+| Success stories (curated) | Done (`/stories`) |
+| Webinars, Q&A community | Later |
 
 ### L. Internal / Admin
 | Feature | Status |

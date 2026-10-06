@@ -11,6 +11,11 @@ import { ShortlistToggle } from "@/components/programs/shortlist-toggle";
 import { getSession } from "@/lib/auth/session";
 import { isOnShortlist } from "@/lib/db/shortlist";
 import { ensureSeeded, getProgram } from "@/lib/db/programs";
+import {
+  ensureScholarshipsSeeded,
+  listScholarships,
+} from "@/lib/db/scholarships";
+import { isInternationalProgramme, relatedScholarships } from "@/lib/daad/catalog";
 import { whatsappLink } from "@/lib/site";
 
 type Props = { params: Promise<{ id: string }> };
@@ -31,6 +36,14 @@ export default async function ProgramDetailPage({ params }: Props) {
   const { id } = await params;
   const program = await getProgram(id);
   if (!program || program.status !== "published") notFound();
+
+  await ensureScholarshipsSeeded();
+  const scholarships = relatedScholarships(
+    program.degreeLevel,
+    program.field,
+    await listScholarships({ status: "published" })
+  );
+  const international = isInternationalProgramme(program.languageOfInstruction);
 
   const session = await getSession();
   const saved = session
@@ -60,7 +73,14 @@ export default async function ProgramDetailPage({ params }: Props) {
       </Button>
 
       <div className="flex flex-wrap gap-2">
-        <Badge variant="neutral">{program.universityType}</Badge>
+        <Badge variant="neutral">
+          {program.universityType === "public" ? "Public" : "Private"} university
+        </Badge>
+        {international ? (
+          <Badge variant="verified">International programme</Badge>
+        ) : (
+          <Badge variant="neutral">German-taught</Badge>
+        )}
         <Badge variant="neutral" className="capitalize">
           {program.degreeLevel}
         </Badge>
@@ -77,6 +97,27 @@ export default async function ProgramDetailPage({ params }: Props) {
       <p className="mt-2 text-lg text-muted-foreground">
         {program.university} · {program.city}, {program.state}
       </p>
+      {scholarships.length > 0 ? (
+        <div className="mt-4 rounded-2xl bg-muted p-4">
+          <p className="text-sm font-semibold">Scholarships for Germany</p>
+          <ul className="mt-2 space-y-1 text-sm">
+            {scholarships.map((scholarship) => (
+              <li key={scholarship.id}>
+                <Link
+                  href={`/scholarships/${scholarship.id}`}
+                  className="font-semibold text-forest hover:underline"
+                >
+                  {scholarship.name}
+                </Link>
+                <span className="text-muted-foreground">
+                  {" "}
+                  · {scholarship.daad ? "DAAD" : scholarship.provider}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       <dl className="mt-8 grid gap-4 rounded-2xl bg-white p-6 shadow-card sm:grid-cols-2">
         <Item label="Language" value={program.languageOfInstruction} />

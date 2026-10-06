@@ -5,6 +5,7 @@ import {
   listScholarships,
 } from "@/lib/db/scholarships";
 import { matchScholarships } from "@/lib/matching/scholarships";
+import { scholarshipPurposeOf } from "@/lib/daad/catalog";
 import type { ProgramField, ScholarshipLevel } from "@/lib/db/types";
 
 export async function GET(request: Request) {
@@ -13,6 +14,7 @@ export async function GET(request: Request) {
   const level = searchParams.get("level") as ScholarshipLevel | null;
   const field = searchParams.get("field") as ProgramField | null;
   const provider = searchParams.get("provider")?.trim().toLowerCase() || null;
+  const purpose = searchParams.get("purpose")?.trim().toLowerCase() || null;
   const q = searchParams.get("q")?.trim().toLowerCase() || null;
   const qualify = searchParams.get("qualify") === "1";
 
@@ -27,6 +29,11 @@ export async function GET(request: Request) {
   if (provider) {
     scholarships = scholarships.filter((s) =>
       s.provider.toLowerCase().includes(provider)
+    );
+  }
+  if (purpose === "study" || purpose === "research" || purpose === "language") {
+    scholarships = scholarships.filter(
+      (s) => scholarshipPurposeOf(s) === purpose
     );
   }
   if (q) {

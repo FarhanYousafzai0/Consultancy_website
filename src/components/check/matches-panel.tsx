@@ -1,10 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { ArrowSquareOut } from "@phosphor-icons/react";
 import { Badge } from "@/components/ui/badge";
 import type { EligibilityAnswers } from "@/lib/eligibility/types";
 import type { MatchTier } from "@/lib/db/types";
+
+type RelatedScholarship = {
+  id: string;
+  name: string;
+  provider: string;
+  daad: boolean;
+};
 
 type MatchCard = {
   id: string;
@@ -14,6 +22,8 @@ type MatchCard = {
   city: string;
   field: string;
   degreeLevel: string;
+  languageOfInstruction?: string;
+  internationalProgramme?: boolean;
   ieltsMin: number | null;
   tuitionPerSemesterEur: number;
   semesterFeeEur: number;
@@ -22,11 +32,16 @@ type MatchCard = {
   lastVerifiedAt: string | null;
   tier: MatchTier;
   reasons: string[];
+  scholarships?: RelatedScholarship[];
 };
 
 export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
+  const [publicCount, setPublicCount] = useState(0);
+  const [privateCount, setPrivateCount] = useState(0);
+  const [internationalCount, setInternationalCount] = useState(0);
+  const [scholarships, setScholarships] = useState<RelatedScholarship[]>([]);
   const [matches, setMatches] = useState<MatchCard[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,6 +63,10 @@ export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
         if (!cancelled) {
           setMatches(data.matches ?? []);
           setTotal(data.totalQualified ?? 0);
+          setPublicCount(data.publicCount ?? 0);
+          setPrivateCount(data.privateCount ?? 0);
+          setInternationalCount(data.internationalCount ?? 0);
+          setScholarships(data.scholarships ?? []);
         }
       } catch (err) {
         if (!cancelled) {
@@ -66,14 +85,27 @@ export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
   }, [answers.completedAt, answers.goal, answers.field, answers.qualification]);
 
   if (answers.goal === "ausbildung") {
+    const field =
+      typeof answers.field === "string" ? answers.field : "";
+    const href = field
+      ? `/ausbildung?field=${encodeURIComponent(field)}`
+      : "/ausbildung";
     return (
-      <section className="mt-4 rounded-2xl border border-dashed border-border bg-muted/60 p-6">
-        <p className="section-label">Program matches</p>
-        <h2 className="mt-3 text-lg font-bold">University matches do not apply here</h2>
+      <section className="mt-4 rounded-2xl bg-white p-6 shadow-card">
+        <p className="section-label">Ausbildung listings</p>
+        <h2 className="mt-3 text-lg font-bold">
+          University matches do not apply here
+        </h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Ausbildung uses employer listings, not university programs. That list comes in a later
-          build.
+          Browse live employer offers from the German Jobsuche — self-serve on
+          Parwaz.
         </p>
+        <a
+          href={href}
+          className="mt-4 inline-block text-sm font-semibold text-forest hover:underline"
+        >
+          Open Ausbildung listings →
+        </a>
       </section>
     );
   }
@@ -116,8 +148,36 @@ export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
         {total === 1 ? "1 program you can aim for" : `${total} programs you can aim for`}
       </h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        Top 3 shown free. Sign-up to see all comes later — matching itself is never paywalled.
+        Top 3 shown free. Each one is marked public or private, and whether it is
+        an international programme.
       </p>
+      <div className="mt-4 flex flex-wrap gap-2">
+        <Badge variant="neutral">{publicCount} public</Badge>
+        <Badge variant="neutral">{privateCount} private</Badge>
+        <Badge variant="verified">{internationalCount} international</Badge>
+        <Badge variant="match">{scholarships.length} scholarships</Badge>
+      </div>
+      {scholarships.length > 0 ? (
+        <div className="mt-4 rounded-2xl bg-muted/60 p-4">
+          <p className="text-sm font-semibold">Scholarships for Germany</p>
+          <ul className="mt-2 space-y-1.5 text-sm">
+            {scholarships.map((scholarship) => (
+              <li key={scholarship.id}>
+                <Link
+                  href={`/scholarships/${scholarship.id}`}
+                  className="font-semibold text-forest hover:underline"
+                >
+                  {scholarship.name}
+                </Link>
+                <span className="text-muted-foreground">
+                  {" "}
+                  · {scholarship.daad ? "DAAD" : scholarship.provider}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       <ul className="mt-6 space-y-4">
         {matches.map((match) => (
@@ -139,7 +199,14 @@ export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
                   >
                     {match.tier}
                   </Badge>
-                  <Badge variant="neutral">{match.universityType}</Badge>
+                  <Badge variant="neutral">
+                    {match.universityType === "public" ? "Public" : "Private"} university
+                  </Badge>
+                  {match.internationalProgramme ? (
+                    <Badge variant="verified">International programme</Badge>
+                  ) : (
+                    <Badge variant="neutral">German-taught</Badge>
+                  )}
                 </div>
                 <h3 className="mt-2 text-base font-bold md:text-lg">{match.name}</h3>
                 <p className="text-sm text-muted-foreground">
@@ -160,6 +227,27 @@ export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
                 <li key={reason}>· {reason}</li>
               ))}
             </ul>
+            {match.scholarships && match.scholarships.length > 0 ? (
+              <p className="mt-3 text-sm">
+                <span className="font-semibold">Scholarships for Germany: </span>
+                {match.scholarships.map((scholarship, index) => (
+                  <span key={scholarship.id}>
+                    {index > 0 ? ", " : ""}
+                    <Link
+                      href={`/scholarships/${scholarship.id}`}
+                      className="font-semibold text-forest hover:underline"
+                    >
+                      {scholarship.daad ? "DAAD · " : ""}
+                      {scholarship.name}
+                    </Link>
+                  </span>
+                ))}
+              </p>
+            ) : (
+              <p className="mt-3 text-sm text-muted-foreground">
+                No published scholarship in this field yet.
+              </p>
+            )}
             <p className="mt-3 text-xs text-muted-foreground">
               Tuition €{match.tuitionPerSemesterEur}/sem · fee €{match.semesterFeeEur}
               {match.ieltsMin != null ? ` · IELTS ≥ ${match.ieltsMin}` : ""}

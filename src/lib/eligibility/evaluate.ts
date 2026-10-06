@@ -247,7 +247,7 @@ export function evaluateEligibility(
           "This is a self-serve path on Parwaz — we do not hand off Ausbildung to a consultant yet.",
         ],
         nextSteps: [
-          "Search live Ausbildung listings by field and city (coming next on this site).",
+          "Search live Ausbildung listings by field and city on /ausbildung.",
           "Prepare a German-style CV and short cover letter.",
           "Read guides on certificate recognition and the Ausbildung visa.",
         ],

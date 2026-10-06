@@ -43,6 +43,22 @@ export function ResultView() {
     }
   }, [hydrated, complete, router]);
 
+  useEffect(() => {
+    if (!hydrated || !complete || answers.goal !== "ausbildung") return;
+    try {
+      const key = "parwaz_ausbildung_check_counted";
+      if (sessionStorage.getItem(key) === "1") return;
+      sessionStorage.setItem(key, "1");
+    } catch {
+      /* ignore */
+    }
+    void fetch("/api/ausbildung/events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ event: "ausbildung_check_completed" }),
+    }).catch(() => {});
+  }, [hydrated, complete, answers.goal]);
+
   if (!hydrated) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-sm text-muted-foreground">

@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import { ScholarshipsBrowser } from "@/components/scholarships/scholarships-browser";
 
 export const metadata = {
-  title: "Scholarships",
+  title: "Scholarships for Germany",
   description:
-    "German scholarships with honest odds for Pakistani students — DAAD, foundations, and more.",
+    "Find DAAD and other scholarships for students living in Pakistan, with honest odds.",
 };
 
 export default function ScholarshipsPage() {

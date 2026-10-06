@@ -48,6 +48,9 @@ Redirect URI: `{BETTER_AUTH_URL}/api/auth/callback/google`
    - `AI_MONTHLY_BUDGET_USD=50` (also accepts legacy `GEMINI_MONTHLY_BUDGET_USD`)
    - `AI_FREE_VISITOR_DAILY=5`, `AI_FREE_STUDENT_DAILY=20`, `AI_PAID_DAILY=200`
    - `AI_CREDIT_PACK_SIZE=5` — credits granted when admin marks an `ai_credits` lead paid
+   - Optional partner URL overrides: `NEXT_PUBLIC_PARTNER_EXPATRIO_URL`, `NEXT_PUBLIC_PARTNER_FINTIBA_URL`, `NEXT_PUBLIC_PARTNER_CORACLE_URL`
+   - Ausbildung paid partner (gated): `NEXT_PUBLIC_PARTNER_AUSBILDUNG_URL` (+ optional name/blurb); unlock via Insights demand (`AUSBILDUNG_PARTNER_MIN_CHECKS` / `AUSBILDUNG_PARTNER_MIN_APPLY_CLICKS`) or `AUSBILDUNG_PARTNER_FORCE=1`
+   - Community invite override: `NEXT_PUBLIC_COMMUNITY_WHATSAPP_URL`
 5. Without `GEMINI_API_KEY` (and without OpenAI when selected), Ask Parwaz returns an error telling you to set the key.
 
 ## Later (leave empty for now)

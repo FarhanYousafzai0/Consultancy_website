@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/lib/eligibility/evaluate.test.ts src/lib/eligibility/grade.test.ts src/lib/matching/match.test.ts src/lib/advisor/advisor.test.ts src/lib/advisor/fixtures.test.ts src/lib/applications/progress.test.ts",
+    "test": "tsx --test src/lib/eligibility/evaluate.test.ts src/lib/eligibility/grade.test.ts src/lib/matching/match.test.ts src/lib/advisor/advisor.test.ts src/lib/advisor/fixtures.test.ts src/lib/advisor/zone.test.ts src/lib/applications/progress.test.ts src/lib/after-admission/steps.test.ts src/lib/ausbildung/jobsuche.test.ts src/lib/ausbildung/partner-gate.test.ts src/lib/admin/program-import.test.ts src/lib/daad/catalog.test.ts",
     "db:migrate": "tsx --env-file=.env.local scripts/migrate-programs.ts",
     "ai:bench": "tsx --env-file=.env.local scripts/ai-benchmark.ts"
   },

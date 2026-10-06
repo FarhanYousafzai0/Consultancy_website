@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import { ProgramsBrowser } from "@/components/programs/programs-browser";
 
 export const metadata = {
-  title: "Programs",
+  title: "International programmes",
   description:
-    "Search verified German university programs with filters and an only-what-I-qualify-for toggle.",
+    "Search international programmes in Germany — course type, language, and subject — with public and private universities marked.",
 };
 
 export default function ProgramsPage() {

@@ -1,13 +1,19 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { AusbildungListings } from "@/components/ausbildung/ausbildung-listings";
 import { getSession } from "@/lib/auth/session";
 import {
   getStudentProfile,
   profileToAnswers,
 } from "@/lib/db/student-profile";
 import { ensureSeeded, listPrograms } from "@/lib/db/programs";
-import { matchPrograms } from "@/lib/matching/match";
+import {
+  ensureScholarshipsSeeded,
+  listScholarships,
+} from "@/lib/db/scholarships";
+import { isInternationalProgramme, relatedScholarships } from "@/lib/daad/catalog";
+import { qualifyPrograms } from "@/lib/matching/match";
 import { isProfileComplete } from "@/lib/eligibility";
 
 export const metadata = { title: "Matches" };
@@ -36,21 +42,51 @@ export default async function DashboardMatchesPage() {
   }
 
   if (answers.goal === "ausbildung") {
+    const field =
+      typeof answers.field === "string" && answers.field
+        ? `?field=${encodeURIComponent(answers.field)}`
+        : "";
     return (
-      <div className="rounded-2xl bg-white p-6 shadow-card">
-        <p className="section-label">Matches</p>
-        <h1 className="mt-3 text-2xl font-extrabold">Ausbildung listings</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          University Reach/Match/Safety does not apply. Live Ausbildung listings
-          come in a later build.
-        </p>
+      <div className="space-y-6">
+        <div>
+          <p className="section-label">Matches</p>
+          <h1 className="mt-2 text-3xl font-extrabold tracking-[-0.03em]">
+            Ausbildung listings
+          </h1>
+          <p className="mt-1 text-muted-foreground">
+            University Reach/Match/Safety does not apply. Browse live offers
+            from the Jobsuche.
+          </p>
+        </div>
+        <div className="rounded-2xl bg-white p-6 shadow-card">
+          <AusbildungListings
+            compact
+            initialField={
+              typeof answers.field === "string" ? answers.field : ""
+            }
+          />
+          <Button asChild className="mt-4" variant="outline">
+            <Link href={`/ausbildung${field}`}>Open full listings</Link>
+          </Button>
+        </div>
       </div>
     );
   }
 
   await ensureSeeded();
-  const programs = await listPrograms({ status: "published" });
-  const { matches, totalQualified } = matchPrograms(answers, programs);
+  await ensureScholarshipsSeeded();
+  const [programs, scholarships] = await Promise.all([
+    listPrograms({ status: "published" }),
+    listScholarships({ status: "published" }),
+  ]);
+  const qualified = qualifyPrograms(answers, programs);
+  const matches = qualified;
+  const totalQualified = qualified.length;
+  const publicCount = qualified.filter((m) => m.program.universityType === "public").length;
+  const privateCount = qualified.filter((m) => m.program.universityType === "private").length;
+  const internationalCount = qualified.filter((m) =>
+    isInternationalProgramme(m.program.languageOfInstruction)
+  ).length;
 
   return (
     <div className="space-y-6">
@@ -60,8 +96,14 @@ export default async function DashboardMatchesPage() {
           {totalQualified} programs you qualify for
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Grouped as Reach, Match and Safety from your saved profile.
+          Grouped as Reach, Match and Safety. Each university is marked public
+          or private, and whether it is an international programme.
         </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Badge variant="neutral">{publicCount} public</Badge>
+          <Badge variant="neutral">{privateCount} private</Badge>
+          <Badge variant="verified">{internationalCount} international</Badge>
+        </div>
       </div>
 
       {matches.length === 0 ? (
@@ -75,7 +117,14 @@ export default async function DashboardMatchesPage() {
         </div>
       ) : (
         <ul className="space-y-3">
-          {matches.map((m) => (
+          {matches.map((m) => {
+            const funding = relatedScholarships(
+              m.program.degreeLevel,
+              m.program.field,
+              scholarships,
+              2
+            );
+            return (
             <li key={m.program.id}>
               <Link
                 href={`/programs/${m.program.id}`}
@@ -93,14 +142,28 @@ export default async function DashboardMatchesPage() {
                   >
                     {m.tier}
                   </Badge>
+                  <Badge variant="neutral">
+                    {m.program.universityType === "public" ? "Public" : "Private"}
+                  </Badge>
+                  {isInternationalProgramme(m.program.languageOfInstruction) ? (
+                    <Badge variant="verified">International programme</Badge>
+                  ) : (
+                    <Badge variant="neutral">German-taught</Badge>
+                  )}
                   <span className="text-xs text-muted-foreground">
-                    {m.program.universityType} · {m.program.city}
+                    {m.program.city}
                   </span>
                 </div>
                 <h2 className="mt-2 text-lg font-bold">{m.program.name}</h2>
                 <p className="text-sm text-muted-foreground">
                   {m.program.university}
                 </p>
+                {funding.length > 0 ? (
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Scholarships for Germany:{" "}
+                    {funding.map((item) => item.name).join(" · ")}
+                  </p>
+                ) : null}
                 <ul className="mt-2 space-y-0.5 text-sm text-muted-foreground">
                   {m.reasons.slice(0, 2).map((r) => (
                     <li key={r}>• {r}</li>
@@ -108,7 +171,8 @@ export default async function DashboardMatchesPage() {
                 </ul>
               </Link>
             </li>
-          ))}
+            );
+          })}
         </ul>
       )}
     </div>

@@ -2,37 +2,32 @@ import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
-  Briefcase,
+  Bank,
   ChatCircleDots,
   CheckCircle,
-  GraduationCap,
+  GlobeHemisphereWest,
   ListChecks,
   MagnifyingGlass,
-  Student,
+  MapTrifold,
+  Seal,
 } from "@phosphor-icons/react/ssr";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { whatsappLink } from "@/lib/site";
 
-const goals = [
+const entries = [
   {
-    goal: "masters",
-    title: "Master's",
-    description: "I have (or will have) a BS / BSc degree",
-    icon: GraduationCap,
+    href: "/programs?international=1",
+    title: "International Programmes",
+    description: "Course type, language, and subject. Public and private universities.",
+    kind: "programmes" as const,
   },
   {
-    goal: "bachelors",
-    title: "Bachelor's",
-    description: "I have FSc, HSSC or A-levels",
-    icon: Student,
-  },
-  {
-    goal: "ausbildung",
-    title: "Ausbildung",
-    description: "Paid vocational training in Germany",
-    icon: Briefcase,
+    href: "/scholarships",
+    title: "Scholarships for Germany",
+    description: "Country, who it is for, and DAAD funding — for students in Pakistan.",
+    kind: "scholarships" as const,
   },
 ];
 
@@ -67,7 +62,7 @@ export default function HomePage() {
             <span className="text-forest">Know where you stand.</span>
           </h1>
           <p className="mt-5 max-w-xl text-base text-foreground/75 md:text-lg">
-            Find out in 60 seconds if you can study in Germany — and which programs you can actually get into. Verified data. Real consultants.
+            Find international programmes and scholarships for Germany, then see which public and private universities fit a Pakistani student.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="pr-2">
@@ -86,21 +81,41 @@ export default function HomePage() {
             </Button>
           </div>
 
-          <div className="mt-10 grid gap-3 md:grid-cols-3">
-            {goals.map(({ goal, title, description, icon: Icon }) => (
+          <div className="mt-8 grid gap-3 md:grid-cols-2">
+            {entries.map(({ href, title, description, kind }) => (
               <Link
-                key={goal}
-                href={`/check?goal=${goal}`}
+                key={href}
+                href={href}
                 className="group flex items-center gap-4 rounded-2xl bg-white p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-card-hover md:p-5"
               >
-                <span className="grid size-12 shrink-0 place-items-center rounded-full bg-muted transition-colors group-hover:bg-primary">
-                  <Icon className="size-6" />
+                <span className="relative grid size-14 shrink-0 place-items-center rounded-full bg-primary text-ink">
+                  {kind === "programmes" ? (
+                    <>
+                      <GlobeHemisphereWest className="size-7" />
+                      <Bank
+                        className="absolute right-2.5 bottom-2.5 size-4"
+                        weight="bold"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <MapTrifold className="size-7" />
+                      <Seal
+                        className="absolute right-2 bottom-2 size-4"
+                        weight="bold"
+                      />
+                    </>
+                  )}
                 </span>
-                <span className="flex-1">
-                  <span className="block font-bold">{title}</span>
-                  <span className="block text-sm text-muted-foreground">{description}</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-bold underline decoration-2 underline-offset-4">
+                    {title}
+                  </span>
+                  <span className="mt-1 block text-sm text-muted-foreground">
+                    {description}
+                  </span>
                 </span>
-                <ArrowRight className="size-5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="size-5 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
               </Link>
             ))}
           </div>

@@ -23,10 +23,20 @@ export type TargetIntake = {
   year: number;
 };
 
+export const APPLICATION_OUTCOMES = [
+  "admitted",
+  "rejected",
+  "withdrew",
+] as const;
+
+export type ApplicationOutcome = (typeof APPLICATION_OUTCOMES)[number];
+
 export type ShortlistProgressFields = {
   status: ApplicationStatus;
   completedDocuments: string[];
   targetIntake: TargetIntake | null;
+  outcome: ApplicationOutcome | null;
+  outcomeAt: string | null;
 };
 
 export const shortlistProgressSchema = z.object({
@@ -40,6 +50,7 @@ export const shortlistProgressSchema = z.object({
     })
     .nullable()
     .optional(),
+  outcome: z.enum(APPLICATION_OUTCOMES).nullable().optional(),
 });
 
 export type ShortlistProgressPatch = z.infer<typeof shortlistProgressSchema>;
@@ -183,4 +194,29 @@ export function normalizeTargetIntake(raw: unknown): TargetIntake | null {
     return { semester: t.semester, year: t.year };
   }
   return null;
+}
+
+export function normalizeOutcome(raw: unknown): ApplicationOutcome | null {
+  if (
+    typeof raw === "string" &&
+    (APPLICATION_OUTCOMES as readonly string[]).includes(raw)
+  ) {
+    return raw as ApplicationOutcome;
+  }
+  return null;
+}
+
+export function applicationOutcomeLabel(
+  outcome: ApplicationOutcome | null
+): string {
+  switch (outcome) {
+    case "admitted":
+      return "Admitted";
+    case "rejected":
+      return "Rejected";
+    case "withdrew":
+      return "Withdrew";
+    default:
+      return "Not reported";
+  }
 }

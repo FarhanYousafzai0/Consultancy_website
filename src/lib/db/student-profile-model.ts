@@ -17,6 +17,7 @@ const StudentProfileSchema = new Schema(
     sopReviewUnlocked: { type: Boolean, default: false },
     aiCredits: { type: Number, default: 0 },
     freeAnalysisUsed: { type: Boolean, default: false },
+    afterAdmissionCompleted: { type: [String], default: [] },
   },
   { timestamps: true }
 );
@@ -39,6 +40,7 @@ export type StudentProfileRecord = EligibilityAnswers & {
   sopReviewUnlocked: boolean;
   aiCredits: number;
   freeAnalysisUsed: boolean;
+  afterAdmissionCompleted: string[];
   updatedAt: string;
 };
 
@@ -57,6 +59,7 @@ export function docToProfile(doc: {
   sopReviewUnlocked?: boolean;
   aiCredits?: number;
   freeAnalysisUsed?: boolean;
+  afterAdmissionCompleted?: string[] | null;
   updatedAt?: Date;
 }): StudentProfileRecord {
   return {
@@ -77,6 +80,9 @@ export function docToProfile(doc: {
     sopReviewUnlocked: Boolean(doc.sopReviewUnlocked),
     aiCredits: Number(doc.aiCredits ?? 0),
     freeAnalysisUsed: Boolean(doc.freeAnalysisUsed),
+    afterAdmissionCompleted: Array.isArray(doc.afterAdmissionCompleted)
+      ? doc.afterAdmissionCompleted.map(String)
+      : [],
     updatedAt: (doc.updatedAt ?? new Date()).toISOString(),
   };
 }

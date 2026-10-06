@@ -1,5 +1,5 @@
 export const mainNav = [
-  { href: "/programs", label: "Programs" },
+  { href: "/programs", label: "Programmes" },
   { href: "/scholarships", label: "Scholarships" },
   { href: "/ausbildung", label: "Ausbildung" },
   { href: "/guides", label: "Guides" },

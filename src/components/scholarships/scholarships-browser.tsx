@@ -14,6 +14,13 @@ import {
   useEligibilityStore,
 } from "@/lib/eligibility";
 import type { ScholarshipOdds } from "@/lib/db/types";
+import {
+  DAAD_SCHOLARSHIPS_URL,
+  isDaadProvider,
+  scholarshipAudienceOptions,
+  scholarshipPurposeOptions,
+  subjectGroupOptions,
+} from "@/lib/daad/catalog";
 
 type ListItem = {
   id: string;
@@ -53,6 +60,14 @@ export function ScholarshipsBrowser() {
     "qualify",
     parseAsBoolean.withDefault(false)
   );
+  const [purpose, setPurpose] = useQueryState(
+    "purpose",
+    parseAsString.withDefault("")
+  );
+  const [provider, setProvider] = useQueryState(
+    "provider",
+    parseAsString.withDefault("")
+  );
 
   const [items, setItems] = useState<ListItem[]>([]);
   const [total, setTotal] = useState(0);
@@ -69,6 +84,8 @@ export function ScholarshipsBrowser() {
       if (q) params.set("q", q);
       if (level) params.set("level", level);
       if (field) params.set("field", field);
+      if (purpose) params.set("purpose", purpose);
+      if (provider) params.set("provider", provider);
       if (qualify && hasProfile) {
         params.set("qualify", "1");
         params.set("answers", JSON.stringify(answers));
@@ -94,18 +111,39 @@ export function ScholarshipsBrowser() {
     return () => {
       cancelled = true;
     };
-  }, [q, level, field, qualify, hasProfile, answers.completedAt, answers.goal, answers.field]);
+  }, [
+    q,
+    level,
+    field,
+    purpose,
+    provider,
+    qualify,
+    hasProfile,
+    answers.completedAt,
+    answers.goal,
+    answers.field,
+  ]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 md:px-6">
       <div className="max-w-2xl">
-        <p className="section-label">Scholarships</p>
+        <p className="section-label">Scholarships for Germany</p>
         <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.03em] md:text-4xl">
-          Funding with honest odds
+          Finding scholarships
         </h1>
         <p className="mt-3 text-muted-foreground">
-          Structured eligibility and realistic chances — not false hope.
-          Bachelor funding for non-EU students is rare.
+          Filter the way the{" "}
+          <a
+            href={DAAD_SCHOLARSHIPS_URL}
+            className="font-semibold text-forest underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            DAAD scholarship database
+          </a>{" "}
+          does — country, who it is for, subject, and purpose. We add honest odds
+          for students living in Pakistan. Bachelor funding for non-EU students
+          is rare.
         </p>
       </div>
 
@@ -121,36 +159,64 @@ export function ScholarshipsBrowser() {
             />
           </div>
           <label className="block space-y-1.5 text-sm">
-            <span className="font-semibold">Level</span>
+            <span className="font-semibold">Country</span>
+            <div className="flex h-11 items-center rounded-2xl border border-border bg-background px-3 text-sm">
+              Pakistan
+            </div>
+          </label>
+          <label className="block space-y-1.5 text-sm">
+            <span className="font-semibold">Programmes for</span>
             <select
               className="h-11 w-full rounded-2xl border border-border bg-background px-3"
               value={level}
               onChange={(e) => void setLevel(e.target.value)}
             >
               <option value="">Any</option>
-              <option value="bachelor">Bachelor&apos;s</option>
-              <option value="master">Master&apos;s</option>
-              <option value="phd">PhD</option>
+              {scholarshipAudienceOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
           </label>
           <label className="block space-y-1.5 text-sm">
-            <span className="font-semibold">Field</span>
+            <span className="font-semibold">Subject</span>
             <select
               className="h-11 w-full rounded-2xl border border-border bg-background px-3"
               value={field}
               onChange={(e) => void setField(e.target.value)}
             >
               <option value="">Any</option>
-              <option value="computer_science">Computer science</option>
-              <option value="engineering">Engineering</option>
-              <option value="data">Data / AI</option>
-              <option value="business">Business</option>
-              <option value="natural_sciences">Natural sciences</option>
-              <option value="health">Health</option>
-              <option value="social_sciences">Social sciences</option>
-              <option value="arts">Arts</option>
-              <option value="other">Other</option>
+              {subjectGroupOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
+          </label>
+          <label className="block space-y-1.5 text-sm">
+            <span className="font-semibold">Scholarship purpose</span>
+            <select
+              className="h-11 w-full rounded-2xl border border-border bg-background px-3"
+              value={purpose}
+              onChange={(e) => void setPurpose(e.target.value)}
+            >
+              <option value="">Any</option>
+              {scholarshipPurposeOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex items-center gap-2 text-sm font-semibold">
+            <input
+              type="checkbox"
+              checked={provider.toLowerCase() === "daad"}
+              onChange={(e) => void setProvider(e.target.checked ? "DAAD" : "")}
+              className="size-4 rounded border-border"
+            />
+            DAAD funding programmes only
           </label>
           <Button
             type="button"
@@ -195,6 +261,11 @@ export function ScholarshipsBrowser() {
                         {item.odds.replace("_", " ")}
                       </Badge>
                     ) : null}
+                    {isDaadProvider(item.provider) ? (
+                      <Badge variant="verified">DAAD</Badge>
+                    ) : (
+                      <Badge variant="neutral">Other funder</Badge>
+                    )}
                     <span className="text-xs text-muted-foreground capitalize">
                       {item.levels.join(" · ")}
                     </span>
