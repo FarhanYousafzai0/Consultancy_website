@@ -38,6 +38,7 @@ export function MobileTabBar() {
 
   return (
     <nav
+      data-mobile-tab-bar
       aria-label="Mobile"
       className="fixed inset-x-0 bottom-0 z-40 border-t border-muted bg-background pb-[env(safe-area-inset-bottom)] md:hidden"
     >

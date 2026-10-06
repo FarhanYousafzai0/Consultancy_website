@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import {
   Bell,
   BookmarkSimple,
+  ChatCircleDots,
+  FileText,
   House,
   Medal,
   Target,
@@ -15,8 +17,10 @@ import { cn } from "cn";
 const nav = [
   { href: "/dashboard", label: "Home", icon: House },
   { href: "/dashboard/matches", label: "Matches", icon: Target },
-  { href: "/dashboard/shortlist", label: "Shortlist", icon: BookmarkSimple },
+  { href: "/dashboard/shortlist", label: "Applications", icon: BookmarkSimple },
   { href: "/dashboard/scholarships", label: "Scholarships", icon: Medal },
+  { href: "/dashboard/advisor", label: "Advisor", icon: ChatCircleDots },
+  { href: "/dashboard/documents", label: "Documents", icon: FileText },
   { href: "/dashboard/profile", label: "Profile", icon: User },
   { href: "/dashboard/alerts", label: "Alerts", icon: Bell },
 ];

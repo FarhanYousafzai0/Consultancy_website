@@ -6,6 +6,7 @@ import {
   ensureScholarshipsSeeded,
   listScholarships,
 } from "@/lib/db/scholarships";
+import { invalidateCatalog } from "@/lib/advisor/catalog";
 
 export async function GET() {
   const session = await getSession();
@@ -31,5 +32,6 @@ export async function POST(request: Request) {
     );
   }
   const scholarship = await createScholarship(parsed.data);
+  invalidateCatalog();
   return NextResponse.json({ scholarship }, { status: 201 });
 }

@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { SignOut } from "@phosphor-icons/react/ssr";
 import { Logo } from "@/components/layout/logo";
 import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
-import { WhatsAppFab } from "@/components/layout/whatsapp-fab";
+import { AdvisorChat } from "@/components/advisor/advisor-chat";
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { getAuth } from "@/lib/auth/auth";
 import { getSession } from "@/lib/auth/session";
@@ -71,7 +71,7 @@ export default async function DashboardLayout({
       </div>
 
       <MobileTabBar />
-      <WhatsAppFab />
+      <AdvisorChat />
     </div>
   );
 }

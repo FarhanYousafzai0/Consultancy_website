@@ -39,6 +39,12 @@ export function AdminHeader({
             <Link href="/admin/scholarships">Scholarships</Link>
           </Button>
           <Button asChild variant="outline" size="sm">
+            <Link href="/admin/guides">Guides</Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
+            <Link href="/admin/leads">Leads</Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
             <Link href="/admin/programs/new">Add program</Link>
           </Button>
           <Button type="button" variant="ghost" size="sm" onClick={signOut}>

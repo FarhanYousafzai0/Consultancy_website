@@ -14,6 +14,9 @@ const StudentProfileSchema = new Schema(
     englishScore: { type: Number, default: null },
     germanLevel: { type: String, default: null },
     completedAt: { type: String, default: null },
+    sopReviewUnlocked: { type: Boolean, default: false },
+    aiCredits: { type: Number, default: 0 },
+    freeAnalysisUsed: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
@@ -33,6 +36,9 @@ export const StudentProfileModel: Model<StudentProfileDocument> =
 
 export type StudentProfileRecord = EligibilityAnswers & {
   userId: string;
+  sopReviewUnlocked: boolean;
+  aiCredits: number;
+  freeAnalysisUsed: boolean;
   updatedAt: string;
 };
 
@@ -48,6 +54,9 @@ export function docToProfile(doc: {
   englishScore?: number | null;
   germanLevel?: string | null;
   completedAt?: string | null;
+  sopReviewUnlocked?: boolean;
+  aiCredits?: number;
+  freeAnalysisUsed?: boolean;
   updatedAt?: Date;
 }): StudentProfileRecord {
   return {
@@ -65,6 +74,9 @@ export function docToProfile(doc: {
     englishScore: doc.englishScore ?? null,
     germanLevel: (doc.germanLevel as EligibilityAnswers["germanLevel"]) ?? null,
     completedAt: doc.completedAt ?? null,
+    sopReviewUnlocked: Boolean(doc.sopReviewUnlocked),
+    aiCredits: Number(doc.aiCredits ?? 0),
+    freeAnalysisUsed: Boolean(doc.freeAnalysisUsed),
     updatedAt: (doc.updatedAt ?? new Date()).toISOString(),
   };
 }

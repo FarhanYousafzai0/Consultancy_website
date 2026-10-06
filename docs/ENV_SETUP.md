@@ -37,8 +37,21 @@ After setting Mongo, run: `npm run db:migrate`
 `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — enables “Sign in with Google” on `/login` and `/signup`.
 Redirect URI: `{BETTER_AUTH_URL}/api/auth/callback/google`
 
+### 6. AI Advisor (Gemini + optional OpenAI)
+1. Create a Gemini API key in Google AI Studio → `GEMINI_API_KEY`
+2. Optional: add `OPENAI_API_KEY` to benchmark / switch providers (`npm run ai:bench`)
+3. Model routing (defaults shown):
+   - `AI_CHAT_PROVIDER=openai` / `AI_CHAT_MODEL=gpt-4o-mini` (main streaming chat)
+   - `AI_CHAT_FALLBACK_PROVIDER=google` / `AI_CHAT_FALLBACK_MODEL=gemini-3.5-flash-lite` (used on 503/overload)
+   - `AI_ANALYSIS_PROVIDER=openai` / `AI_ANALYSIS_MODEL=gpt-4o-mini` (paid reports / SOP)
+4. Budgets & quotas:
+   - `AI_MONTHLY_BUDGET_USD=50` (also accepts legacy `GEMINI_MONTHLY_BUDGET_USD`)
+   - `AI_FREE_VISITOR_DAILY=5`, `AI_FREE_STUDENT_DAILY=20`, `AI_PAID_DAILY=200`
+   - `AI_CREDIT_PACK_SIZE=5` — credits granted when admin marks an `ai_credits` lead paid
+5. Without `GEMINI_API_KEY` (and without OpenAI when selected), Ask Parwaz returns an error telling you to set the key.
+
 ## Later (leave empty for now)
-- PostHog, Gemini, Vercel Cron schedule — wire cron URL in production when deploying
+- PostHog, Vercel Cron schedule — wire cron URL in production when deploying
 
 ## Example
 
@@ -51,6 +64,14 @@ RESEND_API_KEY=re_xxxxxxxx
 EMAIL_FROM=Parwaz <onboarding@resend.dev>
 CRON_SECRET=generate-another-long-secret
 DEV_OTP_FILE=D:\dev-cache\parwaz\last-otp.txt
+GEMINI_API_KEY=
+OPENAI_API_KEY=
+AI_CHAT_PROVIDER=openai
+AI_CHAT_MODEL=gpt-4o-mini
+AI_ANALYSIS_MODEL=gpt-4o-mini
+AI_MONTHLY_BUDGET_USD=50
+AI_FREE_VISITOR_DAILY=5
+AI_FREE_STUDENT_DAILY=20
 ```
 
 After setting Mongo, run: `npm run db:migrate`

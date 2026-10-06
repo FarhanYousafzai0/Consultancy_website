@@ -2,13 +2,57 @@ import mongoose, { Schema, type InferSchemaType, type Model } from "mongoose";
 import { connectMongo } from "./connect";
 import { getProgram } from "./programs";
 import type { ProgramRecord } from "./types";
+import {
+  APPLICATION_STATUSES,
+  CLOSED_APPLICATION_STATUSES,
+  applicationStatusLabel,
+  buildTimeline,
+  docProgress,
+  intakeKey,
+  normalizeStatus,
+  normalizeTargetIntake,
+  resolveDeadline,
+  shortlistProgressSchema,
+  type ApplicationStatus,
+  type ShortlistProgressPatch,
+  type TargetIntake,
+} from "@/lib/applications/progress";
+
+export {
+  APPLICATION_STATUSES,
+  CLOSED_APPLICATION_STATUSES,
+  applicationStatusLabel,
+  buildTimeline,
+  docProgress,
+  intakeKey,
+  resolveDeadline,
+  shortlistProgressSchema,
+  type ApplicationStatus,
+  type ShortlistProgressPatch,
+  type TargetIntake,
+};
+
+const TargetIntakeSchema = new Schema(
+  {
+    semester: { type: String, enum: ["winter", "summer"], required: true },
+    year: { type: Number, required: true },
+  },
+  { _id: false }
+);
 
 const ShortlistSchema = new Schema(
   {
     userId: { type: String, required: true, index: true },
     programId: { type: String, required: true },
+    status: {
+      type: String,
+      enum: APPLICATION_STATUSES,
+      default: "planning",
+    },
+    completedDocuments: { type: [String], default: [] },
+    targetIntake: { type: TargetIntakeSchema, default: null },
   },
-  { timestamps: { createdAt: true, updatedAt: false } }
+  { timestamps: true }
 );
 
 ShortlistSchema.index({ userId: 1, programId: 1 }, { unique: true });
@@ -24,9 +68,39 @@ export const ShortlistModel: Model<ShortlistDocument> =
 export type ShortlistItem = {
   id: string;
   programId: string;
+  status: ApplicationStatus;
+  completedDocuments: string[];
+  targetIntake: TargetIntake | null;
   createdAt: string;
+  updatedAt: string;
   program: ProgramRecord | null;
 };
+
+function docToItem(
+  doc: {
+    _id: { toString(): string };
+    programId: string;
+    status?: string;
+    completedDocuments?: string[];
+    targetIntake?: TargetIntake | null;
+    createdAt?: Date;
+    updatedAt?: Date;
+  },
+  program: ProgramRecord | null
+): ShortlistItem {
+  return {
+    id: doc._id.toString(),
+    programId: doc.programId,
+    status: normalizeStatus(doc.status),
+    completedDocuments: Array.isArray(doc.completedDocuments)
+      ? doc.completedDocuments.filter((d): d is string => typeof d === "string")
+      : [],
+    targetIntake: normalizeTargetIntake(doc.targetIntake),
+    createdAt: (doc.createdAt ?? new Date()).toISOString(),
+    updatedAt: (doc.updatedAt ?? doc.createdAt ?? new Date()).toISOString(),
+    program,
+  };
+}
 
 export async function listShortlist(userId: string): Promise<ShortlistItem[]> {
   await connectMongo();
@@ -36,12 +110,7 @@ export async function listShortlist(userId: string): Promise<ShortlistItem[]> {
   const items: ShortlistItem[] = [];
   for (const doc of docs) {
     const program = await getProgram(doc.programId);
-    items.push({
-      id: doc._id.toString(),
-      programId: doc.programId,
-      createdAt: (doc.createdAt ?? new Date()).toISOString(),
-      program,
-    });
+    items.push(docToItem(doc as never, program));
   }
   return items;
 }
@@ -57,17 +126,59 @@ export async function addToShortlist(
   }
   const doc = await ShortlistModel.findOneAndUpdate(
     { userId, programId },
-    { $setOnInsert: { userId, programId } },
+    {
+      $setOnInsert: {
+        userId,
+        programId,
+        status: "planning",
+        completedDocuments: [],
+        targetIntake: null,
+      },
+    },
     { upsert: true, new: true, setDefaultsOnInsert: true }
   ).lean();
-  return {
-    id: (doc as { _id: { toString(): string } })._id.toString(),
-    programId,
-    createdAt: (
-      (doc as { createdAt?: Date }).createdAt ?? new Date()
-    ).toISOString(),
-    program,
-  };
+  return docToItem(doc as never, program);
+}
+
+export async function updateShortlistProgress(
+  userId: string,
+  patch: ShortlistProgressPatch
+): Promise<ShortlistItem | null> {
+  await connectMongo();
+  const { programId, ...rest } = patch;
+  const $set: Record<string, unknown> = {};
+  if (rest.status !== undefined) $set.status = rest.status;
+  if (rest.completedDocuments !== undefined) {
+    $set.completedDocuments = rest.completedDocuments;
+  }
+  if (rest.targetIntake !== undefined) {
+    $set.targetIntake = rest.targetIntake;
+  }
+  if (Object.keys($set).length === 0) {
+    const existing = await ShortlistModel.findOne({ userId, programId }).lean();
+    if (!existing) return null;
+    const program = await getProgram(programId);
+    return docToItem(existing as never, program);
+  }
+
+  const doc = await ShortlistModel.findOneAndUpdate(
+    { userId, programId },
+    { $set },
+    { new: true }
+  ).lean();
+  if (!doc) return null;
+  const program = await getProgram(programId);
+  const item = docToItem(doc as never, program);
+  const progress = docProgress(item);
+  if (progress.completed.length !== item.completedDocuments.length) {
+    const cleaned = await ShortlistModel.findOneAndUpdate(
+      { userId, programId },
+      { $set: { completedDocuments: progress.completed } },
+      { new: true }
+    ).lean();
+    if (cleaned) return docToItem(cleaned as never, program);
+  }
+  return { ...item, completedDocuments: progress.completed };
 }
 
 export async function removeFromShortlist(

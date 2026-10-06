@@ -47,6 +47,63 @@ export async function upsertStudentProfile(
   return docToProfile(doc as never);
 }
 
+export async function setSopReviewUnlocked(
+  userId: string,
+  unlocked: boolean
+): Promise<StudentProfileRecord | null> {
+  await connectMongo();
+  const doc = await StudentProfileModel.findOneAndUpdate(
+    { userId },
+    { $set: { sopReviewUnlocked: unlocked }, $setOnInsert: { userId } },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  ).lean();
+  return doc ? docToProfile(doc as never) : null;
+}
+
+export async function addAiCredits(
+  userId: string,
+  amount: number
+): Promise<StudentProfileRecord | null> {
+  if (!Number.isFinite(amount) || amount === 0) return getStudentProfile(userId);
+  await connectMongo();
+  const doc = await StudentProfileModel.findOneAndUpdate(
+    { userId },
+    {
+      $inc: { aiCredits: amount },
+      $setOnInsert: { userId },
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  ).lean();
+  return doc ? docToProfile(doc as never) : null;
+}
+
+export async function consumeAiCredit(
+  userId: string
+): Promise<StudentProfileRecord | null> {
+  await connectMongo();
+  const doc = await StudentProfileModel.findOneAndUpdate(
+    { userId, aiCredits: { $gte: 1 } },
+    { $inc: { aiCredits: -1 } },
+    { new: true }
+  ).lean();
+  return doc ? docToProfile(doc as never) : null;
+}
+
+export async function markFreeAnalysisUsed(
+  userId: string
+): Promise<StudentProfileRecord | null> {
+  await connectMongo();
+  const doc = await StudentProfileModel.findOneAndUpdate(
+    { userId },
+    {
+      $set: { freeAnalysisUsed: true },
+      $setOnInsert: { userId },
+    },
+    { upsert: true, new: true, setDefaultsOnInsert: true }
+  ).lean();
+  return doc ? docToProfile(doc as never) : null;
+}
+
 export function profileToAnswers(
   profile: StudentProfileRecord | null
 ): EligibilityAnswers {

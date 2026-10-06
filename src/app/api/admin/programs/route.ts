@@ -7,6 +7,7 @@ import {
   listPrograms,
   storageMode,
 } from "@/lib/db/programs";
+import { invalidateCatalog } from "@/lib/advisor/catalog";
 
 export async function GET() {
   const session = await getSession();
@@ -33,5 +34,6 @@ export async function POST(request: Request) {
     );
   }
   const program = await createProgram(parsed.data);
+  invalidateCatalog();
   return NextResponse.json({ program }, { status: 201 });
 }

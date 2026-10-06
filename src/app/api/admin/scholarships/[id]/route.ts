@@ -6,6 +6,7 @@ import {
   getScholarship,
   updateScholarship,
 } from "@/lib/db/scholarships";
+import { invalidateCatalog } from "@/lib/advisor/catalog";
 
 type Ctx = { params: Promise<{ id: string }> };
 
@@ -40,6 +41,7 @@ export async function PUT(request: Request, ctx: Ctx) {
   if (!scholarship) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+  invalidateCatalog();
   return NextResponse.json({ scholarship });
 }
 
@@ -53,5 +55,6 @@ export async function DELETE(_request: Request, ctx: Ctx) {
   if (!ok) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+  invalidateCatalog();
   return NextResponse.json({ deleted: true });
 }

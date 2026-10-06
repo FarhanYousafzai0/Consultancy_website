@@ -103,3 +103,67 @@ export type ScholarshipInput = Omit<
   ScholarshipRecord,
   "id" | "createdAt" | "updatedAt"
 >;
+
+/** Guides / knowledge base */
+export type GuideTopic =
+  | "aps"
+  | "blocked_account"
+  | "visa"
+  | "uni_assist"
+  | "anabin"
+  | "studienkolleg"
+  | "faq"
+  | "other";
+
+export type GuideRecord = {
+  id: string;
+  title: string;
+  slug: string;
+  topic: GuideTopic;
+  body: string;
+  sourceUrl: string;
+  lastVerifiedAt: string | null;
+  status: ProgramStatus;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GuideInput = Omit<GuideRecord, "id" | "createdAt" | "updatedAt">;
+
+/** Consultant leads */
+export type LeadKind = "chat_handoff" | "sop_review" | "ai_credits";
+export type LeadStatus = "new" | "contacted" | "paid" | "closed";
+
+export type LeadRecord = {
+  id: string;
+  kind: LeadKind;
+  status: LeadStatus;
+  userId: string | null;
+  email: string | null;
+  name: string | null;
+  goal: string | null;
+  lastQuestion: string | null;
+  transcriptSnippet: string;
+  shortlistCount: number;
+  profileUrl: string | null;
+  whatsappOpenedAt: string | null;
+  notes: string;
+  /** Credits to grant when an ai_credits lead is marked paid. */
+  creditAmount: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AnalysisType = "profile" | "sop" | "shortlist";
+
+export type AdvisorReportRecord = {
+  id: string;
+  userId: string;
+  type: AnalysisType;
+  inputSummary: string;
+  result: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type LeadInput = Omit<LeadRecord, "id" | "createdAt" | "updatedAt">;

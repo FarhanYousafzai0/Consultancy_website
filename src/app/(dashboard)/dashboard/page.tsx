@@ -12,7 +12,11 @@ import {
   getStudentProfile,
   profileToAnswers,
 } from "@/lib/db/student-profile";
-import { listShortlist } from "@/lib/db/shortlist";
+import {
+  listShortlist,
+  resolveDeadline,
+} from "@/lib/db/shortlist";
+import { applicationStatusLabel } from "@/lib/applications/progress";
 import { listSavedScholarships } from "@/lib/db/saved-scholarships";
 import { ensureSeeded, listPrograms } from "@/lib/db/programs";
 import { matchPrograms } from "@/lib/matching/match";
@@ -22,17 +26,6 @@ import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { whatsappLink } from "@/lib/site";
 
 export const metadata = { title: "Dashboard" };
-
-function nearestDeadline(
-  intakes: { deadlineNonEu: string | null }[] | undefined
-): string | null {
-  if (!intakes?.length) return null;
-  const dates = intakes
-    .map((i) => i.deadlineNonEu)
-    .filter((d): d is string => Boolean(d))
-    .sort();
-  return dates[0] ?? null;
-}
 
 export default async function DashboardHomePage() {
   const session = await getSession();
@@ -79,7 +72,7 @@ export default async function DashboardHomePage() {
           Hello, {session.name.split(" ")[0]}
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Your eligibility, matches and shortlist in one place.
+          Your eligibility, matches and applications in one place.
         </p>
       </div>
 
@@ -180,35 +173,41 @@ export default async function DashboardHomePage() {
         </section>
 
         <section className="rounded-2xl bg-white p-6 shadow-card">
-          <p className="section-label">Shortlist</p>
+          <p className="section-label">Applications</p>
           {shortlist.length ? (
             <ul className="mt-4 space-y-3">
-              {shortlist.slice(0, 4).map((item) => (
-                <li key={item.id}>
-                  <Link
-                    href={`/programs/${item.programId}`}
-                    className="block rounded-xl bg-muted/50 px-3 py-2.5 hover:bg-muted"
-                  >
-                    <p className="font-semibold">
-                      {item.program?.name ?? "Program"}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {item.program?.university}
-                      {nearestDeadline(item.program?.intakes)
-                        ? ` · deadline ${nearestDeadline(item.program?.intakes)}`
-                        : null}
-                    </p>
-                  </Link>
-                </li>
-              ))}
+              {shortlist.slice(0, 4).map((item) => {
+                const deadline = resolveDeadline(item);
+                return (
+                  <li key={item.id}>
+                    <Link
+                      href={`/programs/${item.programId}`}
+                      className="block rounded-xl bg-muted/50 px-3 py-2.5 hover:bg-muted"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-semibold">
+                          {item.program?.name ?? "Program"}
+                        </p>
+                        <Badge variant="neutral">
+                          {applicationStatusLabel(item.status)}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        {item.program?.university}
+                        {deadline ? ` · deadline ${deadline}` : null}
+                      </p>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="mt-3 text-sm text-muted-foreground">
-              Save programs while browsing to build your shortlist.
+              Save programs while browsing to start tracking applications.
             </p>
           )}
           <Button asChild variant="ghost" size="sm" className="mt-3 px-0">
-            <Link href="/dashboard/shortlist">Manage shortlist →</Link>
+            <Link href="/dashboard/shortlist">Manage applications →</Link>
           </Button>
         </section>
       </div>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth/session";
 import { programInputSchema } from "@/lib/db/program-schema";
 import { deleteProgram, getProgram, updateProgram } from "@/lib/db/programs";
+import { invalidateCatalog } from "@/lib/advisor/catalog";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -36,6 +37,7 @@ export async function PATCH(request: Request, { params }: Params) {
   if (!program) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+  invalidateCatalog();
   return NextResponse.json({ program });
 }
 
@@ -49,5 +51,6 @@ export async function DELETE(_request: Request, { params }: Params) {
   if (!ok) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
+  invalidateCatalog();
   return NextResponse.json({ ok: true });
 }

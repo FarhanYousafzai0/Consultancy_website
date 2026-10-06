@@ -4,6 +4,10 @@ import {
   listUsersWithAlertsEnabled,
   markAlertSent,
 } from "@/lib/db/alert-preferences";
+import {
+  CLOSED_APPLICATION_STATUSES,
+  resolveDeadline,
+} from "@/lib/applications/progress";
 import { listShortlist } from "@/lib/db/shortlist";
 import { listSavedScholarships } from "@/lib/db/saved-scholarships";
 import { connectMongo } from "@/lib/db/connect";
@@ -69,31 +73,28 @@ export async function collectDeadlineAlerts(
 
     const shortlist = await listShortlist(pref.userId);
     for (const item of shortlist) {
-      const deadlines =
-        item.program?.intakes
-          ?.map((i) => i.deadlineNonEu)
-          .filter((d): d is string => Boolean(d)) ?? [];
-      for (const deadline of deadlines) {
-        const daysLeft = daysUntil(deadline, now);
-        if (daysLeft == null) continue;
-        const bucket = bucketFor(daysLeft);
-        if (!bucket) continue;
-        const sendKey = `program:${item.programId}:${bucket}`;
-        if (pref.lastSentAt[sendKey]) continue;
-        candidates.push({
-          userId: pref.userId,
-          email,
-          kind: "program",
-          targetId: item.programId,
-          title: item.program
-            ? `${item.program.name} · ${item.program.university}`
-            : "Shortlisted program",
-          deadline,
-          daysLeft,
-          bucket,
-          sendKey,
-        });
-      }
+      if (CLOSED_APPLICATION_STATUSES.includes(item.status)) continue;
+      const deadline = resolveDeadline(item);
+      if (!deadline) continue;
+      const daysLeft = daysUntil(deadline, now);
+      if (daysLeft == null) continue;
+      const bucket = bucketFor(daysLeft);
+      if (!bucket) continue;
+      const sendKey = `program:${item.programId}:${bucket}`;
+      if (pref.lastSentAt[sendKey]) continue;
+      candidates.push({
+        userId: pref.userId,
+        email,
+        kind: "program",
+        targetId: item.programId,
+        title: item.program
+          ? `${item.program.name} · ${item.program.university}`
+          : "Shortlisted program",
+        deadline,
+        daysLeft,
+        bucket,
+        sendKey,
+      });
     }
 
     const saved = await listSavedScholarships(pref.userId);
