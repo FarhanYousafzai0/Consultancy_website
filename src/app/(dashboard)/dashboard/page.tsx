@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import Link from "next/link";
+import { DashboardContentSkeleton } from "@/components/ui/content-skeletons";
 import {
   evaluateEligibility,
   isProfileComplete,
@@ -28,7 +30,15 @@ import { whatsappLink } from "@/lib/site";
 
 export const metadata = { title: "Dashboard" };
 
-export default async function DashboardHomePage() {
+export default function DashboardHomePage() {
+  return (
+    <Suspense fallback={<DashboardContentSkeleton />}>
+      <DashboardHomeContent />
+    </Suspense>
+  );
+}
+
+async function DashboardHomeContent() {
   const session = await getSession();
   if (!session) return null;
 

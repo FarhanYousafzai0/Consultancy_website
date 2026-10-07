@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
   const profile = await getStudentProfile(session.userId);
   const message = [
-    "Hi! I want to buy an AI credit pack on Parwaz.",
+    "Hi! I want to buy an AI credit pack on Parwaaz.",
     `• Pack: ${pack.label} (${credits} credits)`,
     `• Name: ${session.name}`,
     `• Email: ${session.email}`,

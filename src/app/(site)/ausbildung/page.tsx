@@ -33,16 +33,18 @@ export default async function AusbildungPage({ searchParams }: Props) {
   return (
     <div className="mx-auto max-w-5xl px-4 py-10 md:py-14">
       <section className="rounded-[2rem] bg-gradient-to-br from-muted via-background to-primary/20 px-6 py-10 md:px-10 md:py-14">
-        <p className="section-label">Ausbildung</p>
-        <h1 className="mt-3 max-w-2xl text-4xl font-extrabold tracking-[-0.03em] md:text-5xl">
-          Paid vocational training in Germany
-        </h1>
-        <p className="mt-4 max-w-xl text-base text-muted-foreground md:text-lg">
-          Find out if your German level is ready, then browse live Ausbildung
-          offers from the official Jobsuche. Self-serve — we do not place you
-          with employers.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="section-label">Ausbildung</p>
+          <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em] md:text-5xl">
+            Paid vocational training in Germany
+          </h1>
+          <p className="mt-4 text-base text-muted-foreground md:text-lg">
+            Find out if your German level is ready, then browse live Ausbildung
+            offers from the official Jobsuche. Self-serve — we do not place you
+            with employers.
+          </p>
+        </div>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button asChild size="lg">
             <Link href="/check?goal=ausbildung">Check eligibility</Link>
           </Button>

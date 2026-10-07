@@ -18,7 +18,7 @@ async function deliverOtp(email: string, otp: string, type: string) {
   const from =
     process.env.EMAIL_FROM?.trim() ||
     process.env.RESEND_FROM_EMAIL?.trim() ||
-    "Parwaz <onboarding@resend.dev>";
+    "Parwaaz <onboarding@resend.dev>";
   const replyTo = process.env.RESEND_REPLY_TO_EMAIL?.trim();
 
   if (resendKey) {
@@ -27,7 +27,7 @@ async function deliverOtp(email: string, otp: string, type: string) {
       from,
       to: email,
       ...(replyTo ? { replyTo } : {}),
-      subject: "Your Parwaz sign-in code",
+      subject: "Your Parwaaz sign-in code",
       text: `Your one-time code is ${otp}. It expires in 10 minutes.\n\nType: ${type}`,
     });
     if (result.error) {
@@ -43,7 +43,7 @@ async function deliverOtp(email: string, otp: string, type: string) {
   await mkdir(path.dirname(file), { recursive: true });
   await writeFile(
     file,
-    `Parwaz OTP for ${email}: ${otp}\nType: ${type}\nExpires in 10 minutes.\n`,
+    `Parwaaz OTP for ${email}: ${otp}\nType: ${type}\nExpires in 10 minutes.\n`,
     "utf8"
   );
   console.info(`[auth] OTP for ${email}: ${otp} (also written to ${file})`);

@@ -5,20 +5,22 @@ import { successStories } from "@/data/success-stories";
 export const metadata = {
   title: "Student stories",
   description:
-    "Short stories from Pakistani students planning study or Ausbildung in Germany — curated by Parwaz, not a public forum.",
+    "Short stories from Pakistani students planning study or Ausbildung in Germany — curated by Parwaaz, not a public forum.",
 };
 
 export default function StoriesPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 md:py-14">
-      <p className="section-label">Stories</p>
-      <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em]">
-        Students who used Parwaz
-      </h1>
-      <p className="mt-4 text-muted-foreground">
-        Short, founder-curated notes — not admission guarantees. Names are
-        initials only.
-      </p>
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="section-label">Stories</p>
+        <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em]">
+          Students who used Parwaaz
+        </h1>
+        <p className="mt-4 text-muted-foreground">
+          Short, founder-curated notes — not admission guarantees. Names are
+          initials only.
+        </p>
+      </div>
 
       <ul className="mt-10 space-y-4">
         {successStories.map((story) => (

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Report = {
   id: string;
@@ -21,17 +22,22 @@ export function AnalysesPanel({
   const [credits, setCredits] = useState(initialCredits);
   const [freeUsed, setFreeUsed] = useState(freeAnalysisUsed);
   const [reports, setReports] = useState<Report[]>([]);
+  const [reportsReady, setReportsReady] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [active, setActive] = useState<Report | null>(null);
 
   async function refresh() {
-    const res = await fetch("/api/advisor/analysis");
-    if (!res.ok) return;
-    const data = await res.json();
-    setReports(data.reports ?? []);
-    setCredits(data.credits ?? 0);
-    setFreeUsed(Boolean(data.freeAnalysisUsed));
+    try {
+      const res = await fetch("/api/advisor/analysis");
+      if (!res.ok) return;
+      const data = await res.json();
+      setReports(data.reports ?? []);
+      setCredits(data.credits ?? 0);
+      setFreeUsed(Boolean(data.freeAnalysisUsed));
+    } finally {
+      setReportsReady(true);
+    }
   }
 
   useEffect(() => {
@@ -117,7 +123,13 @@ export function AnalysesPanel({
         <ReportCard report={active} />
       ) : null}
 
-      {reports.length > 0 ? (
+      {!reportsReady ? (
+        <div className="space-y-2" aria-busy="true">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-16 w-full rounded-2xl" />
+          <Skeleton className="h-16 w-full rounded-2xl" />
+        </div>
+      ) : reports.length > 0 ? (
         <div className="space-y-2">
           <h3 className="text-sm font-bold">Past reports</h3>
           <ul className="space-y-2">

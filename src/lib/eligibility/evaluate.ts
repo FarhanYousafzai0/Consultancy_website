@@ -244,7 +244,7 @@ export function evaluateEligibility(
         reasons: [
           "B1 or higher is the usual minimum employers and visa paths expect for Ausbildung.",
           "Matric or FSc / HSSC can both start this path; the employer still checks your certificate.",
-          "This is a self-serve path on Parwaz — we do not hand off Ausbildung to a consultant yet.",
+          "This is a self-serve path on Parwaaz — we do not hand off Ausbildung to a consultant yet.",
         ],
         nextSteps: [
           "Search live Ausbildung listings by field and city on /ausbildung.",

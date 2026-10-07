@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowSquareOut } from "@phosphor-icons/react";
+import { UniversityTypeBadge } from "@/components/programs/university-type-badge";
+import { MatchCardSkeletonList } from "@/components/ui/content-skeletons";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import type { EligibilityAnswers } from "@/lib/eligibility/types";
 import type { MatchTier } from "@/lib/db/types";
 
@@ -98,7 +101,7 @@ export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">
           Browse live employer offers from the German Jobsuche — self-serve on
-          Parwaz.
+          Parwaaz.
         </p>
         <a
           href={href}
@@ -110,11 +113,18 @@ export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
     );
   }
 
-  if (loading) {
+  if (loading && matches.length === 0) {
     return (
-      <section className="mt-4 rounded-2xl bg-white p-6 shadow-card">
+      <section className="mt-4 rounded-2xl bg-white p-6 shadow-card" aria-busy="true">
         <p className="section-label">Program matches</p>
-        <p className="mt-3 text-sm text-muted-foreground">Finding programs you can aim for…</p>
+        <Skeleton className="mt-3 h-6 w-64 max-w-full" />
+        <Skeleton className="mt-2 h-4 w-80 max-w-full" />
+        <div className="mt-4 flex flex-wrap gap-2">
+          <Skeleton className="h-7 w-20 rounded-full" />
+          <Skeleton className="h-7 w-20 rounded-full" />
+          <Skeleton className="h-7 w-28 rounded-full" />
+        </div>
+        <MatchCardSkeletonList count={3} />
       </section>
     );
   }
@@ -152,8 +162,8 @@ export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
         an international programme.
       </p>
       <div className="mt-4 flex flex-wrap gap-2">
-        <Badge variant="neutral">{publicCount} public</Badge>
-        <Badge variant="neutral">{privateCount} private</Badge>
+        <Badge variant="safety">{publicCount} public</Badge>
+        <Badge variant="predicted">{privateCount} private</Badge>
         <Badge variant="verified">{internationalCount} international</Badge>
         <Badge variant="match">{scholarships.length} scholarships</Badge>
       </div>
@@ -199,9 +209,7 @@ export function MatchesPanel({ answers }: { answers: EligibilityAnswers }) {
                   >
                     {match.tier}
                   </Badge>
-                  <Badge variant="neutral">
-                    {match.universityType === "public" ? "Public" : "Private"} university
-                  </Badge>
+                  <UniversityTypeBadge type={match.universityType} withUniversity />
                   {match.internationalProgramme ? (
                     <Badge variant="verified">International programme</Badge>
                   ) : (

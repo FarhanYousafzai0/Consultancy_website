@@ -140,7 +140,7 @@ export async function sendDeadlineAlerts(options?: {
   const from =
     process.env.EMAIL_FROM?.trim() ||
     process.env.RESEND_FROM_EMAIL?.trim() ||
-    "Parwaz <onboarding@resend.dev>";
+    "Parwaaz <onboarding@resend.dev>";
 
   const results: {
     sendKey: string;
@@ -184,7 +184,7 @@ export async function sendDeadlineAlerts(options?: {
         to: c.email,
         subject: `Deadline in ${c.daysLeft} days: ${c.title}`,
         text: [
-          `Reminder from Parwaz Consultancy`,
+          `Reminder from Parwaaz Consultancy`,
           ``,
           `${c.title}`,
           `Deadline: ${c.deadline} (${c.daysLeft} days left)`,

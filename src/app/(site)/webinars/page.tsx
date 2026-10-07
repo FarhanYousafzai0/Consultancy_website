@@ -6,24 +6,26 @@ import { whatsappLink } from "@/lib/site";
 export const metadata = {
   title: "Webinars",
   description:
-    "Free Parwaz webinars for Pakistani students on Germany Master's, Bachelor's, and Ausbildung — register via WhatsApp when dates are set.",
+    "Free Parwaaz webinars for Pakistani students on Germany Master's, Bachelor's, and Ausbildung — register via WhatsApp when dates are set.",
 };
 
 export default function WebinarsPage() {
   const defaultRegister = whatsappLink(
-    "Hi! I'd like to register for the next Parwaz webinar."
+    "Hi! I'd like to register for the next Parwaaz webinar."
   );
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 md:py-14">
-      <p className="section-label">Webinars</p>
-      <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em]">
-        Live sessions with consultants
-      </h1>
-      <p className="mt-4 text-muted-foreground">
-        Short, practical topics — no paid booking portal. Dates are announced
-        here and in the community group.
-      </p>
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="section-label">Webinars</p>
+        <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em]">
+          Live sessions with consultants
+        </h1>
+        <p className="mt-4 text-muted-foreground">
+          Short, practical topics — no paid booking portal. Dates are announced
+          here and in the community group.
+        </p>
+      </div>
 
       <ul className="mt-10 space-y-4">
         {webinars.map((w) => (

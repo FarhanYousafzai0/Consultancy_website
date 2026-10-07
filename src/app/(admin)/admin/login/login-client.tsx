@@ -39,7 +39,7 @@ export default function AdminLoginClient() {
     const { error: signError } = await authClient.signIn.emailOtp({
       email,
       otp,
-      name: "Parwaz Admin",
+      name: "Parwaaz Admin",
     });
     setLoading(false);
     if (signError) {
@@ -54,7 +54,7 @@ export default function AdminLoginClient() {
     <div className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4">
       <p className="section-label">Admin</p>
       <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.03em]">
-        Sign in to Parwaz admin
+        Sign in to Parwaaz admin
       </h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Email one-time code via Better Auth. With Resend configured the code

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { UniversityTypeBadge } from "@/components/programs/university-type-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AusbildungListings } from "@/components/ausbildung/ausbildung-listings";
@@ -100,8 +101,8 @@ export default async function DashboardMatchesPage() {
           or private, and whether it is an international programme.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
-          <Badge variant="neutral">{publicCount} public</Badge>
-          <Badge variant="neutral">{privateCount} private</Badge>
+          <Badge variant="safety">{publicCount} public</Badge>
+          <Badge variant="predicted">{privateCount} private</Badge>
           <Badge variant="verified">{internationalCount} international</Badge>
         </div>
       </div>
@@ -142,9 +143,7 @@ export default async function DashboardMatchesPage() {
                   >
                     {m.tier}
                   </Badge>
-                  <Badge variant="neutral">
-                    {m.program.universityType === "public" ? "Public" : "Private"}
-                  </Badge>
+                  <UniversityTypeBadge type={m.program.universityType} />
                   {isInternationalProgramme(m.program.languageOfInstruction) ? (
                     <Badge variant="verified">International programme</Badge>
                   ) : (

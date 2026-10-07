@@ -10,6 +10,7 @@ import {
   gradeSystemOptions,
   passMarkOptions,
 } from "@/lib/eligibility/labels";
+import { FilterSelect } from "@/components/ui/filter-select";
 
 export function GradeConverterForm() {
   const [system, setSystem] = useState<GradeSystem>("percentage");
@@ -28,20 +29,12 @@ export function GradeConverterForm() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block text-sm">
-          <span className="mb-1 block font-semibold">Grade system</span>
-          <select
-            className="w-full rounded-full border border-input bg-background px-3 py-2"
-            value={system}
-            onChange={(e) => setSystem(e.target.value as GradeSystem)}
-          >
-            {gradeSystemOptions.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
-        </label>
+        <FilterSelect
+          label="Grade system"
+          value={system}
+          onChange={(next) => setSystem(next as GradeSystem)}
+          options={gradeSystemOptions.map((o) => [o.value, o.label])}
+        />
         <label className="block text-sm">
           <span className="mb-1 block font-semibold">Your grade</span>
           <input
@@ -53,22 +46,16 @@ export function GradeConverterForm() {
           />
         </label>
         {system === "percentage" ? (
-          <label className="block text-sm sm:col-span-2">
-            <span className="mb-1 block font-semibold">Pass mark</span>
-            <select
-              className="w-full rounded-full border border-input bg-background px-3 py-2"
-              value={passMark}
-              onChange={(e) =>
-                setPassMark(Number(e.target.value) as PercentagePassMark)
+          <div className="sm:col-span-2">
+            <FilterSelect
+              label="Pass mark"
+              value={String(passMark)}
+              onChange={(next) =>
+                setPassMark(Number(next) as PercentagePassMark)
               }
-            >
-              {passMarkOptions.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-          </label>
+              options={passMarkOptions.map((o) => [String(o.value), o.label])}
+            />
+          </div>
         ) : null}
       </div>
 

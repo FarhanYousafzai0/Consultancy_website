@@ -6,6 +6,7 @@ import { ChatCircleDots, PaperPlaneTilt, X } from "@phosphor-icons/react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { whatsappLink } from "@/lib/site";
 import {
   selectAnswers,
@@ -34,6 +35,7 @@ export function AdvisorChat() {
   const [input, setInput] = useState("");
   const [threadId, setThreadId] = useState<string | null>(null);
   const [quota, setQuota] = useState<QuotaInfo | null>(null);
+  const [quotaReady, setQuotaReady] = useState(false);
   const [handoffUrl, setHandoffUrl] = useState<string | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -115,7 +117,8 @@ export function AdvisorChat() {
           });
         }
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setQuotaReady(true));
   }, [open]);
 
   async function send() {
@@ -215,13 +218,13 @@ export function AdvisorChat() {
           <button
             type="button"
             className="fixed right-4 bottom-24 z-40 inline-flex items-center gap-2 rounded-full bg-ink px-4 py-3 text-sm font-semibold text-primary shadow-card transition-transform hover:scale-105 md:right-6 md:bottom-6"
-            aria-label="Ask Parwaz advisor"
+            aria-label="Ask Parwaaz advisor"
           >
             <span className="relative grid size-5 place-items-center">
               <span className="parwaz-pulse-ring absolute inset-0 rounded-full bg-primary" />
               <ChatCircleDots className="relative size-5" weight="fill" />
             </span>
-            Ask Parwaz
+            Ask Parwaaz
           </button>
         </Drawer.Trigger>
       ) : null}
@@ -231,7 +234,7 @@ export function AdvisorChat() {
           <div className="flex items-center justify-between border-b border-border px-4 py-3">
             <div>
               <Drawer.Title className="text-base font-extrabold">
-                Parwaz Advisor
+                Parwaaz Advisor
               </Drawer.Title>
               <Drawer.Description className="text-xs text-muted-foreground">
                 Answers from verified programs, scholarships & guides
@@ -241,6 +244,8 @@ export function AdvisorChat() {
                   {quota.remaining} of {quota.limit} free messages left today
                   {quota.credits > 0 ? ` · ${quota.credits} credits` : ""}
                 </p>
+              ) : open && !quotaReady ? (
+                <Skeleton className="mt-1 h-3 w-44" />
               ) : null}
             </div>
             <button

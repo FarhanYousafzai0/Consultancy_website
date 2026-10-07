@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { FilterSelect } from "@/components/ui/filter-select";
 
 const CITIES = [
   { id: "berlin", label: "Berlin", rent: 650, food: 280, transit: 49, misc: 150 },
@@ -37,22 +38,16 @@ export function CostCalculatorForm() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block text-sm sm:col-span-2">
-          <span className="mb-1 block font-semibold">City</span>
-          <select
-            className="w-full rounded-full border border-input bg-background px-3 py-2"
+        <div className="sm:col-span-2">
+          <FilterSelect
+            label="City"
             value={cityId}
-            onChange={(e) =>
-              setCityId(e.target.value as (typeof CITIES)[number]["id"])
+            onChange={(next) =>
+              setCityId(next as (typeof CITIES)[number]["id"])
             }
-          >
-            {CITIES.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.label}
-              </option>
-            ))}
-          </select>
-        </label>
+            options={CITIES.map((c) => [c.id, c.label])}
+          />
+        </div>
         <label className="block text-sm">
           <span className="mb-1 block font-semibold">
             Tuition / semester (€)

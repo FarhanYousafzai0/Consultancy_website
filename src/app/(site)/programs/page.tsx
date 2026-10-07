@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { ProgramsBrowser } from "@/components/programs/programs-browser";
+import { ProgramsBrowseSkeleton } from "@/components/ui/content-skeletons";
 
 export const metadata = {
   title: "International programmes",
@@ -9,7 +10,7 @@ export const metadata = {
 
 export default function ProgramsPage() {
   return (
-    <Suspense fallback={<div className="px-4 py-16 text-center">Loading programs…</div>}>
+    <Suspense fallback={<ProgramsBrowseSkeleton />}>
       <ProgramsBrowser />
     </Suspense>
   );

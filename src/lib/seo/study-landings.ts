@@ -16,7 +16,7 @@ export const STUDY_LANDINGS: StudyLanding[] = [
     description:
       "Verified CS / IT Master's programs for Pakistani students — filters, eligibility, and official sources.",
     intro:
-      "Looking for an English-taught Computer Science or IT Master's in Germany? These published programs on Parwaz are checked against official university pages. Use Reach / Match / Safety after your eligibility check — never rely on invented acceptance rates.",
+      "Looking for an English-taught Computer Science or IT Master's in Germany? These published programs on Parwaaz are checked against official university pages. Use Reach / Match / Safety after your eligibility check — never rely on invented acceptance rates.",
   },
   {
     slug: "data",
@@ -34,7 +34,7 @@ export const STUDY_LANDINGS: StudyLanding[] = [
     description:
       "Verified engineering Master's listings with honest filters for Pakistani applicants.",
     intro:
-      "Engineering Master's routes often need a closely related Bachelor's and clear language proof. Parwaz shows only programs we have published with a source link.",
+      "Engineering Master's routes often need a closely related Bachelor's and clear language proof. Parwaaz shows only programs we have published with a source link.",
   },
   {
     slug: "business",

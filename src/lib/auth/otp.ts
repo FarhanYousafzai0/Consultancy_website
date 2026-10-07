@@ -49,7 +49,7 @@ export async function issueAdminOtp(email: string) {
   await mkdir(path.dirname(out), { recursive: true });
   await writeFile(
     out,
-    `Parwaz admin OTP for ${record.email}: ${otp}\nExpires in 10 minutes.\n`,
+    `Parwaaz admin OTP for ${record.email}: ${otp}\nExpires in 10 minutes.\n`,
     "utf8"
   );
   console.info(`[auth] Admin OTP for ${record.email}: ${otp}`);

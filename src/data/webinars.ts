@@ -17,7 +17,7 @@ export const webinars: Webinar[] = [
     title: "Winter intake basics for Pakistani Master's applicants",
     dateLabel: "TBA — join the community for the next date",
     blurb:
-      "Deadlines, uni-assist vs direct, and what to prepare 3–6 months out. Live Q&A with a Parwaz consultant.",
+      "Deadlines, uni-assist vs direct, and what to prepare 3–6 months out. Live Q&A with a Parwaaz consultant.",
   },
   {
     id: "ausbildung-german-b1",

@@ -45,7 +45,7 @@ export async function POST(request: Request) {
   }
 
   const lines = [
-    "Hi! I'd like help applying to Germany after chatting with the Parwaz advisor.",
+    "Hi! I'd like help applying to Germany after chatting with the Parwaaz advisor.",
     goal ? `• Target: ${goal}` : null,
     gradeLine || null,
     ieltsLine || null,

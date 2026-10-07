@@ -5,7 +5,7 @@ import { whatsappLink, site } from "@/lib/site";
 export const metadata = {
   title: "Community",
   description:
-    "Join the Parwaz WhatsApp community for Pakistani students planning study or Ausbildung in Germany — not a public forum.",
+    "Join the Parwaaz WhatsApp community for Pakistani students planning study or Ausbildung in Germany — not a public forum.",
 };
 
 function communityUrl() {
@@ -21,14 +21,16 @@ export default function CommunityPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 md:py-14">
-      <p className="section-label">Community</p>
-      <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em]">
-        Students planning Germany together
-      </h1>
-      <p className="mt-4 text-muted-foreground">
-        A light WhatsApp group for questions, webinar reminders, and peer
-        updates. Not a public forum — we keep it curated and spam-free.
-      </p>
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="section-label">Community</p>
+        <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em]">
+          Students planning Germany together
+        </h1>
+        <p className="mt-4 text-muted-foreground">
+          A light WhatsApp group for questions, webinar reminders, and peer
+          updates. Not a public forum — we keep it curated and spam-free.
+        </p>
+      </div>
 
       <section className="mt-8 rounded-2xl bg-white p-6 shadow-card">
         <h2 className="text-lg font-extrabold">How it works</h2>

@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   ArrowSquareOut,
 } from "@phosphor-icons/react/ssr";
+import { UniversityTypeBadge } from "@/components/programs/university-type-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
@@ -73,9 +74,7 @@ export default async function ProgramDetailPage({ params }: Props) {
       </Button>
 
       <div className="flex flex-wrap gap-2">
-        <Badge variant="neutral">
-          {program.universityType === "public" ? "Public" : "Private"} university
-        </Badge>
+        <UniversityTypeBadge type={program.universityType} withUniversity />
         {international ? (
           <Badge variant="verified">International programme</Badge>
         ) : (

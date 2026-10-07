@@ -13,7 +13,7 @@ export const successStories: SuccessStory[] = [
     initials: "A.K.",
     path: "4-year BS → English-taught Master's (CS)",
     field: "Computer Science",
-    body: "I used the eligibility check to confirm APS and IELTS before shortlisting. Parwaz showed Reach and Match programs with sources — I still applied myself, but I stopped guessing which public unis were realistic.",
+    body: "I used the eligibility check to confirm APS and IELTS before shortlisting. Parwaaz showed Reach and Match programs with sources — I still applied myself, but I stopped guessing which public unis were realistic.",
   },
   {
     id: "s-fsc",

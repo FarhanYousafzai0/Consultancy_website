@@ -1,6 +1,6 @@
-# Parwaz Consultancy
+# Parwaaz Consultancy
 
-Next.js app for Parwaz Consultancy (Germany study matching for Pakistani students).
+Next.js app for Parwaaz Consultancy (Germany study matching for Pakistani students).
 
 Planning docs live in [`planning/`](./planning/) beside this app.
 

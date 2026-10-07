@@ -25,7 +25,7 @@ const entries = [
   },
   {
     href: "/scholarships",
-    title: "Scholarships for Germany",
+    title: "Fully funded scholarships for Germany",
     description: "Country, who it is for, and DAAD funding — for students in Pakistan.",
     kind: "scholarships" as const,
   },

@@ -33,7 +33,7 @@ const fixture = {
 };
 
 describe("jobsuche field mapping", () => {
-  it("maps Parwaz Ausbildung fields to German search keywords", () => {
+  it("maps Parwaaz Ausbildung fields to German search keywords", () => {
     assert.equal(keywordForField("it"), "Fachinformatiker");
     assert.equal(keywordForField("nursing"), "Pflegefachmann");
     assert.equal(keywordForField("mechatronics"), "Mechatroniker");

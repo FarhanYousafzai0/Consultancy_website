@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { GuideRowSkeletonList } from "@/components/ui/content-skeletons";
 import { ensureGuidesSeeded, listGuides } from "@/lib/db/guides";
 import type { GuideTopic } from "@/lib/db/types";
 
@@ -20,17 +22,10 @@ const topicLabel: Record<GuideTopic, string> = {
   other: "Other",
 };
 
-export default async function GuidesPage() {
-  await ensureGuidesSeeded();
-  const guides = await listGuides({ status: "published" });
-
-  const byTopic = guides.reduce<Record<string, typeof guides>>((acc, g) => {
-    (acc[g.topic] ??= []).push(g);
-    return acc;
-  }, {});
-
+export default function GuidesPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 pb-28 pt-8 md:px-6 md:pb-16 md:pt-12">
+      <div className="mx-auto max-w-2xl text-center">
       <p className="font-mono text-xs uppercase tracking-[0.08em] text-muted-foreground">
         Guides
       </p>
@@ -41,8 +36,28 @@ export default async function GuidesPage() {
         Curated for Pakistani applicants. Every guide links to an official source —
         confirm there before you apply or pay.
       </p>
+      </div>
 
-      <div className="mt-10 space-y-10">
+      <div className="mt-10">
+        <Suspense fallback={<GuideRowSkeletonList />}>
+          <GuidesList />
+        </Suspense>
+      </div>
+    </div>
+  );
+}
+
+async function GuidesList() {
+  await ensureGuidesSeeded();
+  const guides = await listGuides({ status: "published" });
+
+  const byTopic = guides.reduce<Record<string, typeof guides>>((acc, g) => {
+    (acc[g.topic] ??= []).push(g);
+    return acc;
+  }, {});
+
+  return (
+      <div className="space-y-10">
         {Object.entries(byTopic).map(([topic, items]) => (
           <section key={topic}>
             <h2 className="text-lg font-bold">
@@ -70,6 +85,5 @@ export default async function GuidesPage() {
           </section>
         ))}
       </div>
-    </div>
   );
 }

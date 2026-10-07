@@ -166,7 +166,7 @@ export async function searchJobsuche(
       "X-API-Key": JOBSUCHE_API_KEY,
       Accept: "application/json",
       "User-Agent":
-        "ParwazConsultancy/1.0 (Ausbildung listings; +https://parwaz)",
+        "ParwaazConsultancy/1.0 (Ausbildung listings; +https://parwaz)",
     },
   });
 

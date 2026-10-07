@@ -109,6 +109,13 @@
   }
 }
 
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @utility section-label {
   @apply font-mono text-xs uppercase tracking-[0.08em] text-muted-foreground inline-flex items-center gap-2;
   &::before {

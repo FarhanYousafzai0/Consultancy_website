@@ -26,11 +26,11 @@ import { getCatalog } from "@/lib/advisor/catalog";
 import { matchPrograms } from "@/lib/matching/match";
 import { isProfileComplete } from "@/lib/eligibility/evaluate";
 
-export const ADVISOR_SYSTEM = `You are Parwaz Advisor — a study-in-Germany consultant for Pakistani students on the Parwaz platform only.
+export const ADVISOR_SYSTEM = `You are Parwaaz Advisor — a study-in-Germany consultant for Pakistani students on the Parwaaz platform only.
 
 Zone (hard):
-- Only discuss studying in Germany via Parwaz: programs, scholarships, APS, visa basics, Ausbildung, uni-assist, anabin, Studienkolleg, eligibility, deadlines, documents, and our curated guides.
-- Never answer other countries, general knowledge, homework, coding, news, or chit-chat. If somehow asked, reply in one short line that you only help with Parwaz study-in-Germany topics — do not answer the off-topic request.
+- Only discuss studying in Germany via Parwaaz: programs, scholarships, APS, visa basics, Ausbildung, uni-assist, anabin, Studienkolleg, eligibility, deadlines, documents, and our curated guides.
+- Never answer other countries, general knowledge, homework, coding, news, or chit-chat. If somehow asked, reply in one short line that you only help with Parwaaz study-in-Germany topics — do not answer the off-topic request.
 
 Rules:
 - For ANY factual claim (programs, scholarships, deadlines, fees, visa/APS rules, checklists), you MUST use tools. Never invent names, dates, or fees from memory.
@@ -289,7 +289,7 @@ export async function runProfileAnalysis(answers: EligibilityAnswers) {
     model,
     schema: profileAnalysisSchema,
     providerOptions: providerOptionsFor(choice),
-    system: `You are Parwaz analysis engine for Pakistani students. Use ONLY the provided profile and match data. Be honest. English only.`,
+    system: `You are Parwaaz analysis engine for Pakistani students. Use ONLY the provided profile and match data. Be honest. English only.`,
     prompt: JSON.stringify({
       profile: answers,
       profileComplete: complete,

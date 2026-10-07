@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { ScholarshipsBrowser } from "@/components/scholarships/scholarships-browser";
+import { ScholarshipsBrowseSkeleton } from "@/components/ui/content-skeletons";
 
 export const metadata = {
   title: "Scholarships for Germany",
@@ -9,7 +10,7 @@ export const metadata = {
 
 export default function ScholarshipsPage() {
   return (
-    <Suspense fallback={<div className="px-4 py-16 text-center">Loading scholarships…</div>}>
+    <Suspense fallback={<ScholarshipsBrowseSkeleton />}>
       <ScholarshipsBrowser />
     </Suspense>
   );

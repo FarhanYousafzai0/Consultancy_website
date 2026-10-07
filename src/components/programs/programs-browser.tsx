@@ -8,9 +8,13 @@ import {
   useQueryState,
 } from "nuqs";
 import { MagnifyingGlass } from "@phosphor-icons/react";
+import { UniversityTypeBadge } from "@/components/programs/university-type-badge";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ProgramCardSkeletonList } from "@/components/ui/content-skeletons";
+import { FilterSelect } from "@/components/ui/filter-select";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   isProfileComplete,
   selectAnswers,
@@ -178,27 +182,19 @@ export function ProgramsBrowser() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 pb-28 pt-4 md:px-6 md:pb-16 md:pt-8">
-      <p className="section-label">International programmes</p>
-      <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.03em] md:text-4xl">
-        International programmes in Germany
-      </h1>
-      <p className="mt-2 max-w-2xl text-muted-foreground">
-        Search the way the{" "}
-        <a
-          href={DAAD_PROGRAMMES_URL}
-          className="font-semibold text-forest underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          DAAD international programme database
-        </a>{" "}
-        does. Each result also shows public or private, and whether it is taught
-        for international students. We list programmes we have verified — we do
-        not copy DAAD&apos;s full catalogue.
-      </p>
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="section-label">International programmes</p>
+        <h1 className="mt-3 text-3xl font-extrabold tracking-[-0.03em] md:text-4xl">
+          International programmes in Germany
+        </h1>
+        <p className="mt-2 text-muted-foreground">
+          English-taught and bilingual programmes at public and private
+          universities. Filter by degree, subject, language, and tuition.
+        </p>
+      </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[260px_1fr]">
-        <aside className="space-y-4 rounded-2xl bg-white p-4 shadow-card">
+      <div className="mt-8 grid items-start gap-6 lg:grid-cols-[320px_1fr]">
+        <aside className="scrollbar-none space-y-4 rounded-2xl border border-border bg-white p-4 shadow-card lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
           <label className="block space-y-1.5 text-sm font-semibold">
             Search
             <div className="relative">
@@ -215,7 +211,7 @@ export function ProgramsBrowser() {
           <FilterSelect
             label="Degree"
             value={degree}
-            onChange={setDegree}
+            onChange={(next) => void setDegree(next || null)}
             options={[
               ["", "Any"],
               ["master", "Master's"],
@@ -225,7 +221,7 @@ export function ProgramsBrowser() {
           <FilterSelect
             label="Subject group"
             value={field}
-            onChange={setField}
+            onChange={(next) => void setField(next || null)}
             options={[
               ["", "Any"],
               ...subjectGroupOptions.map(
@@ -236,7 +232,7 @@ export function ProgramsBrowser() {
           <FilterSelect
             label="University type"
             value={universityType}
-            onChange={setUniversityType}
+            onChange={(next) => void setUniversityType(next || null)}
             options={[
               ["", "Any"],
               ["public", "Public"],
@@ -246,7 +242,7 @@ export function ProgramsBrowser() {
           <FilterSelect
             label="Course language"
             value={language}
-            onChange={setLanguage}
+            onChange={(next) => void setLanguage(next || null)}
             options={[
               ["", "Any"],
               ["english", "English only"],
@@ -257,7 +253,7 @@ export function ProgramsBrowser() {
           <FilterSelect
             label="IELTS at most"
             value={ieltsMax}
-            onChange={setIeltsMax}
+            onChange={(next) => void setIeltsMax(next || null)}
             options={[
               ["", "Any"],
               ["6", "6.0"],
@@ -268,7 +264,7 @@ export function ProgramsBrowser() {
           <FilterSelect
             label="German required"
             value={germanRequired}
-            onChange={setGermanRequired}
+            onChange={(next) => void setGermanRequired(next || null)}
             options={[
               ["", "Any"],
               ["none", "None"],
@@ -282,7 +278,7 @@ export function ProgramsBrowser() {
           <FilterSelect
             label="Tuition"
             value={tuition}
-            onChange={setTuition}
+            onChange={(next) => void setTuition(next || null)}
             options={[
               ["", "Any"],
               ["free", "€0 tuition"],
@@ -335,7 +331,7 @@ export function ProgramsBrowser() {
           </div>
         </aside>
 
-        <section>
+        <section aria-busy={loading && programs.length === 0}>
           {courseType && !isSupportedCourseType(courseType) ? (
             <div className="mb-4 rounded-2xl bg-amber-soft p-4 text-sm text-amber-ink">
               <p className="font-semibold">
@@ -359,9 +355,13 @@ export function ProgramsBrowser() {
             </div>
           ) : null}
           <div className="mb-4 flex items-center justify-between gap-3">
-            <p className="text-sm text-muted-foreground">
-              {loading ? "Loading…" : `${total} program${total === 1 ? "" : "s"}`}
-            </p>
+            <div className="text-sm text-muted-foreground">
+              {loading && programs.length === 0 ? (
+                <Skeleton className="h-5 w-24" />
+              ) : (
+                `${total} program${total === 1 ? "" : "s"}`
+              )}
+            </div>
             <Button
               type="button"
               variant="ghost"
@@ -391,6 +391,9 @@ export function ProgramsBrowser() {
             </p>
           ) : null}
 
+          {loading && programs.length === 0 ? (
+            <ProgramCardSkeletonList />
+          ) : (
           <ul className="space-y-3">
             {programs.map((program) => (
               <li key={program.id}>
@@ -412,9 +415,7 @@ export function ProgramsBrowser() {
                         {program.tier}
                       </Badge>
                     ) : null}
-                    <Badge variant="neutral">
-                      {program.universityType === "public" ? "Public" : "Private"}
-                    </Badge>
+                    <UniversityTypeBadge type={program.universityType} />
                     {program.internationalProgramme ||
                     program.languageOfInstruction === "english" ||
                     program.languageOfInstruction === "both" ? (
@@ -441,6 +442,7 @@ export function ProgramsBrowser() {
               </li>
             ))}
           </ul>
+          )}
 
           {!loading && programs.length === 0 ? (
             <p className="rounded-2xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
@@ -453,31 +455,3 @@ export function ProgramsBrowser() {
   );
 }
 
-function FilterSelect({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string | null) => void;
-  options: [string, string][];
-}) {
-  return (
-    <label className="block space-y-1.5 text-sm font-semibold">
-      {label}
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value || null)}
-        className="h-11 w-full rounded-xl border border-input bg-transparent px-3 text-sm font-medium"
-      >
-        {options.map(([v, text]) => (
-          <option key={v || "any"} value={v}>
-            {text}
-          </option>
-        ))}
-      </select>
-    </label>
-  );
-}

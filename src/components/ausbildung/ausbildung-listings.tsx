@@ -4,6 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowSquareOut, MagnifyingGlass } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
+import { ListingCardSkeletonList } from "@/components/ui/content-skeletons";
+import { FilterSelect } from "@/components/ui/filter-select";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ausbildungFieldOptions } from "@/lib/eligibility/labels";
 import type { AusbildungListing } from "@/lib/ausbildung/jobsuche";
 
@@ -88,21 +91,19 @@ export function AusbildungListings({
             void load(1);
           }}
         >
-          <label className="block min-w-[10rem] flex-1 text-sm">
-            <span className="mb-1 block font-semibold">Field</span>
-            <select
-              className="w-full rounded-full border border-input bg-background px-3 py-2"
+          <div className="min-w-[10rem] flex-1">
+            <FilterSelect
+              label="Field"
               value={field}
-              onChange={(e) => setField(e.target.value)}
-            >
-              <option value="">All fields</option>
-              {ausbildungFieldOptions.map((o) => (
-                <option key={o.value} value={o.value}>
-                  {o.label}
-                </option>
-              ))}
-            </select>
-          </label>
+              onChange={setField}
+              options={[
+                ["", "All fields"],
+                ...ausbildungFieldOptions.map(
+                  (o) => [o.value, o.label] as [string, string]
+                ),
+              ]}
+            />
+          </div>
           <label className="block min-w-[10rem] flex-1 text-sm">
             <span className="mb-1 block font-semibold">City / region</span>
             <input
@@ -128,8 +129,11 @@ export function AusbildungListings({
         </form>
       ) : null}
 
-      {loading ? (
-        <p className="text-sm text-muted-foreground">Loading listings…</p>
+      {loading && !data ? (
+        <div aria-busy="true">
+          <Skeleton className="mb-3 h-5 w-36" />
+          <ListingCardSkeletonList count={compact ? 3 : 5} />
+        </div>
       ) : null}
       {error ? (
         <p className="text-sm text-red-600" role="alert">
@@ -137,7 +141,7 @@ export function AusbildungListings({
         </p>
       ) : null}
 
-      {data && !loading ? (
+      {data ? (
         <>
           <p className="text-sm text-muted-foreground">
             {data.total.toLocaleString()} offers found

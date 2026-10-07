@@ -51,7 +51,7 @@ Redirect URI: `{BETTER_AUTH_URL}/api/auth/callback/google`
    - Optional partner URL overrides: `NEXT_PUBLIC_PARTNER_EXPATRIO_URL`, `NEXT_PUBLIC_PARTNER_FINTIBA_URL`, `NEXT_PUBLIC_PARTNER_CORACLE_URL`
    - Ausbildung paid partner (gated): `NEXT_PUBLIC_PARTNER_AUSBILDUNG_URL` (+ optional name/blurb); unlock via Insights demand (`AUSBILDUNG_PARTNER_MIN_CHECKS` / `AUSBILDUNG_PARTNER_MIN_APPLY_CLICKS`) or `AUSBILDUNG_PARTNER_FORCE=1`
    - Community invite override: `NEXT_PUBLIC_COMMUNITY_WHATSAPP_URL`
-5. Without `GEMINI_API_KEY` (and without OpenAI when selected), Ask Parwaz returns an error telling you to set the key.
+5. Without `GEMINI_API_KEY` (and without OpenAI when selected), Ask Parwaaz returns an error telling you to set the key.
 
 ## Later (leave empty for now)
 - PostHog, Vercel Cron schedule — wire cron URL in production when deploying
@@ -64,7 +64,7 @@ BETTER_AUTH_SECRET=generate-a-long-random-string
 BETTER_AUTH_URL=http://localhost:3000
 ADMIN_EMAILS=you@example.com
 RESEND_API_KEY=re_xxxxxxxx
-EMAIL_FROM=Parwaz <onboarding@resend.dev>
+EMAIL_FROM=Parwaaz <onboarding@resend.dev>
 CRON_SECRET=generate-another-long-secret
 DEV_OTP_FILE=D:\dev-cache\parwaz\last-otp.txt
 GEMINI_API_KEY=

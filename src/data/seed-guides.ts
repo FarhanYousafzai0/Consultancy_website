@@ -72,7 +72,7 @@ Key ideas:
 - Deadlines are strict. Late applications are usually rejected.
 - Fees apply per application / semester — confirm on uni-assist.de.
 
-Parwaz lists the application route on each program card when we have verified it. Always click through to the university and uni-assist pages before paying.`,
+Parwaaz lists the application route on each program card when we have verified it. Always click through to the university and uni-assist pages before paying.`,
     sourceUrl: "https://www.uni-assist.de/en/",
     lastVerifiedAt: verified,
     status: "published",
@@ -130,7 +130,7 @@ Never assume one score works everywhere. Use our program filters and confirm on 
     topic: "faq",
     body: `Public universities in Germany often charge little or no tuition for consecutive degree programs, but semester fees still apply. Private universities usually charge higher tuition.
 
-On Parwaz:
+On Parwaaz:
 - We show both, labeled with costs we have verified.
 - Ranking is by fit and cost — never by commission.
 - Total cost of study also includes living expenses and visa proof-of-funds.
@@ -174,7 +174,7 @@ German universities often expect:
 - Concrete examples from your studies or projects
 - No exaggerated claims
 
-Parwaz can review your draft for structure and Germany-specific fit after you request a paid review. We do not write a letter for you to submit as your own work.`,
+Parwaaz can review your draft for structure and Germany-specific fit after you request a paid review. We do not write a letter for you to submit as your own work.`,
     sourceUrl: "https://www.daad.de/en/",
     lastVerifiedAt: verified,
     status: "published",
@@ -183,7 +183,7 @@ Parwaz can review your draft for structure and Germany-specific fit after you re
     title: "Will you guarantee my admission?",
     slug: "faq-no-guarantee",
     topic: "faq",
-    body: `No. Parwaz advises. Universities, scholarship bodies, and visa offices decide.
+    body: `No. Parwaaz advises. Universities, scholarship bodies, and visa offices decide.
 
 Our Reach / Match / Safety labels and scholarship odds are honest estimates from the data we have verified — not acceptance percentages.`,
     sourceUrl: "https://www.parwaazconsultancy.com/disclaimer",
@@ -235,7 +235,7 @@ Open the program detail page for the checklist we recorded, then confirm on the 
     topic: "faq",
     body: `Ausbildung is dual vocational training (work + school), not a Bachelor's or Master's degree. It usually requires stronger German and follows different visa / recognition rules.
 
-On Parwaz, Ausbildung guidance is self-serve for now — eligibility check and guides. We do not open a consultant WhatsApp handoff specifically for Ausbildung placement.`,
+On Parwaaz, Ausbildung guidance is self-serve for now — eligibility check and guides. We do not open a consultant WhatsApp handoff specifically for Ausbildung placement.`,
     sourceUrl: "https://www.make-it-in-germany.com/",
     lastVerifiedAt: verified,
     status: "published",
@@ -267,7 +267,7 @@ Ask the AI advisor or a consultant for help interpreting your result — we stil
     title: "How we verify program data",
     slug: "faq-how-we-verify",
     topic: "faq",
-    body: `Program and scholarship facts on Parwaz are checked against official source URLs. Each card can show a last-verified date.
+    body: `Program and scholarship facts on Parwaaz are checked against official source URLs. Each card can show a last-verified date.
 
 If something looks wrong, use Report an error (when available) or contact us. Always re-check the university page before you apply or pay fees.`,
     sourceUrl: "https://www.parwaazconsultancy.com/how-we-verify",
@@ -333,7 +333,7 @@ Steps (confirm locally — cities differ):
 2. Bring passport, rental contract / landlord confirmation, and completed registration form.
 3. Keep the Meldebescheinigung (registration certificate) safe.
 
-Parwaz does not book appointments. Follow your city's official website for forms and booking.`,
+Parwaaz does not book appointments. Follow your city's official website for forms and booking.`,
     sourceUrl: "https://www.bmi.bund.de/EN/topics/administrative-reform/administrative-reform-node.html",
     lastVerifiedAt: verified,
     status: "published",
@@ -344,7 +344,7 @@ Parwaz does not book appointments. Follow your city's official website for forms
     topic: "faq",
     body: `Germany has many English-taught Master's in Computer Science, Data, and related fields. Competition and GPA expectations vary widely.
 
-Use Parwaz program search with field filters and the “only what I qualify for” toggle, then open each official source URL.`,
+Use Parwaaz program search with field filters and the “only what I qualify for” toggle, then open each official source URL.`,
     sourceUrl: "https://www.daad.de/en/",
     lastVerifiedAt: verified,
     status: "published",

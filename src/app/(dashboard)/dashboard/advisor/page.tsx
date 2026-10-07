@@ -19,10 +19,10 @@ export default async function DashboardAdvisorPage() {
           Advisor
         </p>
         <h1 className="mt-1 text-2xl font-extrabold tracking-[-0.03em] md:text-3xl">
-          Ask Parwaz
+          Ask Parwaaz
         </h1>
         <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-          Use the floating <strong>Ask Parwaz</strong> button for streaming chat.
+          Use the floating <strong>Ask Parwaaz</strong> button for streaming chat.
           Answers come from verified programs, scholarships, and guides — with
           structured cards and sources.
         </p>

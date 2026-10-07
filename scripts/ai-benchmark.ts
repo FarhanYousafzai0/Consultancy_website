@@ -1,5 +1,5 @@
 /**
- * Side-by-side AI provider/model benchmark for Parwaz advisor chat.
+ * Side-by-side AI provider/model benchmark for Parwaaz advisor chat.
  *
  * Usage:
  *   npm run ai:bench
@@ -131,7 +131,7 @@ function candidates(): ModelChoice[] {
 
 async function main() {
   const sample = QUESTIONS.slice(0, 5);
-  console.log("Parwaz AI benchmark");
+  console.log("Parwaaz AI benchmark");
   console.log("Questions:", sample.length);
   console.log("");
 

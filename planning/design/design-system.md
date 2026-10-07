@@ -6,7 +6,7 @@
 ## 1. Brand feel
 **Trustworthy and calm, with green as the hopeful touch.** Like a good bank or health app: clear, organized, honest. Students are making a big, expensive decision — the UI must feel safe, never flashy.
 
-Brand: **Parwaz Consultancy** — winged "P" logo in ink + lime.
+Brand: **Parwaaz Consultancy** — winged "P" logo in ink + lime.
 - `logo.png` — full logo on light backgrounds (header: 44px tall mobile, 48px desktop)
 - `logo-light.png` — full logo with white text for dark backgrounds (footer)
 - `logo-mark.png` — winged "P" only (small spaces); browser/phone icons generated from it
@@ -120,4 +120,4 @@ Plain, friendly English. Short sentences. No jargon. German terms always explain
 - [x] Exact green palette from reference image
 - [x] Inspiration review (reference template + Wise; Mobbin needs a paid plan)
 - [x] Visual preview page (colors, buttons, cards)
-- [x] Brand name + logo (Parwaz Consultancy)
+- [x] Brand name + logo (Parwaaz Consultancy)
