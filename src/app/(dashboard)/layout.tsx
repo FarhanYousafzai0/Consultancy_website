@@ -1,13 +1,13 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
-import { SignOut } from "@phosphor-icons/react/ssr";
 import { Logo } from "@/components/layout/logo";
 import { MobileTabBar } from "@/components/layout/mobile-tab-bar";
 import { AdvisorChat } from "@/components/advisor/advisor-chat";
+import { AccountMenu } from "@/components/dashboard/account-menu";
 import { DashboardNav } from "@/components/dashboard/dashboard-nav";
 import { getAuth } from "@/lib/auth/auth";
 import { getSession } from "@/lib/auth/session";
+import { getStudentProfile } from "@/lib/db/student-profile";
 
 /** Auth + MongoDB — must not prerender during Vercel build. */
 export const dynamic = "force-dynamic";
@@ -27,47 +27,42 @@ export default async function DashboardLayout({
   const session = await getSession();
   if (!session) redirect("/login?next=/dashboard");
 
+  const profile = await getStudentProfile(session.userId);
+  const account = {
+    name: session.name,
+    email: session.email,
+    userId: session.userId,
+    aiCredits: profile?.aiCredits ?? 0,
+    sopReviewUnlocked: profile?.sopReviewUnlocked ?? false,
+    freeAnalysisUsed: profile?.freeAnalysisUsed ?? false,
+    signOutAction,
+  };
+
   return (
-    <div className="flex min-h-screen flex-col bg-muted/40">
-      <header className="sticky top-0 z-30 border-b border-border bg-background md:hidden">
-        <div className="flex h-14 items-center justify-between px-4">
+    <div className="flex min-h-screen bg-muted/40">
+      <aside className="fixed inset-y-0 left-0 z-20 hidden w-72 flex-col border-r border-border bg-background md:flex">
+        <div className="flex h-full flex-col px-4 py-6">
           <Logo />
-          <span className="truncate text-sm text-muted-foreground">
-            {session.name}
-          </span>
-        </div>
-      </header>
-
-      <div className="mx-auto flex w-full max-w-6xl flex-1 gap-8 px-4 py-6 md:px-6 md:py-10">
-        <aside className="hidden w-56 shrink-0 md:block">
-          <div className="sticky top-8 space-y-6">
-            <Logo />
+          <div className="mt-6 min-h-0 flex-1 overflow-y-auto">
             <DashboardNav />
-            <div className="rounded-2xl bg-white p-4 shadow-card">
-              <p className="truncate text-sm font-semibold">{session.name}</p>
-              <p className="truncate text-xs text-muted-foreground">
-                {session.email}
-              </p>
-              <form action={signOutAction} className="mt-3">
-                <button
-                  type="submit"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground"
-                >
-                  <SignOut className="size-4" />
-                  Sign out
-                </button>
-              </form>
-            </div>
-            <Link
-              href="/programs"
-              className="block text-sm font-medium text-forest hover:underline"
-            >
-              Browse programs →
-            </Link>
           </div>
-        </aside>
+          <div className="mt-4 shrink-0">
+            <AccountMenu {...account} />
+          </div>
+        </div>
+      </aside>
 
-        <main className="min-w-0 flex-1 pb-24 md:pb-0">{children}</main>
+      <div className="flex min-h-screen min-w-0 flex-1 flex-col md:pl-72">
+        <header className="sticky top-0 z-30 border-b border-border bg-background md:hidden">
+          <div className="flex h-14 items-center justify-between px-4">
+            <Logo />
+            <AccountMenu {...account} compact />
+          </div>
+        </header>
+
+        <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-6 pb-24 md:px-8 md:py-10 md:pb-10">
+          {children}
+        </main>
       </div>
 
       <MobileTabBar />

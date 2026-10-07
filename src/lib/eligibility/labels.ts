@@ -66,13 +66,22 @@ export const ausbildungQualificationOptions: {
 ];
 
 export const studyFieldOptions: { value: StudyField; label: string }[] = [
-  { value: "computer_science", label: "Computer Science" },
-  { value: "engineering", label: "Engineering" },
+  { value: "computer_science", label: "Computer Science / IT" },
+  {
+    value: "engineering",
+    label:
+      "Engineering (electrical, mechanical, civil, environmental, renewable, architecture)",
+  },
   { value: "data", label: "Data / AI" },
   { value: "business", label: "Business / Management" },
-  { value: "natural_sciences", label: "Natural Sciences" },
-  { value: "health", label: "Health / Medicine-related" },
-  { value: "social_sciences", label: "Social Sciences" },
+  { value: "economics", label: "Economics" },
+  {
+    value: "natural_sciences",
+    label:
+      "Natural sciences (maths, physics, chemistry, biology, agriculture, food)",
+  },
+  { value: "health", label: "Public health / health sciences" },
+  { value: "social_sciences", label: "Psychology / social sciences" },
   { value: "arts", label: "Arts / Design" },
   { value: "other", label: "Other" },
 ];

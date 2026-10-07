@@ -9,6 +9,7 @@ import {
   FileText,
   House,
   ListChecks,
+  MagnifyingGlass,
   Medal,
   Target,
   User,
@@ -25,6 +26,7 @@ const nav = [
   { href: "/dashboard/documents", label: "Documents", icon: FileText },
   { href: "/dashboard/profile", label: "Profile", icon: User },
   { href: "/dashboard/alerts", label: "Alerts", icon: Bell },
+  { href: "/programs", label: "Browse programmes", icon: MagnifyingGlass },
 ];
 
 export function DashboardNav() {
@@ -36,7 +38,9 @@ export function DashboardNav() {
         const active =
           href === "/dashboard"
             ? pathname === "/dashboard"
-            : pathname.startsWith(href);
+            : href === "/programs"
+              ? pathname.startsWith("/programs")
+              : pathname.startsWith(href);
         return (
           <Link
             key={href}

@@ -13,6 +13,26 @@ function adminEmails() {
     .filter(Boolean);
 }
 
+async function writeDevOtpFile(email: string, otp: string, type: string) {
+  const file =
+    process.env.DEV_OTP_FILE?.trim() ||
+    (process.env.NODE_ENV === "production"
+      ? ""
+      : "D:\\dev-cache\\parwaz\\last-otp.txt");
+  if (!file) return;
+  try {
+    await mkdir(path.dirname(file), { recursive: true });
+    await writeFile(
+      file,
+      `Parwaaz OTP for ${email}: ${otp}\nType: ${type}\nExpires in 10 minutes.\n`,
+      "utf8"
+    );
+    console.info(`[auth] OTP for ${email}: ${otp} (also written to ${file})`);
+  } catch (error) {
+    console.warn("[auth] Could not write DEV OTP file:", error);
+  }
+}
+
 async function deliverOtp(email: string, otp: string, type: string) {
   const resendKey = process.env.RESEND_API_KEY?.trim();
   const from =
@@ -35,18 +55,11 @@ async function deliverOtp(email: string, otp: string, type: string) {
       throw new Error(result.error.message || "Failed to send OTP email");
     }
     console.info(`[auth] OTP emailed to ${email} via Resend (${result.data?.id ?? "ok"})`);
+    await writeDevOtpFile(email, otp, type);
     return;
   }
 
-  const file =
-    process.env.DEV_OTP_FILE?.trim() || "D:\\dev-cache\\parwaz\\last-otp.txt";
-  await mkdir(path.dirname(file), { recursive: true });
-  await writeFile(
-    file,
-    `Parwaaz OTP for ${email}: ${otp}\nType: ${type}\nExpires in 10 minutes.\n`,
-    "utf8"
-  );
-  console.info(`[auth] OTP for ${email}: ${otp} (also written to ${file})`);
+  await writeDevOtpFile(email, otp, type);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

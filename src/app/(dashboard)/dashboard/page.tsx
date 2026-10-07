@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import Link from "next/link";
+import { CaretRight } from "@phosphor-icons/react/ssr";
 import { DashboardContentSkeleton } from "@/components/ui/content-skeletons";
 import {
   evaluateEligibility,
@@ -179,7 +180,10 @@ async function DashboardHomeContent() {
             </p>
           )}
           <Button asChild variant="ghost" size="sm" className="mt-3 px-0">
-            <Link href="/dashboard/matches">View all matches →</Link>
+            <Link href="/dashboard/matches" className="inline-flex items-center gap-1">
+              View all matches
+              <CaretRight className="size-4" />
+            </Link>
           </Button>
         </section>
 
@@ -218,7 +222,13 @@ async function DashboardHomeContent() {
             </p>
           )}
           <Button asChild variant="ghost" size="sm" className="mt-3 px-0">
-            <Link href="/dashboard/shortlist">Manage applications →</Link>
+            <Link
+              href="/dashboard/shortlist"
+              className="inline-flex items-center gap-1"
+            >
+              Manage applications
+              <CaretRight className="size-4" />
+            </Link>
           </Button>
         </section>
       </div>
@@ -259,10 +269,14 @@ async function DashboardHomeContent() {
           </p>
         )}
         <Button asChild variant="ghost" size="sm" className="mt-3 px-0">
-          <Link href="/dashboard/scholarships">
+          <Link
+            href="/dashboard/scholarships"
+            className="inline-flex items-center gap-1"
+          >
             {savedScholarships.length
-              ? "Manage saved scholarships →"
-              : "Browse scholarships →"}
+              ? "Manage saved scholarships"
+              : "Browse scholarships"}
+            <CaretRight className="size-4" />
           </Link>
         </Button>
       </section>

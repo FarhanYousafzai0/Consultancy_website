@@ -5,7 +5,7 @@ import { ProgramsBrowseSkeleton } from "@/components/ui/content-skeletons";
 export const metadata = {
   title: "International programmes",
   description:
-    "Search international programmes in Germany — course type, language, and subject — with public and private universities marked.",
+    "Browse programmes Parwaaz has verified for Pakistani students — English and German-taught, public and private. Full DAAD catalogue linked for everything else.",
 };
 
 export default function ProgramsPage() {

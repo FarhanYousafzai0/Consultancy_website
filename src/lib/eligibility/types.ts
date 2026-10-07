@@ -32,6 +32,7 @@ export type StudyField =
   | "engineering"
   | "data"
   | "business"
+  | "economics"
   | "natural_sciences"
   | "health"
   | "social_sciences"

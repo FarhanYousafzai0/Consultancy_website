@@ -10,6 +10,7 @@ export const programInputSchema = z.object({
     "engineering",
     "data",
     "business",
+    "economics",
     "natural_sciences",
     "health",
     "social_sciences",

@@ -3,6 +3,9 @@
  * Usage: npm run db:migrate
  */
 import { readFile } from "node:fs/promises";
+import { pilotPrograms } from "../src/data/pilot-programs";
+import { scalePrograms } from "../src/data/scale-programs";
+import { scaleProgramsB } from "../src/data/scale-programs-b";
 import { seedPrograms } from "../src/data/seed-programs";
 import { seedScholarships } from "../src/data/seed-scholarships";
 import { connectMongo } from "../src/lib/db/connect";
@@ -33,7 +36,13 @@ async function loadFilePrograms(): Promise<ProgramInput[]> {
 async function main() {
   await connectMongo();
   const fromFile = await loadFilePrograms();
-  const combined = [...seedPrograms, ...fromFile];
+  const combined = [
+    ...seedPrograms,
+    ...pilotPrograms,
+    ...scalePrograms,
+    ...scaleProgramsB,
+    ...fromFile,
+  ];
   const insertedPrograms = await importProgramInputs(combined);
   const insertedScholarships = await importScholarshipInputs(seedScholarships);
   console.info(

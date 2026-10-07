@@ -48,6 +48,8 @@ type ProgramListItem = {
   tier: "reach" | "match" | "safety" | null;
 };
 
+const PAGE_SIZE = 24;
+
 export function ProgramsBrowser() {
   const hydrated = useEligibilityHydrated();
   const store = useEligibilityStore();
@@ -99,6 +101,7 @@ export function ProgramsBrowser() {
 
   const [programs, setPrograms] = useState<ProgramListItem[]>([]);
   const [total, setTotal] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -135,6 +138,10 @@ export function ProgramsBrowser() {
       answers.completedAt,
     ]
   );
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [queryKey]);
 
   useEffect(() => {
     let cancelled = false;
@@ -180,6 +187,9 @@ export function ProgramsBrowser() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryKey, hasProfile]);
 
+  const visiblePrograms = programs.slice(0, visibleCount);
+  const hasMore = visibleCount < programs.length;
+
   return (
     <div className="mx-auto max-w-6xl px-4 pb-28 pt-4 md:px-6 md:pb-16 md:pt-8">
       <div className="mx-auto max-w-2xl text-center">
@@ -188,8 +198,18 @@ export function ProgramsBrowser() {
           International programmes in Germany
         </h1>
         <p className="mt-2 text-muted-foreground">
-          English-taught and bilingual programmes at public and private
-          universities. Filter by degree, subject, language, and tuition.
+          Programmes Parwaaz has checked against university pages — English-taught,
+          bilingual, and German-taught, at public and private universities. Filter
+          by degree, subject, language, and tuition. For every other course, use the{" "}
+          <a
+            href={DAAD_PROGRAMMES_URL}
+            className="font-semibold text-forest underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            DAAD International Programmes database
+          </a>
+          .
         </p>
       </div>
 
@@ -358,8 +378,10 @@ export function ProgramsBrowser() {
             <div className="text-sm text-muted-foreground">
               {loading && programs.length === 0 ? (
                 <Skeleton className="h-5 w-24" />
+              ) : total === 0 ? (
+                "0 programs"
               ) : (
-                `${total} program${total === 1 ? "" : "s"}`
+                `Showing ${Math.min(visibleCount, total)} of ${total} program${total === 1 ? "" : "s"}`
               )}
             </div>
             <Button
@@ -394,54 +416,73 @@ export function ProgramsBrowser() {
           {loading && programs.length === 0 ? (
             <ProgramCardSkeletonList />
           ) : (
-          <ul className="space-y-3">
-            {programs.map((program) => (
-              <li key={program.id}>
-                <Link
-                  href={`/programs/${program.id}`}
-                  className="block rounded-2xl bg-white p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-card-hover md:p-5"
-                >
-                  <div className="flex flex-wrap items-center gap-2">
-                    {program.tier ? (
-                      <Badge
-                        variant={
-                          program.tier === "match"
-                            ? "match"
-                            : program.tier === "reach"
-                              ? "reach"
-                              : "safety"
-                        }
-                      >
-                        {program.tier}
-                      </Badge>
-                    ) : null}
-                    <UniversityTypeBadge type={program.universityType} />
-                    {program.internationalProgramme ||
-                    program.languageOfInstruction === "english" ||
-                    program.languageOfInstruction === "both" ? (
-                      <Badge variant="verified">International programme</Badge>
-                    ) : (
-                      <Badge variant="neutral">German-taught</Badge>
-                    )}
-                    <Badge variant="verified">
-                      {program.lastVerifiedAt
-                        ? `Verified · ${program.lastVerifiedAt}`
-                        : "Published"}
-                    </Badge>
-                  </div>
-                  <h2 className="mt-3 text-lg font-bold">{program.name}</h2>
-                  <p className="text-sm text-muted-foreground">
-                    {program.university} · {program.city}, {program.state}
-                  </p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {program.degreeLevel} · {program.languageOfInstruction}
-                    {program.ieltsMin != null ? ` · IELTS ≥ ${program.ieltsMin}` : ""}
-                    {` · tuition €${program.tuitionPerSemesterEur}`}
-                  </p>
-                </Link>
-              </li>
-            ))}
-          </ul>
+            <>
+              <ul className="space-y-3">
+                {visiblePrograms.map((program) => (
+                  <li key={program.id}>
+                    <Link
+                      href={`/programs/${program.id}`}
+                      className="block rounded-2xl bg-white p-4 shadow-card transition-all hover:-translate-y-0.5 hover:shadow-card-hover md:p-5"
+                    >
+                      <div className="flex flex-wrap items-center gap-2">
+                        {program.tier ? (
+                          <Badge
+                            variant={
+                              program.tier === "match"
+                                ? "match"
+                                : program.tier === "reach"
+                                  ? "reach"
+                                  : "safety"
+                            }
+                          >
+                            {program.tier}
+                          </Badge>
+                        ) : null}
+                        <UniversityTypeBadge type={program.universityType} />
+                        {program.internationalProgramme ||
+                        program.languageOfInstruction === "english" ||
+                        program.languageOfInstruction === "both" ? (
+                          <Badge variant="verified">International programme</Badge>
+                        ) : (
+                          <Badge variant="neutral">German-taught</Badge>
+                        )}
+                        <Badge variant="verified">
+                          {program.lastVerifiedAt
+                            ? `Verified · ${program.lastVerifiedAt}`
+                            : "Published"}
+                        </Badge>
+                      </div>
+                      <h2 className="mt-3 text-lg font-bold">{program.name}</h2>
+                      <p className="text-sm text-muted-foreground">
+                        {program.university} · {program.city}, {program.state}
+                      </p>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        {program.degreeLevel} · {program.languageOfInstruction}
+                        {program.ieltsMin != null
+                          ? ` · IELTS ≥ ${program.ieltsMin}`
+                          : ""}
+                        {` · tuition €${program.tuitionPerSemesterEur}`}
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              {hasMore ? (
+                <div className="mt-6 flex justify-center">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() =>
+                      setVisibleCount((count) =>
+                        Math.min(count + PAGE_SIZE, programs.length)
+                      )
+                    }
+                  >
+                    Load more programmes
+                  </Button>
+                </div>
+              ) : null}
+            </>
           )}
 
           {!loading && programs.length === 0 ? (

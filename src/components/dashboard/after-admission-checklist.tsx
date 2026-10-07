@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowSquareOut } from "@phosphor-icons/react";
+import { ArrowSquareOut, CaretRight } from "@phosphor-icons/react";
 import {
   AFTER_ADMISSION_STEPS,
   partnersForStep,
@@ -119,9 +119,10 @@ export function AfterAdmissionChecklist({
                   <p className="mt-1">
                     <Link
                       href={`/guides/${step.guideSlug}`}
-                      className="text-sm font-medium text-forest hover:underline"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-forest hover:underline"
                     >
-                      Read guide →
+                      Read guide
+                      <CaretRight className="size-3.5" />
                     </Link>
                   </p>
 
@@ -166,9 +167,10 @@ export function AfterAdmissionChecklist({
       {compact ? (
         <Link
           href="/dashboard/next-steps"
-          className="inline-block text-sm font-semibold text-forest hover:underline"
+          className="inline-flex items-center gap-1 text-sm font-semibold text-forest hover:underline"
         >
-          Open full checklist →
+          Open full checklist
+          <CaretRight className="size-4" />
         </Link>
       ) : null}
     </div>

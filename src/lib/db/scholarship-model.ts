@@ -43,6 +43,7 @@ const ScholarshipSchema = new Schema(
         "engineering",
         "data",
         "business",
+        "economics",
         "natural_sciences",
         "health",
         "social_sciences",

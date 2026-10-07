@@ -45,6 +45,15 @@ export const STUDY_LANDINGS: StudyLanding[] = [
     intro:
       "Business and management Master's programs may be public or private. We label costs and never rank by commission. Confirm every deadline on the university site.",
   },
+  {
+    slug: "economics",
+    field: "economics",
+    title: "Economics Master's in Germany for Pakistani students",
+    description:
+      "Verified economics Master's programmes with sources and last-verified dates.",
+    intro:
+      "Economics programmes are separate from business and management degrees. Start from our verified list, then confirm every deadline and language requirement on the university site.",
+  },
 ];
 
 export const STUDY_LANDING_SLUGS = STUDY_LANDINGS.map((l) => l.slug);

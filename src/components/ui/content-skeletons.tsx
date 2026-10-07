@@ -222,8 +222,8 @@ export function ProgramsBrowseSkeleton() {
           International programmes in Germany
         </h1>
         <p className="mt-2 text-muted-foreground">
-          English-taught and bilingual programmes at public and private
-          universities. Filter by degree, subject, language, and tuition.
+          Programmes Parwaaz has checked against university pages — English-taught,
+          bilingual, and German-taught, at public and private universities.
         </p>
       </div>
       <div className="mt-8 grid items-start gap-6 lg:grid-cols-[320px_1fr]">

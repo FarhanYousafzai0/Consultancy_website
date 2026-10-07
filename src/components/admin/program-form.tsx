@@ -200,13 +200,20 @@ export function ProgramForm({ initial }: ProgramFormProps) {
             value={form.field}
             onChange={(v) => patch("field", v as ProgramInput["field"])}
             options={[
-              ["computer_science", "Computer Science"],
-              ["engineering", "Engineering"],
+              ["computer_science", "Computer Science / IT"],
+              [
+                "engineering",
+                "Engineering (electrical, mechanical, civil, environmental, renewable, architecture)",
+              ],
               ["data", "Data / AI"],
-              ["business", "Business"],
-              ["natural_sciences", "Natural Sciences"],
-              ["health", "Health"],
-              ["social_sciences", "Social Sciences"],
+              ["business", "Business / Management"],
+              ["economics", "Economics"],
+              [
+                "natural_sciences",
+                "Natural sciences (maths, physics, chemistry, biology, agriculture, food)",
+              ],
+              ["health", "Public health / health sciences"],
+              ["social_sciences", "Psychology / social sciences"],
               ["arts", "Arts"],
               ["other", "Other"],
             ]}

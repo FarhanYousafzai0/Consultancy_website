@@ -36,13 +36,22 @@ export const subjectGroupOptions: {
   label: string;
   extra?: boolean;
 }[] = [
-  { value: "engineering", label: "Engineering sciences" },
-  { value: "computer_science", label: "Computer science", extra: true },
+  {
+    value: "engineering",
+    label:
+      "Engineering (electrical, mechanical, civil, environmental, renewable, architecture)",
+  },
+  { value: "computer_science", label: "Computer science / IT", extra: true },
   { value: "data", label: "Data and AI", extra: true },
-  { value: "business", label: "Economic sciences, law" },
-  { value: "natural_sciences", label: "Mathematics, natural sciences" },
-  { value: "health", label: "Medicine, health sciences" },
-  { value: "social_sciences", label: "Humanities and social sciences" },
+  { value: "business", label: "Business / Management", extra: true },
+  { value: "economics", label: "Economics", extra: true },
+  {
+    value: "natural_sciences",
+    label:
+      "Natural sciences (maths, physics, chemistry, biology, agriculture, food)",
+  },
+  { value: "health", label: "Public health / health sciences" },
+  { value: "social_sciences", label: "Psychology / social sciences" },
   { value: "arts", label: "Art, music, design, languages" },
   { value: "other", label: "Public administration, teaching, other" },
 ];
