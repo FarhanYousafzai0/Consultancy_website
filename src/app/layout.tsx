@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     title: `${site.name} — Study in Germany. Know where you stand.`,
     description: site.description,
     siteName: site.name,
-    images: ["/logo.png"],
+    images: ["/parwaz-winged-logo.png"],
   },
 };
 
