@@ -9,8 +9,11 @@ export async function SiteHeader() {
   const session = await getSession();
 
   return (
-    <header className="sticky top-0 z-40 px-4 pt-3 md:px-6">
-      <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-6 rounded-2xl border border-border bg-background px-4 shadow-card md:px-6">
+    <header className="sticky top-0 z-40 px-1.5 pt-2 md:px-2 md:pt-3">
+      <div
+        data-site-header-bar
+        className="mx-auto flex h-[72px] max-w-[90rem] items-center justify-between gap-6 rounded-2xl border border-border bg-background/95 px-4 shadow-card backdrop-blur-md md:px-6"
+      >
         <Logo />
         <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
           {mainNav.map((item) => (

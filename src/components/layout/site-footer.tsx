@@ -28,6 +28,7 @@ const groups = [
   {
     title: "Company",
     links: [
+      { href: "/services", label: "Services" },
       { href: "/about", label: "About" },
       { href: "/contact", label: "Contact" },
       { href: "/privacy", label: "Privacy" },
@@ -40,7 +41,7 @@ const groups = [
 export function SiteFooter() {
   return (
     <footer className="mt-24 px-4 pb-28 md:px-6 md:pb-8">
-      <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl bg-ink text-white shadow-card">
+      <div className="mx-auto max-w-[90rem] overflow-hidden rounded-3xl bg-ink text-white shadow-card">
         <div className="grid gap-10 px-5 py-14 md:grid-cols-[1.4fr_repeat(3,1fr)] md:px-8">
           <div className="space-y-4">
             <Logo variant="light" />
