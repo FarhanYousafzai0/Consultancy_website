@@ -12,7 +12,6 @@ import {
   Calculator,
   ChatCircleDots,
   CheckCircle,
-  GraduationCap,
   GlobeHemisphereWest,
   ListChecks,
   MagnifyingGlass,
@@ -22,12 +21,12 @@ import {
 } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { PackagesCarousel } from "@/components/home/packages-carousel";
 import { MagneticWrap } from "@/components/motion/magnetic-button";
 import { Reveal } from "@/components/motion/reveal";
+import { aboutIntro, aboutPoints } from "@/data/about";
 import { successStories } from "@/data/success-stories";
-import { whatsappLink } from "@/lib/site";
+import { site } from "@/lib/site";
 
 const entries = [
   {
@@ -427,85 +426,48 @@ export function HomeLanding() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[90rem] px-4 pt-16 md:px-6 md:pt-24">
+      <section className="mx-auto max-w-[90rem] px-4 pt-16 pb-4 md:px-6 md:pt-24">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl bg-muted px-6 py-12 md:px-12 md:py-16">
+          <div className="relative overflow-hidden rounded-3xl bg-muted">
             <div className="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-primary/40 blur-3xl" />
-            <div className="relative mx-auto max-w-2xl text-center">
-              <p className="section-label justify-center">Who we are</p>
-              <h2 className="mt-4 text-3xl font-bold md:text-4xl">
-                A Germany consultancy for Pakistani students
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-foreground/75 md:text-base">
-                Free software helps you check eligibility and find programmes. When you need human help, a real consultant is on WhatsApp. Pakistan only at launch. Germany only.
-              </p>
-              <div className="mt-6 flex flex-wrap justify-center gap-2">
-                {[
-                  { icon: GraduationCap, text: "Master's, Bachelor's & Ausbildung" },
-                  { icon: Seal, text: "Verified data" },
-                  { icon: ChatCircleDots, text: "Free chat, paid packages later" },
-                ].map(({ icon: Icon, text }) => (
-                  <span
-                    key={text}
-                    className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-sm font-medium"
-                  >
-                    <Icon className="size-4 text-forest" weight="bold" />
-                    {text}
-                  </span>
-                ))}
+            <div className="relative px-6 py-12 md:px-12 md:py-16">
+              <div className="mx-auto max-w-2xl text-center">
+                <p className="section-label justify-center">Who we are</p>
+                <h2 className="mt-4 text-3xl font-bold md:text-4xl">
+                  {site.name}
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-foreground/75 md:text-base">
+                  {aboutIntro}
+                </p>
               </div>
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <ul className="mx-auto mt-10 grid max-w-4xl gap-3 sm:grid-cols-2">
+                {aboutPoints.map((point) => (
+                  <li key={point.title} className="rounded-2xl bg-white p-5 text-left">
+                    <p className="font-semibold">{point.title}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">{point.text}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="relative mx-4 mb-4 rounded-3xl bg-ink px-6 py-10 text-center text-white md:mx-6 md:mb-6 md:px-12 md:py-12">
+              <p className="font-mono text-xs uppercase tracking-[0.08em] text-white/50">
+                Ready to start?
+              </p>
+              <h3 className="mx-auto mt-3 max-w-xl text-2xl font-bold md:text-3xl">
+                Find out if you can study in Germany — free, in 60 seconds
+              </h3>
+              <div className="mt-6 flex justify-center">
                 <MagneticWrap>
-                  <Button asChild>
-                    <Link href="/about">
-                      About Parwaaz
-                      <ArrowRight className="size-4" />
+                  <Button asChild size="lg" className="pr-2">
+                    <Link href="/check">
+                      Start the check
+                      <span className="grid size-9 place-items-center rounded-full bg-ink text-primary">
+                        <ArrowUpRight weight="bold" className="size-4" />
+                      </span>
                     </Link>
                   </Button>
                 </MagneticWrap>
-                <MagneticWrap>
-                  <Button asChild variant="dark">
-                    <Link href="/contact">Contact us</Link>
-                  </Button>
-                </MagneticWrap>
               </div>
-            </div>
-          </div>
-        </Reveal>
-      </section>
-
-      <section className="mx-auto max-w-[90rem] px-4 pt-16 pb-4 md:px-6 md:pt-24">
-        <Reveal>
-          <div className="rounded-3xl bg-ink px-6 py-10 text-center text-white md:px-12 md:py-14">
-            <p className="font-mono text-xs uppercase tracking-[0.08em] text-white/50">
-              Ready to start?
-            </p>
-            <h2 className="mx-auto mt-3 max-w-xl text-3xl font-bold md:text-4xl">
-              Find out if you can study in Germany — free, in 60 seconds
-            </h2>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <MagneticWrap>
-                <Button asChild size="lg" className="pr-2">
-                  <Link href="/check">
-                    Start the check
-                    <span className="grid size-9 place-items-center rounded-full bg-ink text-primary">
-                      <ArrowUpRight weight="bold" className="size-4" />
-                    </span>
-                  </Link>
-                </Button>
-              </MagneticWrap>
-              <MagneticWrap>
-                <Button asChild size="lg" variant="whatsapp">
-                  <Link
-                    href={whatsappLink("Hi! I'd like help applying to Germany.")}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <WhatsAppIcon className="text-white" />
-                    Chat on WhatsApp
-                  </Link>
-                </Button>
-              </MagneticWrap>
             </div>
           </div>
         </Reveal>
