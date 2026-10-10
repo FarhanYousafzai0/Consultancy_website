@@ -1,8 +1,9 @@
 "use client";
 
+import { useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -11,9 +12,7 @@ import {
   Buildings,
   Calculator,
   ChatCircleDots,
-  CheckCircle,
   GlobeHemisphereWest,
-  ListChecks,
   MagnifyingGlass,
   MapTrifold,
   Seal,
@@ -46,21 +45,35 @@ const entries = [
 const steps = [
   {
     n: "01",
-    icon: ListChecks,
     title: "Answer 5 questions",
     text: "Degree, grade, field, and English score. No sign-up.",
+    card: "bg-primary-200",
+    num: "text-forest",
+    place: "lg:max-w-sm lg:justify-self-start",
   },
   {
     n: "02",
-    icon: CheckCircle,
     title: "Get an honest answer",
     text: "Direct entry, Studienkolleg, APS first — or not yet.",
+    card: "bg-slate-soft",
+    num: "text-slate-ink",
+    place: "lg:mt-32 lg:max-w-sm lg:justify-self-end",
   },
   {
     n: "03",
-    icon: MagnifyingGlass,
     title: "See what fits",
     text: "Reach, Match, and Safety against published requirements.",
+    card: "bg-amber-soft",
+    num: "text-amber-ink",
+    place: "lg:max-w-sm lg:justify-self-start",
+  },
+  {
+    n: "04",
+    title: "Ask a consultant",
+    text: "WhatsApp a real person with your result. The check itself stays free.",
+    card: "bg-whatsapp/15",
+    num: "text-whatsapp-dark",
+    place: "lg:mt-32 lg:max-w-sm lg:justify-self-end",
   },
 ];
 
@@ -105,6 +118,165 @@ const tools = [
 
 const featuredStory = successStories[0]!;
 const secondStory = successStories[1]!;
+
+type StepAnchor = { x: number; y: number };
+
+function CheckSteps() {
+  const listRef = useRef<HTMLOListElement>(null);
+  const shown = useInView(listRef, { once: true, amount: 0.12 });
+  const reduceMotion = useReducedMotion();
+  const [trail, setTrail] = useState<{
+    d: string;
+    anchors: StepAnchor[];
+    width: number;
+    height: number;
+  } | null>(null);
+  const stagger = reduceMotion ? 0 : 0.2;
+  const enter = reduceMotion ? 0 : 0.55;
+
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+
+    const draw = () => {
+      const wide = window.matchMedia("(min-width: 1024px)").matches;
+      const cards = [...list.querySelectorAll<HTMLElement>("[data-step-card]")];
+      if (!wide || cards.length < 2) {
+        setTrail(null);
+        return;
+      }
+
+      const bounds = list.getBoundingClientRect();
+      const boxes = cards.map((card) => {
+        const rect = card.getBoundingClientRect();
+        return {
+          left: rect.left - bounds.left,
+          right: rect.right - bounds.left,
+          midY: rect.top - bounds.top + rect.height / 2,
+        };
+      });
+      const first = boxes[0];
+      const second = boxes[1];
+      if (!first || !second || second.left - first.right < 120) {
+        setTrail(null);
+        return;
+      }
+
+      const anchors = boxes.map((box, index) => ({
+        x: index % 2 === 0 ? box.right + 10 : box.left - 10,
+        y: box.midY,
+      }));
+      let d = `M ${anchors[0]!.x} ${anchors[0]!.y}`;
+      for (let index = 1; index < anchors.length; index += 1) {
+        const previous = anchors[index - 1]!;
+        const next = anchors[index]!;
+        const bend = (previous.x + next.x) / 2;
+        d += ` C ${bend} ${previous.y}, ${bend} ${next.y}, ${next.x} ${next.y}`;
+      }
+      setTrail({ d, anchors, width: bounds.width, height: bounds.height });
+    };
+
+    draw();
+    const timers = [160, 420, 800].map((ms) => window.setTimeout(draw, ms));
+    const observer = new ResizeObserver(draw);
+    observer.observe(list);
+    list.querySelectorAll("[data-step-card]").forEach((card) => observer.observe(card));
+    window.addEventListener("resize", draw);
+    document.fonts?.ready.then(draw).catch(() => undefined);
+
+    return () => {
+      timers.forEach((timer) => window.clearTimeout(timer));
+      observer.disconnect();
+      window.removeEventListener("resize", draw);
+    };
+  }, []);
+
+  return (
+    <ol
+      ref={listRef}
+      className="relative mx-auto mt-16 grid max-w-5xl gap-5 lg:grid-cols-2 lg:gap-x-32 lg:gap-y-14"
+    >
+      {trail ? (
+        <svg
+          className="pointer-events-none absolute inset-0 hidden h-full w-full text-ink/40 lg:block"
+          aria-hidden
+        >
+          <defs>
+            <mask
+              id="check-step-trail"
+              maskUnits="userSpaceOnUse"
+              x="0"
+              y="0"
+              width={trail.width}
+              height={trail.height}
+            >
+              <motion.path
+                d={trail.d}
+                fill="none"
+                stroke="white"
+                strokeWidth="16"
+                strokeLinecap="round"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: shown ? 1 : 0 }}
+                transition={{
+                  duration: reduceMotion ? 0 : 1.45,
+                  delay: reduceMotion ? 0 : 0.12,
+                  ease: [0.45, 0, 0.2, 1],
+                }}
+              />
+            </mask>
+          </defs>
+          <path
+            d={trail.d}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.25"
+            strokeLinecap="round"
+            strokeDasharray="1.6 12"
+            mask="url(#check-step-trail)"
+          />
+          {trail.anchors.map((point, index) => (
+            <motion.circle
+              key={`${point.x}-${point.y}`}
+              cx={point.x}
+              cy={point.y}
+              r="5.5"
+              fill="currentColor"
+              initial={{ opacity: 0, scale: 0.2 }}
+              animate={shown ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.2 }}
+              transition={{
+                duration: reduceMotion ? 0 : 0.35,
+                delay: reduceMotion ? 0 : 0.08 + index * stagger,
+              }}
+              style={{ transformBox: "fill-box", transformOrigin: "center" }}
+            />
+          ))}
+        </svg>
+      ) : null}
+      {steps.map(({ n, title, text, card, num, place }, index) => (
+        <li key={title} className={place}>
+          <motion.article
+            data-step-card
+            className={`relative z-10 rounded-[1.75rem] p-6 shadow-card md:p-8 ${card}`}
+            initial={{ opacity: 0, y: 36 }}
+            animate={shown ? { opacity: 1, y: 0 } : { opacity: 0, y: 36 }}
+            transition={{
+              duration: enter,
+              delay: shown ? index * stagger : 0,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <p className={`font-display text-[4.25rem] leading-none font-semibold tracking-[-0.045em] md:text-[4.75rem] ${num}`}>
+              {n}
+            </p>
+            <h3 className="mt-4 text-xl font-bold tracking-[-0.02em] text-ink">{title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-foreground/70">{text}</p>
+          </motion.article>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
 export function HomeLanding() {
   return (
@@ -267,37 +439,18 @@ export function HomeLanding() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[90rem] px-4 pt-16 md:px-6 md:pt-24">
+      <section className="relative mx-auto max-w-[90rem] px-4 pt-16 md:px-6 md:pt-24">
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="section-label justify-center">How the free check works</p>
           <h2 className="mt-4 text-3xl font-bold md:text-4xl">
-            Three steps. About one minute.
+            Four steps. About one minute.
           </h2>
           <p className="mt-3 text-sm text-muted-foreground md:text-base">
-            Answer a few questions about your degree and scores. We tell you if you can apply, and which programmes fit.
+            Answer a few questions about your degree and scores. We tell you if you can apply, which programmes fit, and a consultant is there if you want one.
           </p>
         </Reveal>
-        <ol className="relative mx-auto mt-12 max-w-3xl">
-          <span
-            className="absolute top-3 bottom-3 left-[15px] w-px bg-border md:left-[19px]"
-            aria-hidden
-          />
-          {steps.map(({ n, icon: Icon, title, text }, i) => (
-            <li key={title} className="relative flex gap-5 pb-10 last:pb-0">
-              <Reveal delay={i * 0.08} className="flex w-full gap-5">
-                <span className="relative z-10 grid size-8 shrink-0 place-items-center rounded-full bg-primary text-ink md:size-10">
-                  <Icon className="size-4 md:size-5" weight="bold" />
-                </span>
-                <div className="pt-0.5">
-                  <p className="font-mono text-xs text-muted-foreground">{n}</p>
-                  <h3 className="mt-1 text-lg font-bold">{title}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{text}</p>
-                </div>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
-        <div className="mt-4 flex justify-center">
+        <CheckSteps />
+        <div className="mt-16 flex justify-center lg:mt-20">
           <MagneticWrap>
             <Button asChild size="lg" className="pr-2">
               <Link href="/check">
