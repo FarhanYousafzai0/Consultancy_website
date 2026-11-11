@@ -34,7 +34,6 @@ const DOCS_MASTER = [
   "cv",
   "motivation_letter",
   "english_certificate",
-  "aps_certificate",
 ];
 
 const DOCS_BACHELOR = [
@@ -42,7 +41,6 @@ const DOCS_BACHELOR = [
   "secondary_school_certificate",
   "cv",
   "english_certificate",
-  "aps_certificate",
 ];
 
 const DOCS_GERMAN = [
@@ -51,7 +49,6 @@ const DOCS_GERMAN = [
   "cv",
   "motivation_letter",
   "german_certificate",
-  "aps_certificate",
 ];
 
 export function programFromDraft(

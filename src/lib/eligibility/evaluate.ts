@@ -16,9 +16,11 @@ import type {
 } from "./types";
 
 /**
- * Pakistan HZB / APS path guidance for the usual cases.
+ * Pakistan HZB path guidance for the usual cases.
  * Sources to confirm later with official pages: anabin (KMK), DAAD Pakistan,
- * APS Pakistan. Universities always decide; this is the common route only.
+ * German Missions in Pakistan. There is no APS for Pakistan — do not add APS
+ * steps unless the German embassy introduces one. Universities always decide;
+ * this is the common route only.
  */
 
 const DISCLAIMER =
@@ -142,11 +144,11 @@ export function evaluateEligibility(
         headline: "You can apply for a Master's in a related field",
         reasons: [
           "A 4-year BS/BSc (or a 2-year degree plus a 2-year Master's) usually meets the education length German universities expect for Master's entry.",
-          "You need an APS certificate from APS Pakistan before you apply.",
           "Your subject should match or closely relate to the Master's you want.",
+          "Pakistani applicants do not need an APS certificate — the university or uni-assist checks your degree directly.",
         ],
         nextSteps: [
-          "Start your APS Pakistan application early — it often takes months.",
+          "Get your degree and transcripts attested by HEC, and keep certified copies ready.",
           "Shortlist English-taught Master's programs in your field and check each university's exact requirements.",
           "Book an English test if you still need one (many ask for about IELTS 6.5).",
         ],
@@ -195,7 +197,6 @@ export function evaluateEligibility(
           kurs
             ? `For your stream, the usual Studienkolleg course is ${kurs}.`
             : "You would usually need a Studienkolleg course matched to your subjects.",
-          "You will still need APS for the university application path that applies to you.",
         ],
         nextSteps: [
           `Look at Studienkolleg programs${kurs ? ` (${kurs})` : ""} and the entrance exam (Aufnahmeprüfung).`,
@@ -223,11 +224,10 @@ export function evaluateEligibility(
             ? "A-levels are often recognised for Bachelor's entry when subjects and grades match the program."
             : "Completing at least one year of a recognised university program in Pakistan can open direct Bachelor's entry for related subjects.",
           "The exact subjects, grades, and university still have to match what each German university accepts.",
-          "APS still applies for Pakistani applicants on this path.",
         ],
         nextSteps: [
           "Confirm your subjects and grades against anabin / the university's country rules.",
-          "Start APS Pakistan if you have not already.",
+          "Get your certificates attested and keep certified copies ready.",
           "Shortlist English-taught Bachelor's programs and check language requirements.",
         ],
         showConsultant: true,

@@ -40,6 +40,9 @@ export default function ContactPage() {
           </li>
         </ul>
         <div className="mt-6 flex flex-wrap gap-3">
+          <Button asChild size="lg">
+            <Link href="/consultation">Request a consultation</Link>
+          </Button>
           <Button asChild size="lg" variant="whatsapp">
             <a
               href={whatsappLink(

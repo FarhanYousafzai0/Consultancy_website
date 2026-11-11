@@ -93,7 +93,6 @@ export const freeTools = [
 ];
 
 export const notSold = [
-  "APS certificate filing",
   "Visa filing or appointment booking",
   "Language classes",
   "Ausbildung placement",

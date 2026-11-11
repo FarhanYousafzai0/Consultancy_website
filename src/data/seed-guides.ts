@@ -4,27 +4,23 @@ const verified = "2026-10-06";
 
 export const seedGuides: GuideInput[] = [
   {
-    title: "APS certificate for Pakistani students",
+    title: "Do Pakistani students need an APS certificate?",
     slug: "aps-pakistan",
     topic: "aps",
-    body: `APS (Akademische Prüfstelle) is the Academic Evaluation Centre that verifies Pakistani degrees and school certificates before many German university applications.
+    body: `Short answer: no. There is no APS for Pakistan.
 
-Who usually needs APS:
-- Pakistani students applying for Bachelor's or Master's at German public universities through uni-assist or direct application, when the university requires APS.
-- Always check the specific university and program page — requirements change.
+APS (Akademische Prüfstelle) is a document-checking office that German embassies run in a few countries, such as India, China and Vietnam. Students from those countries must get an APS certificate before applying to German universities or for a student visa. Pakistan is not one of them.
 
-What APS typically checks:
-- Authenticity of your documents
-- Whether your qualification meets German admission standards for your chosen path
+You may have heard otherwise because a lot of advice online is written for Indian students and gets copied without checking.
 
-Practical tips for Pakistani applicants:
-- Start early: APS appointments and document checks can take weeks or months.
-- Keep original transcripts, degree certificates, and translations ready.
-- APS does not guarantee admission — universities still decide.
+What Pakistani Master's applicants do instead:
+- The university, or uni-assist, checks your degree and transcripts directly as part of your application.
+- Get your degree and transcripts attested by HEC and keep certified copies ready.
+- Check your university and degree in anabin so you know how Germany rates them.
 
-If a guide or program on this site lists APS as required, confirm on the official university source linked on the program page.`,
-    sourceUrl: "https://aps-india.de/",
-    lastVerifiedAt: verified,
+Rules can change. If the German embassy ever introduces APS for Pakistan, it will be announced on the German Missions in Pakistan website — check there before you pay anyone for an "APS service".`,
+    sourceUrl: "https://pakistan.diplo.de/",
+    lastVerifiedAt: null,
     status: "published",
   },
   {
@@ -85,10 +81,10 @@ Parwaaz lists the application route on each program card when we have verified i
 
 For Pakistani students:
 - Look up your university and degree type in anabin.
-- H+ status for institutions is often discussed in counselling — interpretation still depends on the university and APS.
-- anabin does not replace APS or university decisions.
+- H+ status for institutions is often discussed in counselling — interpretation still depends on the university.
+- anabin does not replace university decisions.
 
-Use anabin as a research tool, then confirm with APS and your target university.`,
+Use anabin as a research tool, then confirm with your target university or uni-assist.`,
     sourceUrl: "https://anabin.kmk.org/",
     lastVerifiedAt: verified,
     status: "published",
@@ -194,7 +190,7 @@ Our Reach / Match / Safety labels and scholarship odds are honest estimates from
     title: "How long does the Germany study process take?",
     slug: "faq-timeline",
     topic: "faq",
-    body: `A realistic Pakistan → Germany timeline often spans 9–18 months: language tests, APS, applications, admission, blocked account, visa appointment, travel.
+    body: `A realistic Pakistan → Germany timeline often spans 9–18 months: language tests, HEC attestation, applications, admission, blocked account, visa appointment, travel.
 
 Rushing late in the cycle raises the risk of missing deadlines. Start with our eligibility check, then shortlist programs with reachable deadlines.`,
     sourceUrl: "https://www.daad.de/en/",
@@ -222,7 +218,8 @@ Use our Scholarships section for odds based on your profile, then confirm on the
 - Motivation letter
 - English / German language proof
 - Passport copy
-- Sometimes APS, recommendation letters, or GRE
+- Sometimes recommendation letters, GRE / GMAT, or proof of work experience
+- No APS certificate — APS applies to countries such as India, China and Vietnam, not Pakistan
 
 Open the program detail page for the checklist we recorded, then confirm on the official source.`,
     sourceUrl: "https://www.uni-assist.de/en/",

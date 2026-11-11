@@ -123,7 +123,7 @@ export default function ServicesPage() {
             ))}
           </ul>
           <p className="mt-4 text-sm text-muted-foreground">
-            Free guides cover APS, blocked account, and visa steps. Ausbildung
+            Free guides cover uni-assist, blocked account, and visa steps. Ausbildung
             stays self-serve.
           </p>
           <Button asChild variant="dark" className="mt-6">

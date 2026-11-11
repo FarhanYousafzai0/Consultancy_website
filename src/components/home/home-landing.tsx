@@ -54,7 +54,7 @@ const steps = [
   {
     n: "02",
     title: "Get an honest answer",
-    text: "Direct entry, Studienkolleg, APS first — or not yet.",
+    text: "Ready for a Master's now, a few steps away — or not yet.",
     card: "bg-slate-soft",
     num: "text-slate-ink",
     place: "lg:mt-32 lg:max-w-sm lg:justify-self-end",
@@ -92,7 +92,7 @@ const tools = [
     href: "/guides",
     title: "Guides",
     description:
-      "APS, blocked account, visa, uni-assist, anabin, and Studienkolleg — written in plain English.",
+      "uni-assist, HEC attestation, blocked account, visa, and anabin — written in plain English.",
     cta: "Read guides",
     icon: BookOpenText,
   },
@@ -410,7 +410,7 @@ export function HomeLanding() {
                 Pakistan
               </dd>
               <p className="mt-2 text-sm text-amber-ink/80">
-                FSc, HSSC, A-levels, 2-year vs 4-year degrees, and APS.
+                4-year BS, 2-year vs 4-year degrees, CGPA conversion, and HEC attestation.
               </p>
             </div>
             <div className="rounded-2xl bg-whatsapp/20 p-6">

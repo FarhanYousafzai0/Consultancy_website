@@ -1,10 +1,10 @@
 export type AdvisorIntent = "greeting" | "in_zone" | "off_topic";
 
 export const ADVISOR_GREETING_REPLY =
-  "Hi — I'm Parwaaz Advisor. Ask about programs, scholarships, APS, visa basics, Ausbildung, or deadlines for studying in Germany.";
+  "Hi — I'm Parwaaz Advisor. Ask about programs, scholarships, uni-assist, visa basics, Ausbildung, or deadlines for studying in Germany.";
 
 export const ADVISOR_OFF_TOPIC_REPLY =
-  "I only help with studying in Germany through Parwaaz — programs, scholarships, APS, visa basics, Ausbildung, and our guides.";
+  "I only help with studying in Germany through Parwaaz — programs, scholarships, uni-assist, visa basics, Ausbildung, and our guides.";
 
 /** Study-in-Germany / Parwaaz domain tokens. Mixed messages with any of these stay in zone. */
 const IN_ZONE_PATTERN =

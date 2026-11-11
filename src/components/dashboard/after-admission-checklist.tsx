@@ -76,7 +76,7 @@ export function AfterAdmissionChecklist({
         <div>
           <p className="section-label">Next steps to Germany</p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Track APS, funds, insurance, visa, housing, and Anmeldung. Guides
+            Track funds, insurance, visa, housing, and Anmeldung. Guides
             stay free — we never book appointments for you.
           </p>
         </div>

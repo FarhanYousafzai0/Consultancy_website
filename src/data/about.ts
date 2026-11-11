@@ -4,7 +4,7 @@ export const aboutIntro =
 export const aboutPoints = [
   {
     title: "Pakistan only at launch",
-    text: "Eligibility rules are built for Pakistani qualifications (FSc/HSSC, A-levels, BS/BSc, APS). More countries can be added later as separate rule sets.",
+    text: "Eligibility rules are built for Pakistani qualifications (4-year BS/BSc, 2-year degrees, CGPA and percentage grading). More countries can be added later as separate rule sets.",
   },
   {
     title: "Germany only",
