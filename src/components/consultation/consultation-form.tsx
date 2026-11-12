@@ -36,7 +36,6 @@ import {
   backlogOptions,
   contactChannelOptions,
   contactTimeOptions,
-  degreeLevelOptions,
   degreeStatusOptions,
   englishTestOptions,
   fieldOptions,
@@ -455,14 +454,6 @@ export function ConsultationForm({
                     ))}
                   </div>
                 </Field>
-                <Field label="Degree level" error={errors.degreeLevel}>
-                  <Chips options={degreeLevelOptions} value={draft.degreeLevel} onChange={(v) => set("degreeLevel", v)} />
-                  {draft.degreeLevel && draft.degreeLevel !== "master" ? (
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      We specialise in master&apos;s admissions, but we&apos;ll still review your request and tell you honestly if we can help.
-                    </p>
-                  ) : null}
-                </Field>
                 <Field label="Target intake" hint="Winter semester starts October, summer starts April" error={errors.intake}>
                   <Chips options={intakes} value={draft.intake} onChange={(v) => set("intake", v)} />
                 </Field>
@@ -651,7 +642,7 @@ export function ConsultationForm({
                       className="mt-1 size-4 accent-[var(--ink)]"
                     />
                     <span className="text-sm">
-                      Parwaaz may contact me about this request on WhatsApp, phone or email. I understand the first consultation is paid and the fee is confirmed before anything is booked.
+                      Parwaaz may contact me about this request on WhatsApp, phone or email. I understand the profile evaluation is free, and any paid package and its fee are confirmed before work starts.
                     </span>
                   </label>
                   {errors.consent ? <p className="mt-2 text-sm text-destructive">{errors.consent}</p> : null}

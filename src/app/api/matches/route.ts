@@ -22,12 +22,7 @@ export async function POST(request: Request) {
   const qualified = qualifyPrograms(answers, programs);
   const shown = qualified.slice(0, 3);
 
-  const level =
-    answers.goal === "masters"
-      ? "master"
-      : answers.goal === "bachelors"
-        ? "bachelor"
-        : null;
+  const level = answers.goal === "masters" ? "master" : null;
   const fieldScholarships =
     level && answers.field
       ? relatedScholarships(level, answers.field, scholarships)

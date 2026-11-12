@@ -78,7 +78,6 @@ export function ResultView() {
 
   const tone =
     result.kind === "masters_eligible" ||
-    result.kind === "bachelors_likely_direct" ||
     result.kind === "ausbildung_ready"
       ? "good"
       : result.kind === "cannot_judge" ||

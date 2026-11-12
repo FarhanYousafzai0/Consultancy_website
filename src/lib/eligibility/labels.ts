@@ -1,7 +1,6 @@
 import type {
   AusbildungField,
   AusbildungQualification,
-  BachelorsQualification,
   EnglishTest,
   GermanLevel,
   Goal,
@@ -16,11 +15,6 @@ export const goalOptions: { value: Goal; label: string; description: string }[] 
     value: "masters",
     label: "Master's",
     description: "I have (or will have) a BS / BSc degree",
-  },
-  {
-    value: "bachelors",
-    label: "Bachelor's",
-    description: "I have FSc, HSSC or A-levels",
   },
   {
     value: "ausbildung",
@@ -39,20 +33,6 @@ export const mastersQualificationOptions: {
     value: "ba_bsc_2year_plus_masters",
     label: "2-year BA / BSc + 2-year MA / MSc",
   },
-  { value: "other", label: "Other" },
-];
-
-export const bachelorsQualificationOptions: {
-  value: BachelorsQualification;
-  label: string;
-}[] = [
-  { value: "fsc_pre_engineering", label: "FSc / HSSC — Pre-engineering" },
-  { value: "fsc_pre_medical", label: "FSc / HSSC — Pre-medical" },
-  { value: "fsc_ics", label: "FSc / HSSC — ICS" },
-  { value: "fsc_icom", label: "FSc / HSSC — ICom" },
-  { value: "fsc_fa", label: "FSc / HSSC — FA" },
-  { value: "a_levels", label: "A-levels" },
-  { value: "university_1year", label: "1+ year of university completed" },
   { value: "other", label: "Other" },
 ];
 
@@ -131,11 +111,7 @@ export function labelForGoal(goal: Goal): string {
 
 export function labelForQualification(goal: Goal, value: string): string {
   const list =
-    goal === "masters"
-      ? mastersQualificationOptions
-      : goal === "bachelors"
-        ? bachelorsQualificationOptions
-        : ausbildungQualificationOptions;
+    goal === "masters" ? mastersQualificationOptions : ausbildungQualificationOptions;
   return list.find((o) => o.value === value)?.label ?? value;
 }
 

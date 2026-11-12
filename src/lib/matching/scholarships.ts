@@ -16,7 +16,6 @@ function goalToLevels(
   goal: EligibilityAnswers["goal"]
 ): ScholarshipRecord["levels"] | null {
   if (goal === "masters") return ["master"];
-  if (goal === "bachelors") return ["bachelor"];
   return null;
 }
 
@@ -48,12 +47,11 @@ function nationalityOk(scholarship: ScholarshipRecord): boolean {
 export function matchScholarships(
   answers: EligibilityAnswers,
   scholarships: ScholarshipRecord[]
-): { matches: MatchedScholarship[]; bachelorFundingWarning: boolean } {
+): { matches: MatchedScholarship[] } {
   const levels = goalToLevels(answers.goal);
-  let bachelorFundingWarning = answers.goal === "bachelors";
 
   if (!levels) {
-    return { matches: [], bachelorFundingWarning: false };
+    return { matches: [] };
   }
 
   const grade =
@@ -83,14 +81,6 @@ export function matchScholarships(
       score += 10;
     } else {
       reasons.push("Open to international applicants (including Pakistan).");
-    }
-
-    if (scholarship.bachelorFundingRareNote && answers.goal === "bachelors") {
-      reasons.push(
-        "Bachelor funding for non-EU students is rare — treat this as a long shot."
-      );
-      bachelorFundingWarning = true;
-      score -= 15;
     }
 
     if (scholarship.mustBeEnrolled) {
@@ -141,14 +131,9 @@ export function matchScholarships(
     else if (score < 60) odds = "possible";
     else odds = "strong";
 
-    if (scholarship.bachelorFundingRareNote && answers.goal === "bachelors") {
-      if (odds === "strong") odds = "possible";
-      if (odds === "possible") odds = "long_shot";
-    }
-
     matches.push({ scholarship, odds, score, reasons });
   }
 
   matches.sort((a, b) => b.score - a.score);
-  return { matches, bachelorFundingWarning };
+  return { matches };
 }

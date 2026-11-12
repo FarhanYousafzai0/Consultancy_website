@@ -5,7 +5,7 @@ import { site, whatsappLink } from "@/lib/site";
 
 export const metadata = {
   title: "Contact",
-  description: `Message ${site.name} on WhatsApp. Chat for basic questions is free. The first consultation is paid.`,
+  description: `Message ${site.name} on WhatsApp. Chat for basic questions and your first profile evaluation are free.`,
 };
 
 export default function ContactPage() {
@@ -30,9 +30,12 @@ export default function ContactPage() {
             basic questions about eligibility, programs, and next steps.
           </li>
           <li>
+            <span className="font-semibold text-foreground">Free:</span>{" "}
+            your first profile evaluation with a consultant.
+          </li>
+          <li>
             <span className="font-semibold text-foreground">Paid:</span>{" "}
-            the first consultation, then packages for shortlisting, applications,
-            documents, or scholarships.
+            full application handling, or a 1-1 call for LOM and CV review.
           </li>
           <li>
             <span className="font-semibold text-foreground">Ausbildung:</span>{" "}

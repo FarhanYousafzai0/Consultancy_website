@@ -1,4 +1,5 @@
-export type DegreeLevel = "bachelor" | "master";
+/** Parwaaz lists master's programmes only. */
+export type DegreeLevel = "master";
 export type UniversityType = "public" | "private";
 export type InstructionLanguage = "english" | "german" | "both";
 export type GermanRequired = "none" | "a1" | "a2" | "b1" | "b2" | "c1";
@@ -58,7 +59,8 @@ export type ProgramInput = Omit<
 >;
 
 /** Scholarships */
-export type ScholarshipLevel = "bachelor" | "master" | "phd";
+/** Parwaaz lists funding for master's students only. */
+export type ScholarshipLevel = "master";
 export type ScholarshipNationality = "pakistan" | "any";
 export type ScholarshipOdds =
   | "strong"
@@ -95,7 +97,6 @@ export type ScholarshipRecord = {
   lastVerifiedAt: string | null;
   status: ProgramStatus;
   notes: string;
-  bachelorFundingRareNote: boolean;
   createdAt: string;
   updatedAt: string;
 };

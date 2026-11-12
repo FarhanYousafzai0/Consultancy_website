@@ -30,7 +30,7 @@ const ProgramSchema = new Schema(
     },
     degreeLevel: {
       type: String,
-      enum: ["bachelor", "master"] satisfies DegreeLevel[],
+      enum: ["master"] satisfies DegreeLevel[],
       required: true,
     },
     field: {

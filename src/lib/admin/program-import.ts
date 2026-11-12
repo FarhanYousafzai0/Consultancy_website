@@ -7,7 +7,7 @@ export const programImportRowSchema = z.object({
   name: z.string().min(2),
   university: z.string().min(2),
   universityType: z.enum(["public", "private"]).default("public"),
-  degreeLevel: z.enum(["bachelor", "master"]).default("master"),
+  degreeLevel: z.literal("master").default("master"),
   field: z
     .enum([
       "computer_science",

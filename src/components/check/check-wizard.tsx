@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import {
   ausbildungFieldOptions,
   ausbildungQualificationOptions,
-  bachelorsQualificationOptions,
   englishTestOptions,
   fieldSchemaFor,
   germanLevelOptions,
@@ -68,7 +67,6 @@ export function CheckWizard({ initialGoal }: CheckWizardProps) {
 
   const qualificationOptions = useMemo(() => {
     if (store.goal === "masters") return mastersQualificationOptions;
-    if (store.goal === "bachelors") return bachelorsQualificationOptions;
     if (store.goal === "ausbildung") return ausbildungQualificationOptions;
     return [];
   }, [store.goal]);
@@ -155,7 +153,7 @@ export function CheckWizard({ initialGoal }: CheckWizardProps) {
         step={2}
         total={TOTAL_STEPS}
         title="Your qualification"
-        subtitle="This decides whether you can apply directly, need Studienkolleg, or need more study first."
+        subtitle="This decides whether you can apply for a Master's directly or need more study first."
         onBack={() => setStep(1)}
       >
         {qualificationOptions.map((option) => (

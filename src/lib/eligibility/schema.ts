@@ -1,22 +1,11 @@
 import { z } from "zod";
 
-export const goalSchema = z.enum(["masters", "bachelors", "ausbildung"]);
+export const goalSchema = z.enum(["masters", "ausbildung"]);
 
 export const mastersQualificationSchema = z.enum([
   "bs_4year",
   "ba_bsc_2year",
   "ba_bsc_2year_plus_masters",
-  "other",
-]);
-
-export const bachelorsQualificationSchema = z.enum([
-  "fsc_pre_engineering",
-  "fsc_pre_medical",
-  "fsc_ics",
-  "fsc_icom",
-  "fsc_fa",
-  "a_levels",
-  "university_1year",
   "other",
 ]);
 
@@ -74,7 +63,6 @@ export const germanLevelSchema = z.enum([
 
 export function qualificationSchemaFor(goal: z.infer<typeof goalSchema>) {
   if (goal === "masters") return mastersQualificationSchema;
-  if (goal === "bachelors") return bachelorsQualificationSchema;
   return ausbildungQualificationSchema;
 }
 

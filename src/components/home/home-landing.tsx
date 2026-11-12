@@ -7,40 +7,15 @@ import { motion, useInView, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
   ArrowUpRight,
-  Bank,
-  BookOpenText,
-  Buildings,
-  Calculator,
   ChatCircleDots,
-  GlobeHemisphereWest,
-  MagnifyingGlass,
-  MapTrifold,
-  Seal,
-  Wrench,
 } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PackagesCarousel } from "@/components/home/packages-carousel";
+import { PackagesGrid } from "@/components/home/packages-grid";
 import { MagneticWrap } from "@/components/motion/magnetic-button";
 import { Reveal } from "@/components/motion/reveal";
 import { aboutIntro, aboutPoints } from "@/data/about";
 import { successStories } from "@/data/success-stories";
 import { site } from "@/lib/site";
-
-const entries = [
-  {
-    href: "/programs?international=1",
-    title: "International programmes",
-    description: "Public and private universities — language, subject, and route.",
-    kind: "programmes" as const,
-  },
-  {
-    href: "/scholarships",
-    title: "Scholarships for Germany",
-    description: "DAAD and other funding, with honest odds for Pakistani students.",
-    kind: "scholarships" as const,
-  },
-];
 
 const steps = [
   {
@@ -74,45 +49,6 @@ const steps = [
     card: "bg-whatsapp/15",
     num: "text-whatsapp-dark",
     place: "lg:mt-32 lg:max-w-sm lg:justify-self-end",
-  },
-];
-
-const tools = [
-  {
-    value: "ausbildung",
-    href: "/ausbildung",
-    title: "Ausbildung",
-    description:
-      "Check German-level eligibility, then browse live Jobsuche listings. Self-serve — no placement handoff.",
-    cta: "Open Ausbildung",
-    icon: Wrench,
-  },
-  {
-    value: "guides",
-    href: "/guides",
-    title: "Guides",
-    description:
-      "uni-assist, HEC attestation, blocked account, visa, and anabin — written in plain English.",
-    cta: "Read guides",
-    icon: BookOpenText,
-  },
-  {
-    value: "grades",
-    href: "/tools/grade-converter",
-    title: "Grade converter",
-    description:
-      "Convert a Pakistani CGPA or percentage to a German grade with the modified Bavarian formula.",
-    cta: "Convert grades",
-    icon: Calculator,
-  },
-  {
-    value: "cost",
-    href: "/tools/cost-calculator",
-    title: "Cost calculator",
-    description:
-      "Tuition, semester fee, blocked account, and living costs — so you can plan money honestly.",
-    cta: "Estimate costs",
-    icon: Buildings,
   },
 ];
 
@@ -301,19 +237,19 @@ export function HomeLanding() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h1 className="mx-auto max-w-3xl text-[34px] leading-[1.05] font-extrabold tracking-[-0.03em] md:text-6xl">
-              Study in Germany.
-              <br />
-              Know where you stand.
+            <h1 className="mx-auto max-w-5xl text-[40px] leading-[1.02] font-extrabold tracking-[-0.03em] text-balance sm:text-5xl md:text-6xl lg:text-7xl">
+              Study your Master&rsquo;s at a German public university{" "}
+              <span className="text-primary">for free.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base text-white/80 md:text-lg">
-              Check if you can study in Germany, then find programmes and scholarships that fit your Pakistani degree and scores.
+              Most public universities in Germany charge no tuition fees. Get your free profile
+              evaluation and know exactly where you stand. I reply on WhatsApp within 24 hours.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <MagneticWrap>
                 <Button asChild size="lg" className="pr-2">
-                  <Link href="/check">
-                    Check my eligibility
+                  <Link href="/consultation">
+                    Get your free profile evaluation
                     <span className="grid size-9 place-items-center rounded-full bg-ink text-primary">
                       <ArrowUpRight weight="bold" className="size-4" />
                     </span>
@@ -326,45 +262,9 @@ export function HomeLanding() {
                   size="lg"
                   className="bg-white/15 text-white backdrop-blur-sm hover:bg-white/25"
                 >
-                  <Link href="/programs">
-                    <MagnifyingGlass />
-                    Browse programs
-                  </Link>
+                  <Link href="/check">Check my eligibility</Link>
                 </Button>
               </MagneticWrap>
-            </div>
-
-            <div className="mx-auto mt-10 flex max-w-4xl flex-col gap-3 text-left md:flex-row">
-              {entries.map(({ href, title, description, kind }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="group flex flex-1 items-center gap-4 rounded-2xl border border-white/20 bg-white/10 px-5 py-4 backdrop-blur-md transition-colors hover:bg-white/15"
-                >
-                  <span className="relative grid size-11 shrink-0 place-items-center rounded-full bg-primary text-ink">
-                    {kind === "programmes" ? (
-                      <>
-                        <GlobeHemisphereWest className="size-5" />
-                        <Bank className="absolute right-1.5 bottom-1.5 size-3" weight="bold" />
-                      </>
-                    ) : (
-                      <>
-                        <MapTrifold className="size-5" />
-                        <Seal className="absolute right-1.5 bottom-1.5 size-3" weight="bold" />
-                      </>
-                    )}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-bold">{title}</span>
-                    <span className="mt-0.5 block text-sm text-white/70">
-                      {description}
-                    </span>
-                  </span>
-                  <span className="grid size-8 shrink-0 place-items-center rounded-full bg-white/15 transition-transform group-hover:translate-x-0.5">
-                    <ArrowRight className="size-4" />
-                  </span>
-                </Link>
-              ))}
             </div>
           </motion.div>
         </div>
@@ -476,11 +376,11 @@ export function HomeLanding() {
               </h2>
             </div>
             <p className="mx-auto max-w-sm text-sm text-white/65 md:mx-0 md:text-right">
-              Free tools stay free. Paid packages start after a consultation.
-              Message us for the current price.
+              Start with a free profile evaluation. Then choose the help you
+              want, or do it yourself.
             </p>
           </Reveal>
-          <PackagesCarousel />
+          <PackagesGrid />
         </div>
         <div className="mt-8 flex justify-center">
           <MagneticWrap>
@@ -492,55 +392,6 @@ export function HomeLanding() {
             </Button>
           </MagneticWrap>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-[90rem] px-4 pt-16 md:px-6 md:pt-24">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="section-label justify-center">More free tools</p>
-          <h2 className="mt-4 text-3xl font-bold md:text-4xl">
-            Ausbildung, guides, and calculators
-          </h2>
-          <p className="mt-3 text-sm text-muted-foreground md:text-base">
-            Use these on your own — no sign-up needed for most of them.
-          </p>
-        </Reveal>
-        <Reveal delay={0.06} className="mx-auto mt-10 max-w-3xl">
-          <Tabs defaultValue="ausbildung">
-            <TabsList className="mx-auto h-auto min-h-11 w-full flex-wrap justify-center gap-1 rounded-full bg-muted p-1">
-              {tools.map((tool) => (
-                <TabsTrigger
-                  key={tool.value}
-                  value={tool.value}
-                  className="h-auto flex-none rounded-full px-4 py-2 after:hidden data-[state=active]:bg-ink data-[state=active]:text-white data-[state=active]:shadow-none"
-                >
-                  <tool.icon className="size-4" />
-                  {tool.title}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-            {tools.map((tool) => (
-              <TabsContent key={tool.value} value={tool.value} className="mt-8">
-                <div className="flex flex-col items-center text-center">
-                  <span className="grid size-12 place-items-center rounded-full bg-primary text-ink">
-                    <tool.icon className="size-6" />
-                  </span>
-                  <h3 className="mt-4 text-2xl font-bold">{tool.title}</h3>
-                  <p className="mt-2 max-w-lg text-sm text-muted-foreground md:text-base">
-                    {tool.description}
-                  </p>
-                  <MagneticWrap className="mt-6">
-                    <Button asChild variant="dark">
-                      <Link href={tool.href}>
-                        {tool.cta}
-                        <ArrowRight className="size-4" />
-                      </Link>
-                    </Button>
-                  </MagneticWrap>
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
-        </Reveal>
       </section>
 
       <section className="mx-auto max-w-[90rem] px-4 pt-16 md:px-6 md:pt-24">

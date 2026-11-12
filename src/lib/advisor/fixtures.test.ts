@@ -44,7 +44,7 @@ describe("advisor Q&A fixtures (offline heuristics)", () => {
     "uni-assist vs direct application",
     "Will I get into TUM with 2.8 German grade?",
     "DAAD scholarship odds for Master's CS",
-    "Studienkolleg after FSc",
+    "Is a 2.7 CGPA enough for a public university?",
     "IELTS for English-taught Master's",
     "Winter semester deadlines",
     "What documents for Master's",

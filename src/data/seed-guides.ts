@@ -90,22 +90,6 @@ Use anabin as a research tool, then confirm with your target university or uni-a
     status: "published",
   },
   {
-    title: "Studienkolleg after FSc / HSSC",
-    slug: "studienkolleg",
-    topic: "studienkolleg",
-    body: `Many Pakistani FSc / HSSC holders cannot enter a Bachelor's programme directly at public German universities. A common path is Studienkolleg (a one-year foundation / preparatory college) plus the Feststellungsprüfung.
-
-Honest points:
-- Not every student needs Studienkolleg — some routes include private universities, foundation years, or first completing university years in Pakistan.
-- Entrance exams (Aufnahmeprüfung) and German language levels often apply.
-- Places are competitive.
-
-Our eligibility check explains which route fits your answers. Always verify the specific Studienkolleg and university requirements.`,
-    sourceUrl: "https://www.studienkollegs.de/",
-    lastVerifiedAt: verified,
-    status: "published",
-  },
-  {
     title: "Do I need IELTS for Germany?",
     slug: "faq-ielts",
     topic: "faq",
@@ -201,7 +185,7 @@ Rushing late in the cycle raises the risk of missing deadlines. Start with our e
     title: "DAAD scholarships — quick facts",
     slug: "faq-daad",
     topic: "faq",
-    body: `DAAD offers several scholarships for international students. Competition is high. Bachelor's funding from DAAD-style schemes is rare compared with Master's and PhD.
+    body: `DAAD offers several scholarships for international students, including Pakistani master's applicants. Competition is high, so apply early and read each call's eligibility carefully.
 
 Use our Scholarships section for odds based on your profile, then confirm on the official DAAD portal.`,
     sourceUrl: "https://www.daad.de/en/studying-in-germany/scholarships/",
@@ -230,7 +214,7 @@ Open the program detail page for the checklist we recorded, then confirm on the 
     title: "Ausbildung vs university",
     slug: "faq-ausbildung",
     topic: "faq",
-    body: `Ausbildung is dual vocational training (work + school), not a Bachelor's or Master's degree. It usually requires stronger German and follows different visa / recognition rules.
+    body: `Ausbildung is dual vocational training (work + school), not a university degree. It usually requires stronger German and follows different visa / recognition rules.
 
 On Parwaaz, Ausbildung guidance is self-serve for now — eligibility check and guides. We do not open a consultant WhatsApp handoff specifically for Ausbildung placement.`,
     sourceUrl: "https://www.make-it-in-germany.com/",

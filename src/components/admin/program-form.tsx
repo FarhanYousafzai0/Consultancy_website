@@ -184,16 +184,6 @@ export function ProgramForm({ initial }: ProgramFormProps) {
             ]}
           />
         </Field>
-        <Field label="Degree level">
-          <Select
-            value={form.degreeLevel}
-            onChange={(v) => patch("degreeLevel", v as ProgramInput["degreeLevel"])}
-            options={[
-              ["master", "Master's"],
-              ["bachelor", "Bachelor's"],
-            ]}
-          />
-        </Field>
         <Field label="Field">
           <Select
             value={form.field}

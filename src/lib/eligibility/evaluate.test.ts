@@ -34,9 +34,7 @@ describe("evaluateEligibility", () => {
     const cases = [
       { goal: "masters", qualification: "bs_4year" },
       { goal: "masters", qualification: "ba_bsc_2year_plus_masters" },
-      { goal: "bachelors", qualification: "fsc_pre_engineering" },
-      { goal: "bachelors", qualification: "a_levels" },
-      { goal: "bachelors", qualification: "university_1year" },
+      { goal: "masters", qualification: "ba_bsc_2year" },
     ] as const;
     for (const c of cases) {
       const result = evaluateEligibility(base(c));
@@ -53,30 +51,6 @@ describe("evaluateEligibility", () => {
     assert.ok(result);
     assert.equal(result.kind, "masters_not_enough");
     assert.equal(result.showConsultant, true);
-  });
-
-  it("routes FSc pre-engineering to Studienkolleg T-Kurs", () => {
-    const result = evaluateEligibility(
-      base({
-        goal: "bachelors",
-        qualification: "fsc_pre_engineering",
-        gradeSystem: "percentage",
-        gradeValue: 78,
-        percentagePassMark: 40,
-      })
-    );
-    assert.ok(result);
-    assert.equal(result.kind, "bachelors_studienkolleg");
-    assert.equal(result.studienkollegKurs, "T-Kurs");
-    assert.equal(result.showConsultant, true);
-  });
-
-  it("treats A-levels as likely direct Bachelor's route", () => {
-    const result = evaluateEligibility(
-      base({ goal: "bachelors", qualification: "a_levels" })
-    );
-    assert.ok(result);
-    assert.equal(result.kind, "bachelors_likely_direct");
   });
 
   it("marks Ausbildung ready at B1+ without consultant", () => {

@@ -17,7 +17,6 @@ describe("advisor knowledge base seed", () => {
       "visa",
       "uni_assist",
       "anabin",
-      "studienkolleg",
       "faq",
     ] as const) {
       assert.ok(topics.has(required), `missing topic ${required}`);
@@ -34,7 +33,6 @@ describe("advisor knowledge base seed", () => {
   it("does not invent empty titles", () => {
     const titles = seedGuides.map((g) => g.title.toLowerCase());
     assert.ok(titles.some((t) => t.includes("aps")));
-    assert.ok(titles.some((t) => t.includes("studienkolleg")));
   });
 });
 

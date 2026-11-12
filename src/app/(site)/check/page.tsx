@@ -7,7 +7,7 @@ type CheckPageProps = {
 export const metadata = {
   title: "Eligibility check",
   description:
-    "Find out in 60 seconds if you can study in Germany — Pakistan rules for Master's, Bachelor's and Ausbildung.",
+    "Find out in 60 seconds if you can study in Germany — Pakistan rules for Master's and Ausbildung.",
 };
 
 export default async function CheckPage({ searchParams }: CheckPageProps) {

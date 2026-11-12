@@ -99,7 +99,7 @@ export const navGroups: NavGroup[] = [
       cta: "Request consultation",
     },
     links: [
-      { href: "/services", label: "Services & packages", description: "Shortlisting to visa", icon: Handshake },
+      { href: "/services", label: "Services & packages", description: "Free profile evaluation to applications", icon: Handshake },
       { href: "/how-we-verify", label: "How we verify", description: "Sources and check dates", icon: SealCheck },
       { href: "/stories", label: "Student stories", description: "Pakistan to Germany", icon: Sparkle },
       { href: "/contact", label: "Contact", description: "WhatsApp and email", icon: ChatsCircle },

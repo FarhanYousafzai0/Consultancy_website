@@ -2,18 +2,18 @@ import Link from "next/link";
 import { ArrowUpRight, CheckCircle, Prohibit } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
+import { PackageCta } from "@/components/services/package-cta";
 import {
   freeTools,
   notSold,
-  packagePriceLabel,
   pricingNote,
   servicePackages,
 } from "@/data/services";
 import { site, whatsappLink } from "@/lib/site";
 
 export const metadata = {
-  title: "Services & pricing",
-  description: `Paid consultancy packages from ${site.name}: shortlisting, applications, documents, and scholarships. Free tools stay free. WhatsApp chat is free; the first consultation is paid.`,
+  title: "Services",
+  description: `Consultancy from ${site.name}: a free profile evaluation, full application handling, and a 1-1 call for LOM and CV review. Free tools and WhatsApp chat stay free.`,
 };
 
 export default function ServicesPage() {
@@ -22,14 +22,13 @@ export default function ServicesPage() {
       <div className="mx-auto max-w-2xl text-center">
         <p className="section-label justify-center">Consultancy</p>
         <h1 className="mt-3 text-4xl font-extrabold tracking-[-0.03em] md:text-5xl">
-          Free tools. Paid human help when you need it.
+          Free tools. Real human help when you need it.
         </h1>
         <p className="mt-4 text-muted-foreground">{pricingNote}</p>
       </div>
 
-      <ul className="mt-12 grid gap-4 md:grid-cols-2">
+      <ul className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {servicePackages.map((pkg) => {
-          const price = packagePriceLabel(pkg);
           return (
             <li
               key={pkg.id}
@@ -40,25 +39,12 @@ export default function ServicesPage() {
                   {pkg.badge}
                 </span>
               ) : null}
-              <h2 className="pr-24 text-xl font-extrabold tracking-[-0.02em] text-forest">
+              <h2 className={`${pkg.badge ? "pr-24 " : ""}text-xl font-extrabold tracking-[-0.02em] text-forest`}>
                 {pkg.title}
               </h2>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {pkg.summary}
               </p>
-              <div className="mt-5">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  {price.prefix}
-                </p>
-                <p className="mt-1 flex items-baseline gap-2">
-                  <span className="text-3xl font-extrabold tracking-[-0.03em]">
-                    {price.amount}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    {price.suffix}
-                  </span>
-                </p>
-              </div>
               <div className="my-5 h-px bg-border" />
               <ul className="flex-1 space-y-2">
                 {pkg.includes.map((item) => (
@@ -74,15 +60,7 @@ export default function ServicesPage() {
                   </li>
                 ))}
               </ul>
-              <Button asChild size="lg" variant="dark" className="mt-6 w-full">
-                <a
-                  href={whatsappLink(pkg.whatsappMessage)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Get started
-                </a>
-              </Button>
+              <PackageCta pkg={pkg} size="lg" className="mt-6 w-full" />
             </li>
           );
         })}
@@ -138,8 +116,8 @@ export default function ServicesPage() {
         </h2>
         <p className="mt-3 max-w-xl text-sm text-white/70 md:text-base">
           Message us on WhatsApp with your background and goal. Chat for basic
-          questions is free. A paid consultation comes next when you want
-          package work.
+          questions is free, and so is your first profile evaluation. Paid
+          packages come next when you want us to do the work.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Button asChild size="lg" variant="whatsapp">

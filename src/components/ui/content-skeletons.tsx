@@ -250,8 +250,8 @@ export function ScholarshipsBrowseSkeleton() {
           Fully funded scholarships for Germany
         </h1>
         <p className="mt-3 text-muted-foreground">
-          Funding for students living in Pakistan. Filter by who it is for,
-          subject, and purpose. Bachelor funding for non-EU students is rare.
+          Funding for Pakistani graduates heading to a Master&apos;s in Germany.
+          Filter by subject and purpose.
         </p>
       </div>
       <div className="mt-8 flex flex-col items-start gap-6 lg:flex-row">

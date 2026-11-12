@@ -38,10 +38,9 @@ export const serviceOptions = [
   },
 ] as const;
 
+/** Parwaaz handles master's admissions only; the form no longer asks. */
 export const degreeLevelOptions = [
   { value: "master", label: "Master's", description: "MSc, MA, MBA, MEng, LLM" },
-  { value: "bachelor", label: "Bachelor's", description: "Undergraduate study" },
-  { value: "phd", label: "PhD", description: "Doctoral research" },
 ] as const;
 
 export const qualificationOptions = [
@@ -228,7 +227,7 @@ export const stepSchemas = {
     services: z
       .array(oneOf(serviceOptions), { message: "Pick at least one thing we can help with." })
       .min(1, "Pick at least one thing we can help with."),
-    degreeLevel: oneOf(degreeLevelOptions),
+    degreeLevel: z.literal("master").default("master"),
     intake: z.string().min(1, "Choose your target intake."),
   }),
   about: z.object({

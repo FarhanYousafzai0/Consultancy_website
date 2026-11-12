@@ -6,12 +6,11 @@ import {
 } from "@/lib/db/scholarships";
 import { matchScholarships } from "@/lib/matching/scholarships";
 import { scholarshipPurposeOf } from "@/lib/daad/catalog";
-import type { ProgramField, ScholarshipLevel } from "@/lib/db/types";
+import type { ProgramField } from "@/lib/db/types";
 
 export async function GET(request: Request) {
   await ensureScholarshipsSeeded();
   const { searchParams } = new URL(request.url);
-  const level = searchParams.get("level") as ScholarshipLevel | null;
   const field = searchParams.get("field") as ProgramField | null;
   const provider = searchParams.get("provider")?.trim().toLowerCase() || null;
   const purpose = searchParams.get("purpose")?.trim().toLowerCase() || null;
@@ -20,9 +19,6 @@ export async function GET(request: Request) {
 
   let scholarships = await listScholarships({ status: "published" });
 
-  if (level) {
-    scholarships = scholarships.filter((s) => s.levels.includes(level));
-  }
   if (field) {
     scholarships = scholarships.filter((s) => s.fields.includes(field));
   }
@@ -59,13 +55,12 @@ export async function GET(request: Request) {
     } catch {
       return NextResponse.json({ error: "Invalid answers JSON" }, { status: 400 });
     }
-    const { matches, bachelorFundingWarning } = matchScholarships(
+    const { matches } = matchScholarships(
       answers,
       scholarships
     );
     return NextResponse.json({
       total: matches.length,
-      bachelorFundingWarning,
       scholarships: matches.map((m) => ({
         ...m.scholarship,
         odds: m.odds,
@@ -76,7 +71,6 @@ export async function GET(request: Request) {
 
   return NextResponse.json({
     total: scholarships.length,
-    bachelorFundingWarning: false,
     scholarships: scholarships.map((s) => ({
       ...s,
       odds: null,

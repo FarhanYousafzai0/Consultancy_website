@@ -1,4 +1,5 @@
-export type Goal = "masters" | "bachelors" | "ausbildung";
+/** Study goals the check supports. Bachelor's was removed: Parwaaz is master's-first. */
+export type Goal = "masters" | "ausbildung";
 
 export type MastersQualification =
   | "bs_4year"
@@ -6,22 +7,9 @@ export type MastersQualification =
   | "ba_bsc_2year_plus_masters"
   | "other";
 
-export type BachelorsQualification =
-  | "fsc_pre_engineering"
-  | "fsc_pre_medical"
-  | "fsc_ics"
-  | "fsc_icom"
-  | "fsc_fa"
-  | "a_levels"
-  | "university_1year"
-  | "other";
-
 export type AusbildungQualification = "matric" | "fsc_hssc" | "other";
 
-export type Qualification =
-  | MastersQualification
-  | BachelorsQualification
-  | AusbildungQualification;
+export type Qualification = MastersQualification | AusbildungQualification;
 
 export type GradeSystem = "percentage" | "cgpa4" | "cgpa5";
 
@@ -62,13 +50,9 @@ export type GradeBand =
 export type OutcomeKind =
   | "masters_eligible"
   | "masters_not_enough"
-  | "bachelors_studienkolleg"
-  | "bachelors_likely_direct"
   | "ausbildung_ready"
   | "ausbildung_need_german"
   | "cannot_judge";
-
-export type StudienkollegKurs = "T-Kurs" | "M-Kurs" | "W-Kurs";
 
 export type EligibilityAnswers = {
   goal: Goal | null;
@@ -95,7 +79,6 @@ export type EligibilityResult = {
   headline: string;
   reasons: string[];
   nextSteps: string[];
-  studienkollegKurs?: StudienkollegKurs;
   showConsultant: boolean;
   grade: GradeResult | null;
   englishNote: string | null;

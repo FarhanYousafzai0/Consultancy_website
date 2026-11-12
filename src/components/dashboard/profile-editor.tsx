@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import {
   ausbildungFieldOptions,
   ausbildungQualificationOptions,
-  bachelorsQualificationOptions,
   englishTestOptions,
   germanLevelOptions,
   goalOptions,
@@ -43,11 +42,7 @@ export function ProfileEditor({
   const [error, setError] = useState<string | null>(null);
 
   const qualificationOptions =
-    form.goal === "masters"
-      ? mastersQualificationOptions
-      : form.goal === "bachelors"
-        ? bachelorsQualificationOptions
-        : ausbildungQualificationOptions;
+    form.goal === "masters" ? mastersQualificationOptions : ausbildungQualificationOptions;
 
   const fieldOptions =
     form.goal === "ausbildung" ? ausbildungFieldOptions : studyFieldOptions;

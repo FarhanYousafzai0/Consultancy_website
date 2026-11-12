@@ -8,7 +8,7 @@ export const aboutPoints = [
   },
   {
     title: "Germany only",
-    text: "We go deep on one destination: public and private universities, Studienkolleg, scholarships, and Ausbildung — not fifty shallow countries.",
+    text: "We go deep on one destination: master's programmes at public and private universities, scholarships, and Ausbildung — not fifty shallow countries.",
   },
   {
     title: "Code decides, data proves, AI explains",
@@ -16,6 +16,6 @@ export const aboutPoints = [
   },
   {
     title: "Free software, paid consultancy",
-    text: "The platform grows the consultancy. Tools stay free; revenue comes from shortlisting, applications, documents, and scholarship help when you ask for it.",
+    text: "The platform grows the consultancy. Tools stay free; your profile evaluation is free, and revenue comes from application handling and LOM / CV review when you ask for it.",
   },
 ] as const;

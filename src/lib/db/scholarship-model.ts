@@ -28,7 +28,7 @@ const ScholarshipSchema = new Schema(
     slug: { type: String, required: true, unique: true, trim: true },
     levels: {
       type: [String],
-      enum: ["bachelor", "master", "phd"] satisfies ScholarshipLevel[],
+      enum: ["master"] satisfies ScholarshipLevel[],
       default: [],
     },
     nationalities: {
@@ -73,7 +73,6 @@ const ScholarshipSchema = new Schema(
       default: "draft",
     },
     notes: { type: String, default: "" },
-    bachelorFundingRareNote: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
