@@ -5,7 +5,6 @@ import {
 } from "@/data/partner-offers";
 
 export type AfterAdmissionStepId =
-  | "aps"
   | "blocked_account"
   | "insurance"
   | "visa"
@@ -20,11 +19,6 @@ export type AfterAdmissionStep = {
 };
 
 export const AFTER_ADMISSION_STEPS: AfterAdmissionStep[] = [
-  {
-    id: "aps",
-    label: "APS certificate",
-    guideSlug: "aps-pakistan",
-  },
   {
     id: "blocked_account",
     label: "Blocked account",

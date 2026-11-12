@@ -191,3 +191,32 @@
 .parwaz-caret {
   animation: parwaz-caret 1s steps(1) infinite;
 }
+
+/* Progress sweep under the home page's mock search box while it "searches". */
+@keyframes search-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+
+/* Home FAQ accordion open / close (height comes from Radix). */
+@keyframes faq-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes faq-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}

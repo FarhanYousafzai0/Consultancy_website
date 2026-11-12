@@ -62,11 +62,14 @@ export function docToProfile(doc: {
   afterAdmissionCompleted?: string[] | null;
   updatedAt?: Date;
 }): StudentProfileRecord {
+  const knownGoal = doc.goal === "masters" || doc.goal === "ausbildung";
   return {
     userId: doc.userId,
-    goal: (doc.goal as EligibilityAnswers["goal"]) ?? null,
-    qualification:
-      (doc.qualification as EligibilityAnswers["qualification"]) ?? null,
+    // Profiles saved with the removed "bachelors" goal load as not set.
+    goal: knownGoal ? (doc.goal as EligibilityAnswers["goal"]) : null,
+    qualification: knownGoal
+      ? ((doc.qualification as EligibilityAnswers["qualification"]) ?? null)
+      : null,
     gradeSystem: (doc.gradeSystem as EligibilityAnswers["gradeSystem"]) ?? null,
     gradeValue: doc.gradeValue ?? null,
     percentagePassMark:

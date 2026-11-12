@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Drawer } from "vaul";
+import { usePathname } from "next/navigation";
 import { ChatCircleDots, PaperPlaneTilt, X } from "@phosphor-icons/react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
@@ -31,6 +32,7 @@ type QuotaInfo = {
 };
 
 export function AdvisorChat() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [threadId, setThreadId] = useState<string | null>(null);
@@ -200,6 +202,8 @@ export function AdvisorChat() {
     }
   }
 
+  // Step-by-step forms have their own bottom action bar; the FAB would cover it.
+  const hideFab = /^\/(consultation|check)(\/|$)/.test(pathname ?? "");
   const displayError = localError || error?.message || null;
   const showHandoff =
     Boolean(displayError) ||
@@ -213,7 +217,7 @@ export function AdvisorChat() {
 
   return (
     <Drawer.Root open={open} onOpenChange={setOpen}>
-      {!open ? (
+      {!open && !hideFab ? (
         <Drawer.Trigger asChild>
           <button
             type="button"
@@ -261,7 +265,7 @@ export function AdvisorChat() {
           <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
             {messages.length === 0 ? (
               <p className="text-sm text-muted-foreground">
-                Ask about APS, deadlines, program fit, or scholarships. I only use
+                Ask about deadlines, program fit, uni-assist, or scholarships. I only use
                 our verified data — if I don&apos;t know, I&apos;ll say so.
               </p>
             ) : null}

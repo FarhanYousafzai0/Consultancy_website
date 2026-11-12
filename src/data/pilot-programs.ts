@@ -14,7 +14,7 @@ type PilotDraft = {
   name: string;
   university: string;
   universityType: "public" | "private";
-  degreeLevel: "bachelor" | "master";
+  degreeLevel: "master";
   field: ProgramField;
   city: string;
   state: string;
@@ -38,16 +38,8 @@ const DOCS_MASTER = [
   "cv",
   "motivation_letter",
   "english_certificate",
-  "aps_certificate",
 ];
 
-const DOCS_BACHELOR = [
-  "transcript",
-  "secondary_school_certificate",
-  "cv",
-  "english_certificate",
-  "aps_certificate",
-];
 
 const DOCS_GERMAN = [
   "transcript",
@@ -55,7 +47,6 @@ const DOCS_GERMAN = [
   "cv",
   "motivation_letter",
   "german_certificate",
-  "aps_certificate",
 ];
 
 function row(draft: PilotDraft): ProgramInput {
@@ -86,9 +77,7 @@ function row(draft: PilotDraft): ProgramInput {
     ],
     requiredDocuments: germanTaught
       ? DOCS_GERMAN
-      : draft.degreeLevel === "bachelor"
-        ? DOCS_BACHELOR
-        : DOCS_MASTER,
+      : DOCS_MASTER,
     sourceUrl: draft.sourceUrl,
     lastVerifiedAt: "2026-10-07",
     status: "published",
@@ -161,36 +150,6 @@ export const pilotPrograms: ProgramInput[] = [
     applicationRoute: "direct",
     sourceUrl: "https://www.rwth-aachen.de/cms/~okv/Studium/",
     ieltsMin: 6.5,
-  }),
-  row({
-    name: "B.Sc. Informatik",
-    university: "Technical University of Munich",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "computer_science",
-    city: "Munich",
-    state: "Bavaria",
-    languageOfInstruction: "german",
-    germanRequired: "c1",
-    applicationRoute: "direct",
-    sourceUrl: "https://www.tum.de/en/studies/degree-programs",
-  }),
-  row({
-    name: "B.Sc. Computer Science",
-    university: "Constructor University",
-    universityType: "private",
-    degreeLevel: "bachelor",
-    field: "computer_science",
-    city: "Bremen",
-    state: "Bremen",
-    languageOfInstruction: "english",
-    germanRequired: "none",
-    applicationRoute: "direct",
-    tuitionPerSemesterEur: 10000,
-    semesterFeeEur: 0,
-    sourceUrl: "https://constructor.university/academic-programs",
-    ieltsMin: 6.5,
-    notes: "Private tuition — confirm current fees on Constructor site.",
   }),
 
   // —— Data / AI ——
@@ -348,32 +307,6 @@ export const pilotPrograms: ProgramInput[] = [
     applicationRoute: "uni_assist",
     sourceUrl: "https://www.uni-weimar.de/en/university/structure/faculties/architecture-and-urbanism/",
   }),
-  row({
-    name: "B.Sc. Maschinenbau",
-    university: "RWTH Aachen University",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "engineering",
-    city: "Aachen",
-    state: "North Rhine-Westphalia",
-    languageOfInstruction: "german",
-    germanRequired: "c1",
-    applicationRoute: "direct",
-    sourceUrl: "https://www.rwth-aachen.de/cms/~okv/Studium/",
-  }),
-  row({
-    name: "B.Sc. Architecture",
-    university: "Technische Universität Berlin",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "engineering",
-    city: "Berlin",
-    state: "Berlin",
-    languageOfInstruction: "german",
-    germanRequired: "c1",
-    applicationRoute: "direct",
-    sourceUrl: "https://www.tu.berlin/en/studying/study-programs",
-  }),
 
   // —— Business ——
   row({
@@ -420,36 +353,6 @@ export const pilotPrograms: ProgramInput[] = [
     sourceUrl: "https://www.mannheim-business-school.com/",
     ieltsMin: 7.0,
     notes: "Tuition is programme fee — confirm current MBA pricing on MBS site.",
-  }),
-  row({
-    name: "B.Sc. International Business Administration",
-    university: "Frankfurt School of Finance & Management",
-    universityType: "private",
-    degreeLevel: "bachelor",
-    field: "business",
-    city: "Frankfurt",
-    state: "Hesse",
-    languageOfInstruction: "english",
-    germanRequired: "none",
-    applicationRoute: "direct",
-    tuitionPerSemesterEur: 8500,
-    semesterFeeEur: 0,
-    sourceUrl: "https://www.frankfurt-school.de/en/home/programmes",
-    ieltsMin: 6.5,
-  }),
-  row({
-    name: "B.Sc. Betriebswirtschaftslehre",
-    university: "University of Mannheim",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "business",
-    city: "Mannheim",
-    state: "Baden-Württemberg",
-    languageOfInstruction: "german",
-    germanRequired: "c1",
-    applicationRoute: "direct",
-    tuitionPerSemesterEur: 1500,
-    sourceUrl: "https://www.uni-mannheim.de/en/academics/",
   }),
 
   // —— Economics ——
@@ -508,34 +411,6 @@ export const pilotPrograms: ProgramInput[] = [
     germanRequired: "c1",
     applicationRoute: "uni_assist",
     sourceUrl: "https://www.hu-berlin.de/en/studies",
-  }),
-  row({
-    name: "B.Sc. Economics",
-    university: "University of Mannheim",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "economics",
-    city: "Mannheim",
-    state: "Baden-Württemberg",
-    languageOfInstruction: "english",
-    germanRequired: "none",
-    applicationRoute: "direct",
-    tuitionPerSemesterEur: 1500,
-    sourceUrl: "https://www.uni-mannheim.de/en/academics/",
-    ieltsMin: 6.5,
-  }),
-  row({
-    name: "B.Sc. Volkswirtschaftslehre",
-    university: "Ludwig-Maximilians-Universität München",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "economics",
-    city: "Munich",
-    state: "Bavaria",
-    languageOfInstruction: "german",
-    germanRequired: "c1",
-    applicationRoute: "direct",
-    sourceUrl: "https://www.lmu.de/en/study/",
   }),
 
   // —— Natural sciences ——
@@ -627,33 +502,6 @@ export const pilotPrograms: ProgramInput[] = [
     sourceUrl: "https://www.uni-hohenheim.de/en/study",
     ieltsMin: 6.0,
   }),
-  row({
-    name: "B.Sc. Physik",
-    university: "Technical University of Munich",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "natural_sciences",
-    city: "Munich",
-    state: "Bavaria",
-    languageOfInstruction: "german",
-    germanRequired: "c1",
-    applicationRoute: "direct",
-    sourceUrl: "https://www.tum.de/en/studies/degree-programs",
-  }),
-  row({
-    name: "B.Sc. Biologie",
-    university: "University of Freiburg",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "natural_sciences",
-    city: "Freiburg",
-    state: "Baden-Württemberg",
-    languageOfInstruction: "german",
-    germanRequired: "c1",
-    applicationRoute: "direct",
-    tuitionPerSemesterEur: 1500,
-    sourceUrl: "https://www.uni-freiburg.de/en/studies/",
-  }),
 
   // —— Health ——
   row({
@@ -697,19 +545,6 @@ export const pilotPrograms: ProgramInput[] = [
     applicationRoute: "uni_assist",
     sourceUrl: "https://www.haw-hamburg.de/en/study/",
     ieltsMin: 6.0,
-  }),
-  row({
-    name: "B.Sc. Pflegewissenschaft",
-    university: "Charité – Universitätsmedizin Berlin",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "health",
-    city: "Berlin",
-    state: "Berlin",
-    languageOfInstruction: "german",
-    germanRequired: "c1",
-    applicationRoute: "direct",
-    sourceUrl: "https://www.charite.de/en/teaching_learning/",
   }),
 
   // —— Social sciences / psychology ——
@@ -769,19 +604,6 @@ export const pilotPrograms: ProgramInput[] = [
     sourceUrl: "https://www.uni-bonn.de/en/studying",
     ieltsMin: 6.5,
   }),
-  row({
-    name: "B.Sc. Psychologie",
-    university: "Humboldt-Universität zu Berlin",
-    universityType: "public",
-    degreeLevel: "bachelor",
-    field: "social_sciences",
-    city: "Berlin",
-    state: "Berlin",
-    languageOfInstruction: "german",
-    germanRequired: "c1",
-    applicationRoute: "direct",
-    sourceUrl: "https://www.hu-berlin.de/en/studies",
-  }),
 
   // —— Extra mix for pilot breadth ——
   row({
@@ -829,8 +651,8 @@ export const pilotPrograms: ProgramInput[] = [
   }),
 ];
 
-if (pilotPrograms.length !== 50) {
+if (pilotPrograms.length !== 38) {
   throw new Error(
-    `pilotPrograms must contain exactly 50 rows (got ${pilotPrograms.length})`
+    `pilotPrograms must contain exactly 38 rows (master's only) (got ${pilotPrograms.length})`
   );
 }

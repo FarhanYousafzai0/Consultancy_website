@@ -2,14 +2,11 @@ import type { InstructionLanguage, ProgramField, ScholarshipLevel } from "@/lib/
 
 /** DAAD International Programmes — course types we can search in our catalogue. */
 export const supportedCourseTypes = [
-  { value: "bachelor", label: "Bachelor's degree", degree: "bachelor" as const },
   { value: "master", label: "Master's degree", degree: "master" as const },
 ] as const;
 
 /** Listed the way DAAD does. We do not invent results for types we do not hold. */
 export const unsupportedCourseTypes = [
-  { value: "phd", label: "PhD / Doctorate" },
-  { value: "graduate_school", label: "Cross-faculty graduate and research school" },
   { value: "prep", label: "Prep course" },
   { value: "language", label: "Language course" },
   { value: "short", label: "Short course" },
@@ -71,9 +68,7 @@ export const scholarshipAudienceOptions: {
   value: ScholarshipLevel;
   label: string;
 }[] = [
-  { value: "bachelor", label: "Undergraduates" },
   { value: "master", label: "Graduates" },
-  { value: "phd", label: "Doctoral candidates / PhD" },
 ];
 
 export const scholarshipPurposeOptions = [
@@ -93,7 +88,7 @@ export function isSupportedCourseType(value: string): boolean {
   return supportedCourseTypes.some((item) => item.value === value);
 }
 
-export function degreeForCourseType(value: string): "bachelor" | "master" | null {
+export function degreeForCourseType(value: string): "master" | null {
   const found = supportedCourseTypes.find((item) => item.value === value);
   return found?.degree ?? null;
 }
@@ -121,9 +116,7 @@ export function scholarshipPurposeOf(record: {
     return "language";
   }
   if (
-    record.levels.includes("phd") ||
     text.includes("research") ||
-    text.includes("doctoral") ||
     text.includes("postdoc")
   ) {
     return "research";

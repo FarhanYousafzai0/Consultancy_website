@@ -8,38 +8,21 @@ import {
   labelForQualification,
 } from "./labels";
 import type {
-  BachelorsQualification,
   EligibilityAnswers,
   EligibilityResult,
   GermanLevel,
-  StudienkollegKurs,
 } from "./types";
 
 /**
- * Pakistan HZB / APS path guidance for the usual cases.
+ * Pakistan HZB path guidance for the usual cases.
  * Sources to confirm later with official pages: anabin (KMK), DAAD Pakistan,
- * APS Pakistan. Universities always decide; this is the common route only.
+ * German Missions in Pakistan. There is no APS for Pakistan — do not add APS
+ * steps unless the German embassy introduces one. Universities always decide;
+ * this is the common route only.
  */
 
 const DISCLAIMER =
   "Universities decide. This is the usual path for Pakistani students — not an offer of admission.";
-
-function studienkollegKurs(
-  qualification: BachelorsQualification
-): StudienkollegKurs | undefined {
-  switch (qualification) {
-    case "fsc_pre_engineering":
-    case "fsc_ics":
-      return "T-Kurs";
-    case "fsc_pre_medical":
-      return "M-Kurs";
-    case "fsc_icom":
-    case "fsc_fa":
-      return "W-Kurs";
-    default:
-      return undefined;
-  }
-}
 
 function germanReady(level: GermanLevel): boolean {
   return level === "b1" || level === "b2" || level === "c1";
@@ -52,9 +35,6 @@ function englishNote(
   if (answers.englishTest === "none") {
     if (answers.goal === "masters") {
       return "You have not taken an English test yet. Many English-taught Master's programs ask for about IELTS 6.5 or equivalent.";
-    }
-    if (answers.goal === "bachelors") {
-      return "You have not taken an English test yet. English-taught Bachelor's programs usually ask for IELTS or an equivalent score.";
     }
     return "You have not taken an English test yet. Ausbildung employers care more about German, but some ask for basic English.";
   }
@@ -142,11 +122,11 @@ export function evaluateEligibility(
         headline: "You can apply for a Master's in a related field",
         reasons: [
           "A 4-year BS/BSc (or a 2-year degree plus a 2-year Master's) usually meets the education length German universities expect for Master's entry.",
-          "You need an APS certificate from APS Pakistan before you apply.",
           "Your subject should match or closely relate to the Master's you want.",
+          "Pakistani applicants do not need an APS certificate — the university or uni-assist checks your degree directly.",
         ],
         nextSteps: [
-          "Start your APS Pakistan application early — it often takes months.",
+          "Get your degree and transcripts attested by HEC, and keep certified copies ready.",
           "Shortlist English-taught Master's programs in your field and check each university's exact requirements.",
           "Book an English test if you still need one (many ask for about IELTS 6.5).",
         ],
@@ -165,70 +145,7 @@ export function evaluateEligibility(
         ],
         nextSteps: [
           "Complete a 2-year Master's in Pakistan first, then reassess for Germany.",
-          "Or explore Bachelor's / Studienkolleg routes if you want to start earlier.",
           "Message a consultant if your case is unusual (e.g. additional diplomas).",
-        ],
-        showConsultant: true,
-      };
-    }
-  }
-
-  if (answers.goal === "bachelors") {
-    const fsc = [
-      "fsc_pre_engineering",
-      "fsc_pre_medical",
-      "fsc_ics",
-      "fsc_icom",
-      "fsc_fa",
-    ] as const;
-
-    if ((fsc as readonly string[]).includes(answers.qualification)) {
-      const kurs = studienkollegKurs(
-        answers.qualification as BachelorsQualification
-      );
-      return {
-        ...base,
-        kind: "bachelors_studienkolleg",
-        headline: "FSc / HSSC is not direct entry to a public Bachelor's",
-        reasons: [
-          "Pakistani FSc / HSSC usually does not give direct Hochschulzugangsberechtigung for a public Bachelor's in Germany.",
-          kurs
-            ? `For your stream, the usual Studienkolleg course is ${kurs}.`
-            : "You would usually need a Studienkolleg course matched to your subjects.",
-          "You will still need APS for the university application path that applies to you.",
-        ],
-        nextSteps: [
-          `Look at Studienkolleg programs${kurs ? ` (${kurs})` : ""} and the entrance exam (Aufnahmeprüfung).`,
-          "Or complete 1 year of a relevant Bachelor's in Pakistan, then reassess for direct entry.",
-          "Or compare private universities / foundation years and their total cost.",
-        ],
-        studienkollegKurs: kurs,
-        showConsultant: true,
-      };
-    }
-
-    if (
-      answers.qualification === "a_levels" ||
-      answers.qualification === "university_1year"
-    ) {
-      return {
-        ...base,
-        kind: "bachelors_likely_direct",
-        headline:
-          answers.qualification === "a_levels"
-            ? "A-levels usually open a direct or subject-restricted route"
-            : "One year of university can open a direct route — confirm your subjects",
-        reasons: [
-          answers.qualification === "a_levels"
-            ? "A-levels are often recognised for Bachelor's entry when subjects and grades match the program."
-            : "Completing at least one year of a recognised university program in Pakistan can open direct Bachelor's entry for related subjects.",
-          "The exact subjects, grades, and university still have to match what each German university accepts.",
-          "APS still applies for Pakistani applicants on this path.",
-        ],
-        nextSteps: [
-          "Confirm your subjects and grades against anabin / the university's country rules.",
-          "Start APS Pakistan if you have not already.",
-          "Shortlist English-taught Bachelor's programs and check language requirements.",
         ],
         showConsultant: true,
       };

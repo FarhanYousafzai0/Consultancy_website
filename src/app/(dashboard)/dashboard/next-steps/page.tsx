@@ -18,7 +18,7 @@ export default async function NextStepsPage() {
           Next steps to Germany
         </h1>
         <p className="mt-1 text-muted-foreground">
-          Checklist for APS, blocked account, insurance, visa, housing, and
+          Checklist for blocked account, insurance, visa, housing, and
           Anmeldung — with disclosed partner offers where relevant.
         </p>
       </div>

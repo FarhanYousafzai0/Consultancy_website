@@ -57,10 +57,6 @@ export function ProgramsBrowser() {
   const hasProfile = hydrated && isProfileComplete(answers);
 
   const [q, setQ] = useQueryState("q", parseAsString.withDefault(""));
-  const [degree, setDegree] = useQueryState(
-    "degree",
-    parseAsString.withDefault("")
-  );
   const [field, setField] = useQueryState("field", parseAsString.withDefault(""));
   const [universityType, setUniversityType] = useQueryState(
     "universityType",
@@ -109,7 +105,6 @@ export function ProgramsBrowser() {
     () =>
       JSON.stringify({
         q,
-        degree,
         field,
         universityType,
         language,
@@ -124,7 +119,6 @@ export function ProgramsBrowser() {
       }),
     [
       q,
-      degree,
       field,
       universityType,
       language,
@@ -150,7 +144,6 @@ export function ProgramsBrowser() {
       setError(null);
       const params = new URLSearchParams();
       if (q) params.set("q", q);
-      if (degree) params.set("degree", degree);
       if (field) params.set("field", field);
       if (universityType) params.set("universityType", universityType);
       if (language) params.set("language", language);
@@ -200,7 +193,7 @@ export function ProgramsBrowser() {
         <p className="mt-2 text-muted-foreground">
           Programmes Parwaaz has checked against university pages — English-taught,
           bilingual, and German-taught, at public and private universities. Filter
-          by degree, subject, language, and tuition. For every other course, use the{" "}
+          by subject, language, and tuition. For every other course, use the{" "}
           <a
             href={DAAD_PROGRAMMES_URL}
             className="font-semibold text-forest underline"
@@ -228,16 +221,6 @@ export function ProgramsBrowser() {
             </div>
           </label>
 
-          <FilterSelect
-            label="Degree"
-            value={degree}
-            onChange={(next) => void setDegree(next || null)}
-            options={[
-              ["", "Any"],
-              ["master", "Master's"],
-              ["bachelor", "Bachelor's"],
-            ]}
-          />
           <FilterSelect
             label="Subject group"
             value={field}
@@ -359,9 +342,9 @@ export function ProgramsBrowser() {
                 catalogue yet.
               </p>
               <p className="mt-1">
-                DAAD lists PhD schools, language courses, prep courses, and joint
-                degrees. We currently verify Bachelor&apos;s and Master&apos;s
-                programmes for Pakistani applicants.{" "}
+                DAAD also lists language courses, prep courses, and joint
+                degrees. We only verify Master&apos;s programmes for Pakistani
+                graduates.{" "}
                 <a
                   href={DAAD_PROGRAMMES_URL}
                   className="font-semibold underline"
@@ -390,7 +373,6 @@ export function ProgramsBrowser() {
               size="sm"
               onClick={() => {
                 void setQ(null);
-                void setDegree(null);
                 void setField(null);
                 void setUniversityType(null);
                 void setLanguage(null);
@@ -457,7 +439,7 @@ export function ProgramsBrowser() {
                         {program.university} · {program.city}, {program.state}
                       </p>
                       <p className="mt-2 text-sm text-muted-foreground">
-                        {program.degreeLevel} · {program.languageOfInstruction}
+                        Master&apos;s · {program.languageOfInstruction}
                         {program.ieltsMin != null
                           ? ` · IELTS ≥ ${program.ieltsMin}`
                           : ""}

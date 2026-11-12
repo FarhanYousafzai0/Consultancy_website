@@ -109,6 +109,14 @@ export const useEligibilityStore = create<EligibilityState>()(
         germanLevel: state.germanLevel,
         completedAt: state.completedAt,
       }),
+      // Bachelor's was removed as a goal. Answers saved with it start over.
+      merge: (persisted, current) => {
+        const saved = (persisted ?? {}) as Partial<EligibilityAnswers>;
+        if (saved.goal !== "masters" && saved.goal !== "ausbildung") {
+          return current;
+        }
+        return { ...current, ...saved };
+      },
     }
   )
 );

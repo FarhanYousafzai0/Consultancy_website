@@ -13,7 +13,7 @@ export const scholarshipInputSchema = z.object({
     .string()
     .min(2)
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "slug must be lowercase-kebab"),
-  levels: z.array(z.enum(["bachelor", "master", "phd"])).min(1),
+  levels: z.array(z.literal("master")).min(1),
   nationalities: z.array(z.enum(["pakistan", "any"])).min(1),
   fields: z
     .array(
@@ -44,7 +44,6 @@ export const scholarshipInputSchema = z.object({
   lastVerifiedAt: z.string().nullable(),
   status: z.enum(["draft", "published"]),
   notes: z.string(),
-  bachelorFundingRareNote: z.boolean(),
 });
 
 export type ScholarshipInputParsed = z.infer<typeof scholarshipInputSchema>;

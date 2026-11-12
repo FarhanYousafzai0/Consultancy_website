@@ -42,7 +42,7 @@ export default function DisclaimerPage() {
       <p>
         Consultancy packages and paid reviews are separate from free website
         tools. Prices and what is included are agreed before you pay. WhatsApp
-        chat for basic questions stays free; the first consultation is paid.
+        chat for basic questions and your first profile evaluation stay free.
       </p>
 
       <h2>Partners and affiliates</h2>

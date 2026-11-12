@@ -4,7 +4,7 @@ export const programInputSchema = z.object({
   name: z.string().min(2),
   university: z.string().min(2),
   universityType: z.enum(["public", "private"]),
-  degreeLevel: z.enum(["bachelor", "master"]),
+  degreeLevel: z.literal("master"),
   field: z.enum([
     "computer_science",
     "engineering",

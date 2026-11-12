@@ -38,7 +38,6 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Highly competitive. Confirm country-specific deadlines on DAAD portal.",
-    bachelorFundingRareNote: false,
   },
   {
     name: "DAAD EPOS Development-Related Postgraduate Courses",
@@ -74,13 +73,12 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Requires relevant work experience and a development-related focus.",
-    bachelorFundingRareNote: false,
   },
   {
     name: "Deutschlandstipendium (illustrative)",
     provider: "Participating German universities",
     slug: "deutschlandstipendium",
-    levels: ["bachelor", "master"],
+    levels: ["master"],
     nationalities: ["any"],
     fields: [
       "computer_science",
@@ -112,13 +110,12 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Apply via your university — each campus has its own window.",
-    bachelorFundingRareNote: true,
   },
   {
     name: "Heinrich Böll Foundation Scholarship",
     provider: "Heinrich Böll Foundation",
     slug: "heinrich-boll-foundation",
-    levels: ["master", "phd"],
+    levels: ["master"],
     nationalities: ["any"],
     fields: [
       "social_sciences",
@@ -146,13 +143,12 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Begabtenförderungswerk — motivation and values matter as much as grades.",
-    bachelorFundingRareNote: false,
   },
   {
     name: "Friedrich Ebert Foundation Scholarship",
     provider: "Friedrich Ebert Foundation",
     slug: "friedrich-ebert-foundation",
-    levels: ["bachelor", "master", "phd"],
+    levels: ["master"],
     nationalities: ["any"],
     fields: [
       "social_sciences",
@@ -179,13 +175,12 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Very selective for international applicants.",
-    bachelorFundingRareNote: true,
   },
   {
     name: "Konrad Adenauer Foundation Scholarship",
     provider: "Konrad Adenauer Foundation",
     slug: "konrad-adenauer-foundation",
-    levels: ["master", "phd"],
+    levels: ["master"],
     nationalities: ["any"],
     fields: [
       "social_sciences",
@@ -212,13 +207,12 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "German language often required (B2+).",
-    bachelorFundingRareNote: false,
   },
   {
     name: "Rosa Luxemburg Foundation Scholarship",
     provider: "Rosa Luxemburg Foundation",
     slug: "rosa-luxemburg-foundation",
-    levels: ["master", "phd"],
+    levels: ["master"],
     nationalities: ["any"],
     fields: ["social_sciences", "arts", "other"],
     minGermanGrade: 2.5,
@@ -240,13 +234,12 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Confirm German level and application windows yearly.",
-    bachelorFundingRareNote: false,
   },
   {
     name: "Erasmus+ Mobility Grant (illustrative)",
     provider: "European Commission / home university",
     slug: "erasmus-plus-mobility",
-    levels: ["bachelor", "master"],
+    levels: ["master"],
     nationalities: ["any"],
     fields: [
       "computer_science",
@@ -278,13 +271,12 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Usually via your Pakistani university partnership — not a full-degree fund.",
-    bachelorFundingRareNote: true,
   },
   {
     name: "HEC Overseas Scholarships (illustrative Pakistan)",
     provider: "Higher Education Commission (Pakistan)",
     slug: "hec-overseas-scholarships",
-    levels: ["master", "phd"],
+    levels: ["master"],
     nationalities: ["pakistan"],
     fields: [
       "computer_science",
@@ -313,13 +305,12 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Opens intermittently. Always read the current HEC advertisement.",
-    bachelorFundingRareNote: false,
   },
   {
     name: "SBW Berlin Scholarship",
     provider: "SBW Berlin",
     slug: "sbw-berlin-scholarship",
-    levels: ["bachelor", "master"],
+    levels: ["master"],
     nationalities: ["any"],
     fields: ["business", "social_sciences", "other"],
     minGermanGrade: 2.5,
@@ -341,13 +332,12 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Requires commitment to a social project. Competitive.",
-    bachelorFundingRareNote: true,
   },
   {
     name: "KAAD Scholarship (illustrative)",
     provider: "Catholic Academic Exchange Service",
     slug: "kaad-scholarship",
-    levels: ["master", "phd"],
+    levels: ["master"],
     nationalities: ["any"],
     fields: [
       "social_sciences",
@@ -374,7 +364,6 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Confirm eligibility with local partner committee.",
-    bachelorFundingRareNote: false,
   },
   {
     name: "University excellence award (illustrative)",
@@ -408,6 +397,5 @@ export const seedScholarships: ScholarshipInput[] = [
     lastVerifiedAt: "2026-10-01",
     status: "published",
     notes: "Not a single fund — check each university's awards page after admission.",
-    bachelorFundingRareNote: false,
   },
 ];

@@ -29,8 +29,8 @@ describe("after-admission steps", () => {
 
   it("filters completed ids to known steps", () => {
     assert.deepEqual(
-      filterValidCompletedIds(["aps", "bogus", "visa", "aps"]),
-      ["aps", "visa"]
+      filterValidCompletedIds(["insurance", "bogus", "visa", "insurance", "aps"]),
+      ["insurance", "visa"]
     );
     assert.equal(isAfterAdmissionStepId("housing"), true);
     assert.equal(isAfterAdmissionStepId("xyz"), false);

@@ -8,7 +8,7 @@ import type { GuideTopic } from "@/lib/db/types";
 export const metadata = {
   title: "Guides",
   description:
-    "Plain-English guides for Pakistani students: APS, blocked account, visa, uni-assist, anabin, Studienkolleg, and FAQs.",
+    "Plain-English guides for Pakistani Master's applicants: uni-assist, blocked account, visa, anabin, whether you need APS (you don't), and FAQs.",
 };
 
 const topicLabel: Record<GuideTopic, string> = {

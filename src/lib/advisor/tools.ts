@@ -47,7 +47,7 @@ export async function toolSearchPrograms(args: {
   const { programs } = await getCatalog();
   const filtered = applyProgramFilters(programs, {
     q: args.q ?? "",
-    degree: (args.degree as "bachelor" | "master" | "") || "",
+    degree: args.degree === "master" ? "master" : "",
     field: args.field ?? "",
   });
   const limit = Math.min(args.limit ?? 5, 8);

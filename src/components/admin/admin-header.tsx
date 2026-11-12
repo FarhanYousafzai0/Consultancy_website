@@ -42,6 +42,9 @@ export function AdminHeader({
             <Link href="/admin/guides">Guides</Link>
           </Button>
           <Button asChild variant="outline" size="sm">
+            <Link href="/admin/consultations">Consultations</Link>
+          </Button>
+          <Button asChild variant="outline" size="sm">
             <Link href="/admin/leads">Leads</Link>
           </Button>
           <Button asChild variant="outline" size="sm">

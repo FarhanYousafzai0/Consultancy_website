@@ -11,7 +11,7 @@ import {
 describe("daad catalog", () => {
   it("maps DAAD course types we can search", () => {
     assert.equal(degreeForCourseType("master"), "master");
-    assert.equal(degreeForCourseType("bachelor"), "bachelor");
+    assert.equal(degreeForCourseType("bachelor"), null);
     assert.equal(degreeForCourseType("phd"), null);
     assert.equal(isSupportedCourseType("language"), false);
   });

@@ -1,7 +1,6 @@
 /**
- * Consultancy packages shown on /services and the home pricing band.
- * Set `priceAmount` (e.g. "25,000") when founder supplies PKR prices.
- * Until then the UI shows a quote CTA instead of inventing numbers.
+ * Consultancy packages shown on /services and the home packages band.
+ * No prices on the site: students start with the free profile evaluation.
  */
 
 export type ServicePackage = {
@@ -9,31 +8,28 @@ export type ServicePackage = {
   title: string;
   summary: string;
   includes: string[];
-  /** Digits only display amount, e.g. "25,000" — leave empty until real prices exist. */
-  priceAmount?: string;
-  /** Shown before amount, default "from PKR". */
-  pricePrefix?: string;
-  /** Shown after amount, e.g. "/ package". */
-  priceSuffix?: string;
   /** Lime pill badge, e.g. "Most chosen". */
   badge?: string;
+  /** Internal page for "Get started". When unset, the button opens WhatsApp. */
+  href?: string;
   whatsappMessage: string;
 };
 
 export const servicePackages: ServicePackage[] = [
   {
-    id: "shortlisting",
-    title: "University shortlisting",
+    id: "profile-evaluation",
+    title: "Get free profile evaluation",
     summary:
-      "A balanced Reach / Match / Safety shortlist built from your profile, grades, and language scores — with reasons for each pick.",
+      "Share your degree, grades, and language scores. A consultant tells you honestly where you stand for a master's in Germany.",
     includes: [
       "Review of your eligibility and language scores",
-      "Curated shortlist of programs that fit published requirements",
-      "Public and private options labeled with cost context",
-      "Written next steps for each program on your list",
+      "Honest Reach / Match / Safety read on your profile",
+      "Programmes that fit published requirements",
+      "Written next steps you can act on",
     ],
+    href: "/consultation",
     whatsappMessage:
-      "Hi! I'm interested in the University shortlisting package on Parwaaz.",
+      "Hi! I'd like a free profile evaluation on Parwaaz.",
   },
   {
     id: "applications",
@@ -51,41 +47,24 @@ export const servicePackages: ServicePackage[] = [
       "Hi! I'm interested in the Full application handling package on Parwaaz.",
   },
   {
-    id: "documents",
-    title: "Documents (SOP / CV)",
+    id: "lom-cv-call",
+    title: "1-1 call for LOM and CV review",
     summary:
-      "Motivation letter and CV writing or review in a format German universities expect.",
+      "A one-to-one call with a consultant to review your letter of motivation and CV the way German universities expect.",
     includes: [
-      "SOP / motivation letter drafting or paid review",
-      "German-format / Europass-style CV support",
-      "Feedback aligned to your shortlisted programs",
-      "Revision rounds agreed before work starts",
+      "1-1 call with a consultant",
+      "Line-by-line feedback on your letter of motivation",
+      "German-format / Europass-style CV review",
+      "Written action points after the call",
     ],
     whatsappMessage:
-      "Hi! I'm interested in the Documents package (SOP / motivation letter / CV) on Parwaaz.",
-  },
-  {
-    id: "scholarships",
-    title: "Scholarship applications",
-    summary:
-      "Help applying to scholarships you actually fit — with honest odds and deadline tracking.",
-    includes: [
-      "Shortlist of scholarships matched to your profile",
-      "Honest odds guidance (Bachelor funding is rare)",
-      "Application support for selected calls",
-      "Deadline reminders for your saved list",
-    ],
-    whatsappMessage:
-      "Hi! I'm interested in the Scholarship applications package on Parwaaz.",
+      "Hi! I'd like to book a 1-1 call for LOM and CV review on Parwaaz.",
   },
 ];
 
-/** First three packages as pricing cards; last becomes the bottom bar (like Pure CMS). */
-export const featuredPackages = servicePackages.slice(0, 3);
-export const highlightPackage = servicePackages[3]!;
-
 export const freeTools = [
   "Eligibility check (no sign-up)",
+  "Profile evaluation with a consultant",
   "Program search and matching",
   "Scholarship search with honest odds",
   "Guides and tools (grade converter, cost calculator)",
@@ -93,7 +72,6 @@ export const freeTools = [
 ];
 
 export const notSold = [
-  "APS certificate filing",
   "Visa filing or appointment booking",
   "Language classes",
   "Ausbildung placement",
@@ -101,21 +79,4 @@ export const notSold = [
 ];
 
 export const pricingNote =
-  "First consultation is paid. WhatsApp chat for basic questions stays free. Message us for the current package price.";
-
-export function packagePriceLabel(pkg: ServicePackage) {
-  if (pkg.priceAmount) {
-    return {
-      amount: pkg.priceAmount,
-      prefix: pkg.pricePrefix ?? "from PKR",
-      suffix: pkg.priceSuffix ?? "/ package",
-      isQuote: false as const,
-    };
-  }
-  return {
-    amount: "Quote",
-    prefix: "Get a",
-    suffix: "on WhatsApp",
-    isQuote: true as const,
-  };
-}
+  "Start with a free profile evaluation. WhatsApp chat for basic questions stays free, and you decide what happens next.";

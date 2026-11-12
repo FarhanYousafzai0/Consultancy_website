@@ -53,7 +53,6 @@ const emptyForm = (): ScholarshipInput => ({
   lastVerifiedAt: new Date().toISOString().slice(0, 10),
   status: "draft",
   notes: "",
-  bachelorFundingRareNote: false,
 });
 
 export function ScholarshipForm({ initial }: { initial?: ScholarshipRecord }) {
@@ -88,16 +87,6 @@ export function ScholarshipForm({ initial }: { initial?: ScholarshipRecord }) {
     value: ScholarshipInput[K]
   ) {
     setForm((prev) => ({ ...prev, [key]: value }));
-  }
-
-  function toggleLevel(level: "bachelor" | "master" | "phd") {
-    setForm((prev) => {
-      const has = prev.levels.includes(level);
-      const levels = has
-        ? prev.levels.filter((l) => l !== level)
-        : [...prev.levels, level];
-      return { ...prev, levels: levels.length ? levels : prev.levels };
-    });
   }
 
   function toggleField(field: (typeof ALL_FIELDS)[number]) {
@@ -197,25 +186,6 @@ export function ScholarshipForm({ initial }: { initial?: ScholarshipRecord }) {
         </Field>
       </div>
 
-      <div>
-        <p className="mb-2 text-sm font-semibold">Levels</p>
-        <div className="flex flex-wrap gap-2">
-          {(["bachelor", "master", "phd"] as const).map((level) => (
-            <button
-              key={level}
-              type="button"
-              onClick={() => toggleLevel(level)}
-              className={`rounded-full px-3 py-1.5 text-sm font-semibold capitalize ${
-                form.levels.includes(level)
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground"
-              }`}
-            >
-              {level}
-            </button>
-          ))}
-        </div>
-      </div>
 
       <div>
         <p className="mb-2 text-sm font-semibold">Fields</p>
@@ -348,14 +318,6 @@ export function ScholarshipForm({ initial }: { initial?: ScholarshipRecord }) {
           onChange={(e) => patch("mustBeEnrolled", e.target.checked)}
         />
         Must be enrolled
-      </label>
-      <label className="flex items-center gap-2 text-sm font-semibold">
-        <input
-          type="checkbox"
-          checked={form.bachelorFundingRareNote}
-          onChange={(e) => patch("bachelorFundingRareNote", e.target.checked)}
-        />
-        Show “bachelor funding is rare” note
       </label>
       <label className="flex items-center gap-2 text-sm font-semibold">
         <input

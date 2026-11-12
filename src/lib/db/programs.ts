@@ -66,14 +66,15 @@ export async function listPrograms(options?: {
 }): Promise<ProgramRecord[]> {
   await requireMongo();
   const status = options?.status ?? "published";
-  const query = status === "all" ? {} : { status };
+  // Master's only: any older bachelor's records in the database stay hidden.
+  const query = status === "all" ? { degreeLevel: "master" as const } : { status, degreeLevel: "master" as const };
   const docs = await ProgramModel.find(query).sort({ updatedAt: -1 }).lean();
   return docs.map((doc) => docToRecord(doc as never));
 }
 
 export async function getProgram(id: string): Promise<ProgramRecord | null> {
   await requireMongo();
-  const doc = await ProgramModel.findById(id).lean();
+  const doc = await ProgramModel.findOne({ _id: id, degreeLevel: "master" }).lean();
   return doc ? docToRecord(doc as never) : null;
 }
 

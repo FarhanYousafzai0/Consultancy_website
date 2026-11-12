@@ -214,19 +214,16 @@ export default async function ProgramDetailPage({ params }: Props) {
             <ArrowSquareOut />
           </a>
         </Button>
-        {program.degreeLevel === "master" ||
-        program.degreeLevel === "bachelor" ? (
-          <Button asChild size="lg" variant="whatsapp">
-            <Link
-              href={whatsappLink(message)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <WhatsAppIcon className="text-white" />
-              Let&apos;s have a chat!
-            </Link>
-          </Button>
-        ) : null}
+        <Button asChild size="lg" variant="whatsapp">
+          <Link
+            href={whatsappLink(message)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <WhatsAppIcon className="text-white" />
+            Let&apos;s have a chat!
+          </Link>
+        </Button>
       </div>
 
       {program.notes ? (

@@ -2,7 +2,7 @@ import type { ProgramRecord } from "@/lib/db/types";
 
 export type ProgramFilters = {
   q?: string;
-  degree?: "bachelor" | "master" | "";
+  degree?: "master" | "";
   field?: string;
   universityType?: "public" | "private" | "";
   language?: "english" | "german" | "both" | "";

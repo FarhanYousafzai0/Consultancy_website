@@ -44,7 +44,7 @@ function fakeProgram(
         status: "confirmed",
       },
     ],
-    requiredDocuments: ["transcript", "cv", "motivation_letter", "aps_certificate"],
+    requiredDocuments: ["transcript", "cv", "motivation_letter", "degree_certificate"],
     sourceUrl: "https://example.com",
     lastVerifiedAt: "2026-10-01",
     status: "published",

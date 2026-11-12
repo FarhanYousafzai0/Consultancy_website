@@ -11,7 +11,6 @@ export type MatchedProgram = {
 
 function goalToDegree(goal: EligibilityAnswers["goal"]) {
   if (goal === "masters") return "master" as const;
-  if (goal === "bachelors") return "bachelor" as const;
   return null;
 }
 

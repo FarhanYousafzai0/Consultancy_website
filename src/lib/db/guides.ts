@@ -34,7 +34,8 @@ export async function listGuides(options?: {
   topic?: GuideRecord["topic"];
 }): Promise<GuideRecord[]> {
   await connectMongo();
-  const query: Record<string, unknown> = {};
+  // Studienkolleg is a bachelor's route; Parwaaz is master's-only, so it stays hidden.
+  const query: Record<string, unknown> = { topic: { $ne: "studienkolleg" } };
   const status = options?.status ?? "published";
   if (status !== "all") query.status = status;
   if (options?.topic) query.topic = options.topic;
@@ -52,7 +53,7 @@ export async function getGuideBySlug(
   slug: string
 ): Promise<GuideRecord | null> {
   await connectMongo();
-  const doc = await GuideModel.findOne({ slug }).lean();
+  const doc = await GuideModel.findOne({ slug, topic: { $ne: "studienkolleg" } }).lean();
   return doc ? docToRecord(doc as never) : null;
 }
 
@@ -92,7 +93,7 @@ export async function searchGuides(
 
   try {
     const textDocs = await GuideModel.find(
-      { $text: { $search: q }, status: "published" },
+      { $text: { $search: q }, status: "published", topic: { $ne: "studienkolleg" } },
       { score: { $meta: "textScore" } }
     )
       .sort({ score: { $meta: "textScore" } })
@@ -117,6 +118,7 @@ export async function searchGuides(
 
   const docs = await GuideModel.find({
     status: "published",
+    topic: { $ne: "studienkolleg" },
     $or: [{ title: regex }, { body: regex }, { topic: regex }],
   })
     .limit(limit)

@@ -35,7 +35,6 @@ const emptyForm = (): ProgramInput => ({
     "degree_certificate",
     "cv",
     "english_certificate",
-    "aps_certificate",
   ],
   sourceUrl: "https://",
   lastVerifiedAt: new Date().toISOString().slice(0, 10),
@@ -182,16 +181,6 @@ export function ProgramForm({ initial }: ProgramFormProps) {
             options={[
               ["public", "Public"],
               ["private", "Private"],
-            ]}
-          />
-        </Field>
-        <Field label="Degree level">
-          <Select
-            value={form.degreeLevel}
-            onChange={(v) => patch("degreeLevel", v as ProgramInput["degreeLevel"])}
-            options={[
-              ["master", "Master's"],
-              ["bachelor", "Bachelor's"],
             ]}
           />
         </Field>

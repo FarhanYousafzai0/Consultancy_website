@@ -9,7 +9,7 @@ export type ProgramDraft = {
   name: string;
   university: string;
   universityType: "public" | "private";
-  degreeLevel: "bachelor" | "master";
+  degreeLevel: "master";
   field: ProgramField;
   city: string;
   state: string;
@@ -34,16 +34,8 @@ const DOCS_MASTER = [
   "cv",
   "motivation_letter",
   "english_certificate",
-  "aps_certificate",
 ];
 
-const DOCS_BACHELOR = [
-  "transcript",
-  "secondary_school_certificate",
-  "cv",
-  "english_certificate",
-  "aps_certificate",
-];
 
 const DOCS_GERMAN = [
   "transcript",
@@ -51,7 +43,6 @@ const DOCS_GERMAN = [
   "cv",
   "motivation_letter",
   "german_certificate",
-  "aps_certificate",
 ];
 
 export function programFromDraft(
@@ -85,9 +76,7 @@ export function programFromDraft(
     ],
     requiredDocuments: germanTaught
       ? DOCS_GERMAN
-      : draft.degreeLevel === "bachelor"
-        ? DOCS_BACHELOR
-        : DOCS_MASTER,
+      : DOCS_MASTER,
     sourceUrl: draft.sourceUrl,
     lastVerifiedAt: draft.lastVerifiedAt ?? "2026-10-08",
     status: "published",

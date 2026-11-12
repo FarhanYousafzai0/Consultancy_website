@@ -54,11 +54,7 @@ export default async function ScholarshipDetailPage({ params }: Props) {
       </Button>
 
       <div className="flex flex-wrap gap-2">
-        {scholarship.levels.map((l) => (
-          <Badge key={l} variant="neutral" className="capitalize">
-            {l}
-          </Badge>
-        ))}
+        <Badge variant="neutral">Master&apos;s</Badge>
         <Badge variant="verified">
           {scholarship.lastVerifiedAt
             ? `Verified · ${scholarship.lastVerifiedAt}`
@@ -72,12 +68,6 @@ export default async function ScholarshipDetailPage({ params }: Props) {
       <p className="mt-2 text-lg text-muted-foreground">
         {scholarship.provider}
       </p>
-
-      {scholarship.bachelorFundingRareNote ? (
-        <p className="mt-4 rounded-2xl bg-amber-soft px-4 py-3 text-sm text-amber-ink">
-          Bachelor funding for non-EU students is rare. Read eligibility carefully.
-        </p>
-      ) : null}
 
       <dl className="mt-8 grid gap-4 rounded-2xl bg-white p-6 shadow-card sm:grid-cols-2">
         <Item label="Amount" value={scholarship.amountSummary} />

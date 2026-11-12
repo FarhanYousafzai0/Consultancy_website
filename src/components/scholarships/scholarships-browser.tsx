@@ -19,7 +19,6 @@ import {
 import type { ScholarshipOdds } from "@/lib/db/types";
 import {
   isDaadProvider,
-  scholarshipAudienceOptions,
   scholarshipPurposeOptions,
   subjectGroupOptions,
 } from "@/lib/daad/catalog";
@@ -33,7 +32,6 @@ type ListItem = {
   amountSummary: string;
   coverage: string;
   lastVerifiedAt: string | null;
-  bachelorFundingRareNote: boolean;
   odds: ScholarshipOdds | null;
   reasons: string[];
   cycles: { closeAt: string | null }[];
@@ -56,7 +54,6 @@ export function ScholarshipsBrowser() {
   const hasProfile = hydrated && isProfileComplete(answers);
 
   const [q, setQ] = useQueryState("q", parseAsString.withDefault(""));
-  const [level, setLevel] = useQueryState("level", parseAsString.withDefault(""));
   const [field, setField] = useQueryState("field", parseAsString.withDefault(""));
   const [qualify, setQualify] = useQueryState(
     "qualify",
@@ -73,7 +70,6 @@ export function ScholarshipsBrowser() {
 
   const [items, setItems] = useState<ListItem[]>([]);
   const [total, setTotal] = useState(0);
-  const [bachelorWarning, setBachelorWarning] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -84,7 +80,6 @@ export function ScholarshipsBrowser() {
       setError(null);
       const params = new URLSearchParams();
       if (q) params.set("q", q);
-      if (level) params.set("level", level);
       if (field) params.set("field", field);
       if (purpose) params.set("purpose", purpose);
       if (provider) params.set("provider", provider);
@@ -99,7 +94,6 @@ export function ScholarshipsBrowser() {
         if (!cancelled) {
           setItems(data.scholarships ?? []);
           setTotal(data.total ?? 0);
-          setBachelorWarning(Boolean(data.bachelorFundingWarning));
         }
       } catch (err) {
         if (!cancelled) {
@@ -115,7 +109,6 @@ export function ScholarshipsBrowser() {
     };
   }, [
     q,
-    level,
     field,
     purpose,
     provider,
@@ -134,8 +127,8 @@ export function ScholarshipsBrowser() {
           Fully funded scholarships for Germany
         </h1>
         <p className="mt-3 text-muted-foreground">
-          Funding for students living in Pakistan. Filter by who it is for,
-          subject, and purpose. Bachelor funding for non-EU students is rare.
+          Funding for Pakistani graduates heading to a Master&apos;s in Germany.
+          Filter by subject and purpose.
         </p>
       </div>
 
@@ -156,17 +149,6 @@ export function ScholarshipsBrowser() {
               Pakistan
             </div>
           </label>
-          <FilterSelect
-            label="Programmes for"
-            value={level}
-            onChange={(next) => void setLevel(next)}
-            options={[
-              ["", "Any"],
-              ...scholarshipAudienceOptions.map(
-                (option) => [option.value, option.label] as [string, string]
-              ),
-            ]}
-          />
           <FilterSelect
             label="Subject"
             value={field}
@@ -218,12 +200,6 @@ export function ScholarshipsBrowser() {
         </aside>
 
         <div className="min-w-0 flex-1 space-y-4">
-          {bachelorWarning ? (
-            <div className="rounded-2xl bg-amber-soft px-4 py-3 text-sm text-amber-ink">
-              Bachelor funding for non-EU students is rare. Most strong options
-              are for Master&apos;s / PhD — plan finances accordingly.
-            </div>
-          ) : null}
           <div className="text-sm text-muted-foreground">
             {loading && items.length === 0 ? (
               <Skeleton className="h-5 w-28" />
@@ -253,8 +229,8 @@ export function ScholarshipsBrowser() {
                     ) : (
                       <Badge variant="neutral">Other funder</Badge>
                     )}
-                    <span className="text-xs text-muted-foreground capitalize">
-                      {item.levels.join(" · ")}
+                    <span className="text-xs text-muted-foreground">
+                      Master&apos;s
                     </span>
                   </div>
                   <h2 className="mt-2 text-lg font-bold">{item.name}</h2>

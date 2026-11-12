@@ -6,7 +6,7 @@ import { whatsappLink } from "@/lib/site";
 export const metadata = {
   title: "Webinars",
   description:
-    "Free Parwaaz webinars for Pakistani students on Germany Master's, Bachelor's, and Ausbildung — register via WhatsApp when dates are set.",
+    "Free Parwaaz webinars for Pakistani students on Germany Master's and Ausbildung — register via WhatsApp when dates are set.",
 };
 
 export default function WebinarsPage() {

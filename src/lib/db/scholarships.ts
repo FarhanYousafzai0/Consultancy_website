@@ -28,7 +28,6 @@ function docToRecord(doc: {
   lastVerifiedAt?: string | null;
   status: ProgramStatus;
   notes?: string;
-  bachelorFundingRareNote?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }): ScholarshipRecord {
@@ -37,7 +36,8 @@ function docToRecord(doc: {
     name: doc.name,
     provider: doc.provider,
     slug: doc.slug,
-    levels: doc.levels ?? [],
+    // Older records may also list bachelor / phd; only the master's level is kept.
+    levels: (doc.levels ?? []).filter((l) => l === "master"),
     nationalities: doc.nationalities ?? ["any"],
     fields: doc.fields ?? [],
     minGermanGrade: doc.minGermanGrade ?? null,
@@ -53,7 +53,6 @@ function docToRecord(doc: {
     lastVerifiedAt: doc.lastVerifiedAt ?? null,
     status: doc.status,
     notes: doc.notes ?? "",
-    bachelorFundingRareNote: Boolean(doc.bachelorFundingRareNote),
     createdAt: (doc.createdAt ?? new Date()).toISOString(),
     updatedAt: (doc.updatedAt ?? new Date()).toISOString(),
   };
@@ -64,7 +63,10 @@ export async function listScholarships(options?: {
 }): Promise<ScholarshipRecord[]> {
   await connectMongo();
   const status = options?.status ?? "published";
-  const query = status === "all" ? {} : { status };
+  const query =
+    status === "all"
+      ? { levels: "master" as const }
+      : { status, levels: "master" as const };
   const docs = await ScholarshipModel.find(query).sort({ updatedAt: -1 }).lean();
   return docs.map((doc) => docToRecord(doc as never));
 }
@@ -73,7 +75,7 @@ export async function getScholarship(
   id: string
 ): Promise<ScholarshipRecord | null> {
   await connectMongo();
-  const doc = await ScholarshipModel.findById(id).lean();
+  const doc = await ScholarshipModel.findOne({ _id: id, levels: "master" }).lean();
   return doc ? docToRecord(doc as never) : null;
 }
 

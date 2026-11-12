@@ -19,14 +19,29 @@ function base(overrides: Partial<EligibilityAnswers>): EligibilityAnswers {
 }
 
 describe("evaluateEligibility", () => {
-  it("marks 4-year BS as Master's eligible with APS", () => {
+  it("marks 4-year BS as Master's eligible without an APS step", () => {
     const result = evaluateEligibility(
       base({ goal: "masters", qualification: "bs_4year" })
     );
     assert.ok(result);
     assert.equal(result.kind, "masters_eligible");
     assert.equal(result.showConsultant, true);
-    assert.ok(result.reasons.some((r) => r.includes("APS")));
+    assert.ok(result.reasons.some((r) => r.includes("do not need an APS")));
+    assert.ok(!result.nextSteps.some((s) => s.includes("APS")));
+  });
+
+  it("never tells Pakistani applicants to get APS", () => {
+    const cases = [
+      { goal: "masters", qualification: "bs_4year" },
+      { goal: "masters", qualification: "ba_bsc_2year_plus_masters" },
+      { goal: "masters", qualification: "ba_bsc_2year" },
+    ] as const;
+    for (const c of cases) {
+      const result = evaluateEligibility(base(c));
+      assert.ok(result);
+      const text = [...result.reasons, ...result.nextSteps].join(" ");
+      assert.doesNotMatch(text, /need APS|APS certificate from|Start .*APS|APS still applies/);
+    }
   });
 
   it("rejects 2-year BA/BSc alone for Master's", () => {
@@ -36,30 +51,6 @@ describe("evaluateEligibility", () => {
     assert.ok(result);
     assert.equal(result.kind, "masters_not_enough");
     assert.equal(result.showConsultant, true);
-  });
-
-  it("routes FSc pre-engineering to Studienkolleg T-Kurs", () => {
-    const result = evaluateEligibility(
-      base({
-        goal: "bachelors",
-        qualification: "fsc_pre_engineering",
-        gradeSystem: "percentage",
-        gradeValue: 78,
-        percentagePassMark: 40,
-      })
-    );
-    assert.ok(result);
-    assert.equal(result.kind, "bachelors_studienkolleg");
-    assert.equal(result.studienkollegKurs, "T-Kurs");
-    assert.equal(result.showConsultant, true);
-  });
-
-  it("treats A-levels as likely direct Bachelor's route", () => {
-    const result = evaluateEligibility(
-      base({ goal: "bachelors", qualification: "a_levels" })
-    );
-    assert.ok(result);
-    assert.equal(result.kind, "bachelors_likely_direct");
   });
 
   it("marks Ausbildung ready at B1+ without consultant", () => {

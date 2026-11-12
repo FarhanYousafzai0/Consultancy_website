@@ -107,7 +107,6 @@ export function GuideForm({ initial }: { initial?: GuideRecord }) {
             "visa",
             "uni_assist",
             "anabin",
-            "studienkolleg",
             "faq",
             "other",
           ].map((t) => (
