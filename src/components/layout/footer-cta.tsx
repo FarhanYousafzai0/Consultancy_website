@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   animate,
+  AnimatePresence,
   motion,
   useInView,
   useMotionValue,
@@ -18,25 +19,28 @@ import { MagneticWrap } from "@/components/motion/magnetic-button";
 /** Pages where "Start the check" would point to the page itself. */
 const HIDDEN_ON = ["/check"];
 
-/** Arc from Pakistan (left) over the heading to Germany (right), in a 1200 × 320 box. */
+/** Route box. The SVG is stretched to the band, so x/y map to percentages. */
 const VB_W = 1200;
 const VB_H = 320;
-const FLIGHT_SECONDS = 5.5;
+const FLIGHT_SECONDS = 7;
 
-type Route = { start: { x: number; y: number }; end: { x: number; y: number }; d: string };
-
-/** Desktop: a tall arc over the heading. */
-const WIDE_ROUTE: Route = {
-  start: { x: 80, y: 248 },
-  end: { x: 1120, y: 248 },
-  d: "M 80 248 C 260 -40, 940 -40, 1120 248",
+type Route = {
+  /** Wavy route that starts and ends off-screen, under the button. */
+  d: string;
+  /** Share of the route (0–1) where the plane "reaches Germany" and the flag flips. */
+  germanyAt: number;
 };
 
-/** Phones: the heading fills the width, so the plane flies a low arc under the button. */
+/** Desktop: gentle zig-zag with several soft bumps. */
+const WIDE_ROUTE: Route = {
+  d: "M -80 285 C 40 285, 120 245, 240 245 S 420 295, 540 295 S 720 245, 840 245 S 1020 295, 1140 295 S 1260 262, 1300 258",
+  germanyAt: 0.72,
+};
+
+/** Phones: fewer, wider bumps so the zig-zag stays soft on a narrow screen. */
 const NARROW_ROUTE: Route = {
-  start: { x: 140, y: 285 },
-  end: { x: 1060, y: 285 },
-  d: "M 140 285 C 400 215, 800 215, 1060 285",
+  d: "M -80 292 C 100 292, 200 252, 380 252 S 620 300, 800 300 S 1060 252, 1300 262",
+  germanyAt: 0.72,
 };
 
 function useRoute(): Route {
@@ -51,105 +55,77 @@ function useRoute(): Route {
   return wide ? WIDE_ROUTE : NARROW_ROUTE;
 }
 
-/** Pakistan flag, drawn for a round badge. */
+/** Small rectangular flags (3 : 2) that ride above the plane. */
 function PakistanFlag() {
   return (
-    <svg viewBox="0 0 36 36" className="size-full">
-      <rect width="36" height="36" fill="#ffffff" />
-      <rect x="9" width="27" height="36" fill="#01411c" />
-      <circle cx="23" cy="18" r="8" fill="#ffffff" />
-      <circle cx="25.4" cy="16.4" r="6.9" fill="#01411c" />
+    <svg viewBox="0 0 36 24" className="size-full">
+      <rect width="36" height="24" fill="#ffffff" />
+      <rect x="9" width="27" height="24" fill="#01411c" />
+      <circle cx="22.5" cy="12" r="6" fill="#ffffff" />
+      <circle cx="24.3" cy="10.8" r="5.2" fill="#01411c" />
       <path
-        d="M27.6 12.4 L28.4 14.9 L31 14.9 L28.9 16.4 L29.7 18.9 L27.6 17.4 L25.5 18.9 L26.3 16.4 L24.2 14.9 L26.8 14.9 Z"
+        d="M26.2 7.6 L26.8 9.4 L28.7 9.4 L27.2 10.5 L27.8 12.3 L26.2 11.2 L24.7 12.3 L25.3 10.5 L23.8 9.4 L25.6 9.4 Z"
         fill="#ffffff"
       />
     </svg>
   );
 }
 
-/** Germany flag, drawn for a round badge. */
 function GermanyFlag() {
   return (
-    <svg viewBox="0 0 36 36" className="size-full">
-      <rect width="36" height="12" fill="#000000" />
-      <rect y="12" width="36" height="12" fill="#dd0000" />
-      <rect y="24" width="36" height="12" fill="#ffce00" />
+    <svg viewBox="0 0 36 24" className="size-full">
+      <rect width="36" height="8" fill="#000000" />
+      <rect y="8" width="36" height="8" fill="#dd0000" />
+      <rect y="16" width="36" height="8" fill="#ffce00" />
     </svg>
   );
 }
 
-function FlagPin({
-  at,
-  label,
-  arrived = false,
-  children,
-}: {
-  at: { x: number; y: number };
-  label: string;
-  arrived?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <div
-      className="absolute flex -translate-x-1/2 -translate-y-[18px] flex-col items-center gap-1.5 md:-translate-y-[22px]"
-      style={{ left: `${(at.x / VB_W) * 100}%`, top: `${(at.y / VB_H) * 100}%` }}
-    >
-      <span className="relative">
-        <motion.span
-          className="block size-9 overflow-hidden rounded-full ring-2 ring-white/80 md:size-11"
-          animate={arrived ? { scale: [1, 1.3, 1] } : { scale: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          {children}
-        </motion.span>
-        {arrived ? (
-          <motion.span
-            className="absolute inset-0 rounded-full border-2 border-primary"
-            initial={{ opacity: 0.9, scale: 1 }}
-            animate={{ opacity: 0, scale: 2.4 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-          />
-        ) : null}
-      </span>
-      <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-white/50">
-        {label}
-      </span>
-    </div>
-  );
-}
+const pct = (n: number, of: number) => `${(n / of) * 100}%`;
 
-/** The arc, the trail drawn behind the plane, the plane and the two flags. */
+/** The wavy route, the trail drawn behind the plane, the plane and its flag. */
 function FlightScene({ play, reduceMotion }: { play: boolean; reduceMotion: boolean }) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const planeRef = useRef<HTMLDivElement>(null);
-  const progress = useMotionValue(reduceMotion ? 1 : 0);
-  const [arrived, setArrived] = useState(false);
+  const iconRef = useRef<HTMLDivElement>(null);
   const route = useRoute();
+  const progress = useMotionValue(reduceMotion ? route.germanyAt : 0);
+  const [inGermany, setInGermany] = useState(reduceMotion);
+  const [germanyPoint, setGermanyPoint] = useState<{ x: number; y: number } | null>(null);
+
+  // Where the "Germany point" sits on the current route.
+  useEffect(() => {
+    const path = pathRef.current;
+    if (!path) return;
+    const at = path.getPointAtLength(path.getTotalLength() * route.germanyAt);
+    setGermanyPoint({ x: at.x, y: at.y });
+  }, [route]);
 
   // Fly once, slowly, when the band comes into view.
   useEffect(() => {
     if (!play) return;
     if (reduceMotion) {
-      progress.set(1);
+      progress.set(route.germanyAt);
       return;
     }
     const controls = animate(progress, 1, {
       duration: FLIGHT_SECONDS,
-      delay: 0.5,
-      ease: [0.42, 0, 0.3, 1],
+      delay: 0.4,
+      ease: [0.35, 0, 0.35, 1],
     });
     return () => controls.stop();
-  }, [play, reduceMotion, progress]);
+  }, [play, reduceMotion, progress, route]);
 
-  // Move and turn the plane along the arc. The SVG stretches to the band, so
-  // viewBox units map to percentages; the heading is worked out in screen pixels.
+  // Move the plane along the route and turn its nose with the curve; the flag
+  // above it stays upright. The heading is worked out in screen pixels.
   useMotionValueEvent(progress, "change", (v) => {
+    if (v >= route.germanyAt) setInGermany(true);
     const path = pathRef.current;
     const plane = planeRef.current;
+    const icon = iconRef.current;
     const scene = sceneRef.current;
-    if (v >= 0.985) setArrived(true);
-    if (!path || !plane || !scene) return;
+    if (!path || !plane || !icon || !scene) return;
 
     const length = path.getTotalLength();
     const at = path.getPointAtLength(v * length);
@@ -159,12 +135,11 @@ function FlightScene({ play, reduceMotion }: { play: boolean; reduceMotion: bool
     const dx = (ahead.x - behind.x) * (width / VB_W);
     const dy = (ahead.y - behind.y) * (height / VB_H);
     const angle = (Math.atan2(dy, dx) * 180) / Math.PI + 90; // the icon's nose points up
-    const fade = v < 0.04 ? v / 0.04 : v > 0.93 ? Math.max(0, (1 - v) / 0.07) : 1;
 
-    plane.style.left = `${(at.x / VB_W) * 100}%`;
-    plane.style.top = `${(at.y / VB_H) * 100}%`;
-    plane.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
-    plane.style.opacity = String(fade);
+    plane.style.left = pct(at.x, VB_W);
+    plane.style.top = pct(at.y, VB_H);
+    plane.style.opacity = "1";
+    icon.style.transform = `rotate(${angle}deg)`;
   });
 
   return (
@@ -172,22 +147,22 @@ function FlightScene({ play, reduceMotion }: { play: boolean; reduceMotion: bool
       <svg
         viewBox={`0 0 ${VB_W} ${VB_H}`}
         preserveAspectRatio="none"
-        className="absolute inset-0 size-full"
+        className="absolute inset-0 size-full overflow-visible"
       >
         <defs>
           <mask
             id="footer-flight-trail"
             maskUnits="userSpaceOnUse"
-            x="0"
-            y="-60"
-            width={VB_W}
-            height={VB_H + 120}
+            x="-200"
+            y="0"
+            width={VB_W + 400}
+            height={VB_H}
           >
             <motion.path
               d={route.d}
               fill="none"
               stroke="white"
-              strokeWidth="24"
+              strokeWidth="30"
               strokeLinecap="round"
               style={{ pathLength: progress }}
             />
@@ -218,26 +193,60 @@ function FlightScene({ play, reduceMotion }: { play: boolean; reduceMotion: bool
         />
       </svg>
 
-      <FlagPin at={route.start} label="Pakistan">
-        <PakistanFlag />
-      </FlagPin>
-      <FlagPin at={route.end} label="Germany" arrived={arrived}>
-        <GermanyFlag />
-      </FlagPin>
-
-      {reduceMotion ? null : (
-        <div
-          ref={planeRef}
-          className="absolute text-primary drop-shadow-[0_4px_10px_rgb(212_245_106/0.35)]"
-          style={{
-            left: `${(route.start.x / VB_W) * 100}%`,
-            top: `${(route.start.y / VB_H) * 100}%`,
-            opacity: 0,
-          }}
+      {/* Germany point: a small dot on the route that pulses when the plane arrives. */}
+      {germanyPoint ? (
+        <span
+          className="absolute -translate-x-1/2 -translate-y-1/2"
+          style={{ left: pct(germanyPoint.x, VB_W), top: pct(germanyPoint.y, VB_H) }}
         >
-          <Airplane weight="fill" className="size-7 md:size-9" />
+          <span
+            className={`block size-2.5 rounded-full transition-colors duration-500 ${
+              inGermany ? "bg-primary" : "bg-white/30"
+            }`}
+          />
+          {inGermany && !reduceMotion ? (
+            <motion.span
+              className="absolute inset-0 rounded-full border-2 border-primary"
+              initial={{ opacity: 0.9, scale: 1 }}
+              animate={{ opacity: 0, scale: 4 }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
+            />
+          ) : null}
+        </span>
+      ) : null}
+
+      {/* The plane, with its flag riding above it. */}
+      <div
+        ref={planeRef}
+        className="absolute -translate-x-1/2 -translate-y-1/2"
+        style={
+          reduceMotion && germanyPoint
+            ? { left: pct(germanyPoint.x, VB_W), top: pct(germanyPoint.y, VB_H) }
+            : { left: "-10%", top: pct(285, VB_H), opacity: 0 }
+        }
+      >
+        <div className="absolute bottom-full left-1/2 mb-1.5 h-[15px] w-[22px] -translate-x-1/2 [perspective:200px] md:h-[17px] md:w-[26px]">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={inGermany ? "de" : "pk"}
+              className="block size-full overflow-hidden rounded-[3px] shadow-[0_2px_8px_rgb(0_0_0/0.4)] ring-1 ring-white/40"
+              initial={{ rotateY: 90 }}
+              animate={{ rotateY: 0 }}
+              exit={{ rotateY: -90 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+            >
+              {inGermany ? <GermanyFlag /> : <PakistanFlag />}
+            </motion.span>
+          </AnimatePresence>
         </div>
-      )}
+        <div
+          ref={iconRef}
+          className="text-primary drop-shadow-[0_4px_10px_rgb(212_245_106/0.35)]"
+          style={{ transform: "rotate(90deg)" }}
+        >
+          <Airplane weight="fill" className="size-7 md:size-8" />
+        </div>
+      </div>
     </div>
   );
 }
@@ -258,7 +267,7 @@ export function FooterCta() {
       <FlightScene play={inView} reduceMotion={reduceMotion} />
 
       <motion.div
-        className="relative flex flex-col items-center px-5 pt-20 pb-36 text-center md:px-8 md:pt-24 md:pb-28"
+        className="relative flex flex-col items-center px-5 pt-20 pb-36 text-center md:px-8 md:pt-24 md:pb-36"
         initial={{ opacity: 0, y: 16 }}
         animate={inView ? { opacity: 1, y: 0 } : undefined}
         transition={{
