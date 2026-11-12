@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { FooterCta } from "./footer-cta";
 import { Logo } from "./logo";
 
 const groups = [
@@ -40,8 +41,11 @@ const groups = [
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 px-4 pb-28 md:px-6 md:pb-8">
-      <div className="mx-auto max-w-[90rem] overflow-hidden rounded-3xl bg-ink text-white shadow-card">
+    // One solid colour to the bottom of the page. The mobile bottom padding keeps
+    // content clear of the tab bar and stays the same ink colour.
+    <footer className="mt-24 rounded-t-[28px] bg-ink pb-24 text-white md:rounded-t-[36px] md:pb-0">
+      <div className="mx-auto max-w-[90rem] overflow-hidden">
+        <FooterCta />
         <div className="grid gap-10 px-5 py-14 md:grid-cols-[1.4fr_repeat(3,1fr)] md:px-8">
           <div className="space-y-4">
             <Logo variant="light" />
