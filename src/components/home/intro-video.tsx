@@ -82,8 +82,14 @@ export function IntroVideo() {
           </h2>
         </Reveal>
 
-        <Reveal delay={0.08} className="mx-auto mt-10 aspect-video w-full max-w-4xl">
-          {INTRO_VIDEO_ID ? <VideoPlayer id={INTRO_VIDEO_ID} /> : <VideoPlaceholder />}
+        {/* Very light green border; the padding gives the video an even margin inside it. */}
+        <Reveal
+          delay={0.08}
+          className="mx-auto mt-10 w-full max-w-4xl rounded-[1.75rem] border border-primary p-2 md:p-3"
+        >
+          <div className="aspect-video">
+            {INTRO_VIDEO_ID ? <VideoPlayer id={INTRO_VIDEO_ID} /> : <VideoPlaceholder />}
+          </div>
         </Reveal>
 
         <div className="mt-10 flex justify-center">

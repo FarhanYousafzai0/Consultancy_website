@@ -36,7 +36,7 @@ export function HomeLanding() {
           >
             <h1 className="mx-auto mt-1 max-w-5xl text-[40px] leading-[0.92] font-extrabold tracking-[-0.045em] text-balance sm:text-5xl md:text-6xl lg:text-7xl">
               Study your Master&rsquo;s at a German public university{" "}
-              <span className="whitespace-nowrap text-forest">for free.</span>
+              <span className="whitespace-nowrap text-primary">for free.</span>
             </h1>
             <p className="mx-auto mt-5 max-w-xl text-base text-foreground/70 md:text-lg">
               Most public universities in Germany charge no tuition fees. Get your free profile

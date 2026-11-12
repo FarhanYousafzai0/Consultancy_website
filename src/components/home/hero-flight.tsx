@@ -24,8 +24,9 @@ import { GermanyFlag, PakistanFlag } from "@/components/motion/flight-path";
 
 const VB_W = 1200;
 const VB_H = 320;
-const DURATION = 6.5;
-const DELAY = 1.1;
+// Starts almost at once so visitors see it straight away.
+const DURATION = 5;
+const DELAY = 0.1;
 
 type Route = { d: string; germanyAt: number };
 
