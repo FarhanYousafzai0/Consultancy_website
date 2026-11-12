@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "motion/react";
 import {
   ArrowRight,
@@ -9,6 +8,7 @@ import {
 } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
 import { AfterEvaluation } from "@/components/home/after-evaluation";
+import { HeroFlight } from "@/components/home/hero-flight";
 import { HomeFaq } from "@/components/home/home-faq";
 import { IntroVideo } from "@/components/home/intro-video";
 import { LateNightQuestions } from "@/components/home/late-night-questions";
@@ -22,31 +22,23 @@ import { site } from "@/lib/site";
 export function HomeLanding() {
   return (
     <>
-      <section data-home-hero className="relative px-1.5 pt-2 md:px-2 md:pt-3">
-        <div className="relative flex min-h-[min(92svh,920px)] flex-col justify-end overflow-hidden rounded-[1.25rem] px-5 pb-10 pt-24 text-center text-white md:min-h-[min(88svh,960px)] md:rounded-[1.75rem] md:px-12 md:pb-16 md:pt-28">
-          <Image
-            src="/hero-sky.jpg"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[center_20%]"
-          />
-          <div
-            className="absolute inset-0 bg-[linear-gradient(180deg,rgb(15_17_16/0.2)_0%,rgb(15_17_16/0.45)_45%,rgb(15_17_16/0.72)_100%)]"
-            aria-hidden
-          />
+      {/* No background. The flight runs the full screen width right under the header
+          (outside the max-width box); the text stays centred at the usual width.
+          overflow-hidden clips the plane as it flies off the right edge. */}
+      <section data-home-hero className="relative overflow-hidden px-4 pt-2 md:px-6">
+        <HeroFlight />
+        <div className="relative mx-auto max-w-[90rem] pb-4 text-center md:pb-6">
           <motion.div
             className="relative z-10 w-full"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h1 className="mx-auto max-w-5xl text-[40px] leading-[1.02] font-extrabold tracking-[-0.03em] text-balance sm:text-5xl md:text-6xl lg:text-7xl">
+            <h1 className="mx-auto mt-1 max-w-5xl text-[40px] leading-[0.92] font-extrabold tracking-[-0.045em] text-balance sm:text-5xl md:text-6xl lg:text-7xl">
               Study your Master&rsquo;s at a German public university{" "}
-              <span className="text-primary">for free.</span>
+              <span className="whitespace-nowrap text-forest">for free.</span>
             </h1>
-            <p className="mx-auto mt-5 max-w-xl text-base text-white/80 md:text-lg">
+            <p className="mx-auto mt-5 max-w-xl text-base text-foreground/70 md:text-lg">
               Most public universities in Germany charge no tuition fees. Get your free profile
               evaluation and know exactly where you stand. I reply on WhatsApp within 24 hours.
             </p>
@@ -65,7 +57,7 @@ export function HomeLanding() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-white/15 text-white backdrop-blur-sm hover:bg-white/25"
+                  className="bg-muted text-foreground hover:bg-border"
                 >
                   <Link href="/check">Check my eligibility</Link>
                 </Button>
