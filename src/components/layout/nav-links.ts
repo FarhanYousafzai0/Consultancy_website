@@ -2,18 +2,13 @@ import type { Icon } from "@phosphor-icons/react";
 import {
   Bank,
   BookOpenText,
-  Briefcase,
-  ChartLineUp,
   ChatsCircle,
-  Code,
   CurrencyEur,
   Exam,
   FileText,
-  Gear,
   GraduationCap,
   Handshake,
   IdentificationCard,
-  ListMagnifyingGlass,
   Medal,
   PenNib,
   Percent,
@@ -43,25 +38,8 @@ export type NavGroup = {
   footer?: { href: string; label: string };
 };
 
-/** Master's-first order: what students look for first comes first. */
+/** Scholarships are the primary discovery feature for now. */
 export const navGroups: NavGroup[] = [
-  {
-    label: "Programmes",
-    feature: {
-      href: "/check",
-      title: "Which master's can you get into?",
-      text: "Answer 5 questions and see programmes matched to your CGPA and IELTS.",
-      cta: "Check eligibility",
-    },
-    links: [
-      { href: "/programs", label: "All master's programmes", description: "Verified, with sources and deadlines", icon: ListMagnifyingGlass },
-      { href: "/study/computer-science", label: "Computer Science", description: "CS, IT and software", icon: Code },
-      { href: "/study/data", label: "Data Science & AI", description: "Data, ML and analytics", icon: ChartLineUp },
-      { href: "/study/engineering", label: "Engineering", description: "Electrical, mechanical, civil…", icon: Gear },
-      { href: "/study/business", label: "Business & MBA", description: "Management and marketing", icon: Briefcase },
-      { href: "/study/economics", label: "Economics & Finance", description: "Economics, finance, policy", icon: Bank },
-    ],
-  },
   {
     label: "Scholarships",
     feature: {
@@ -94,9 +72,9 @@ export const navGroups: NavGroup[] = [
     label: "Services",
     feature: {
       href: "/consultation",
-      title: "Talk to a consultant",
-      text: "Share your profile once. We reply within 1 business day.",
-      cta: "Request consultation",
+      title: "Free profile evaluation",
+      text: "Find out where you stand. I reply on WhatsApp within 24 hours.",
+      cta: "Get your free evaluation",
     },
     links: [
       { href: "/services", label: "Services & packages", description: "Free profile evaluation to applications", icon: Handshake },

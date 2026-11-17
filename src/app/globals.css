@@ -29,6 +29,7 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-200: var(--primary-200);
   --color-forest: var(--forest);
+  --color-lime-ink: var(--lime-ink);
   --color-ink: var(--ink);
   --color-amber-soft: var(--amber-soft);
   --color-amber-ink: var(--amber-ink);
@@ -69,6 +70,8 @@
   --secondary: #eefbc9;
   --secondary-foreground: #2f5d0a;
   --forest: #2f5d0a;
+  /* Brand lime deep enough to read as text on white (~3.3:1, large headings). */
+  --lime-ink: #46a10f;
 
   --muted: #f0f1ee;
   --muted-foreground: #5f635f;

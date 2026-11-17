@@ -8,8 +8,7 @@ const groups = [
     title: "Explore",
     links: [
       { href: "/check", label: "Eligibility check" },
-      { href: "/programs", label: "International programmes" },
-      { href: "/scholarships", label: "Scholarships for Germany" },
+      { href: "/scholarships", label: "Scholarship finder" },
       { href: "/ausbildung", label: "Ausbildung" },
       { href: "/stories", label: "Stories" },
       { href: "/community", label: "Community" },

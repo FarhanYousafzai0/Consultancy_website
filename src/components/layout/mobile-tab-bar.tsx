@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { House, MagnifyingGlass, Medal, Target, User } from "@phosphor-icons/react";
+import { House, Medal, Target, User } from "@phosphor-icons/react";
 import { cn } from "cn";
 import { authClient } from "@/lib/auth/auth-client";
 
@@ -14,17 +14,15 @@ type Tab = {
 
 const guestTabs: Tab[] = [
   { href: "/", label: "Home", icon: House },
-  { href: "/programs", label: "Search", icon: MagnifyingGlass },
-  { href: "/check", label: "Matches", icon: Target },
   { href: "/scholarships", label: "Scholarships", icon: Medal },
+  { href: "/check", label: "Matches", icon: Target },
   { href: "/login", label: "Profile", icon: User },
 ];
 
 const userTabs: Tab[] = [
   { href: "/dashboard", label: "Home", icon: House },
-  { href: "/programs", label: "Search", icon: MagnifyingGlass },
-  { href: "/dashboard/matches", label: "Matches", icon: Target },
   { href: "/scholarships", label: "Scholarships", icon: Medal },
+  { href: "/dashboard/matches", label: "Matches", icon: Target },
   { href: "/dashboard/profile", label: "Profile", icon: User },
 ];
 

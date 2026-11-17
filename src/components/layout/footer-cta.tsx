@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { MagneticWrap } from "@/components/motion/magnetic-button";
 import { FlightPath, type FlightRoute } from "@/components/motion/flight-path";
 
-/** Pages where "Start the check" would point to the page itself. */
-const HIDDEN_ON = ["/check"];
+/** Pages where "Get my free evaluation" would point to the page itself. */
+const HIDDEN_ON = ["/consultation"];
 
 /** Footer: a gentle zig-zag under the button that runs off both edges; the plane flies off. */
 const WIDE_ROUTE: FlightRoute = {
@@ -58,12 +58,16 @@ export function FooterCta() {
           Ready to start?
         </p>
         <h2 className="mt-4 max-w-2xl text-3xl font-bold text-balance md:text-5xl md:leading-[1.05]">
-          Find out if you can study in Germany — free, in 60 seconds
+          Are you good to go for Germany?{" "}
+          <span className="block text-primary">Know in 5 minutes. Free.</span>
         </h2>
+        <p className="mt-4 max-w-md text-base text-white/70">
+          Send your degree, grades and English score. I reply on WhatsApp within 24 hours.
+        </p>
         <MagneticWrap className="mt-8">
           <Button asChild size="lg" className="group pr-2">
-            <Link href="/check">
-              Start the check
+            <Link href="/consultation">
+              Get my free evaluation
               <span className="grid size-9 place-items-center rounded-full bg-ink text-primary transition-transform duration-200 group-hover:rotate-45">
                 <ArrowUpRight weight="bold" className="size-4" />
               </span>

@@ -9,6 +9,16 @@ export type Faq = {
 
 export const homeFaqs: Faq[] = [
   {
+    question: "What do I get in the free profile evaluation?",
+    answer:
+      "You answer a few questions about your degree, grades, English and plans. I check them against real programme requirements and send you three things on WhatsApp: where you stand (Reach, Match or Safety), the programmes that fit your profile, and written next steps.",
+  },
+  {
+    question: "How long does it take?",
+    answer:
+      "About 5 minutes to fill in, and your answers save as you go. I reply on WhatsApp within 24 hours.",
+  },
+  {
     question: "Is studying in Germany really free?",
     answer:
       "At most public universities, yes: no tuition fees, only a small semester contribution. A few states and universities do charge non-EU students, so your shortlist marks which ones are truly tuition-free. Living costs are separate.",
@@ -21,12 +31,12 @@ export const homeFaqs: Faq[] = [
   {
     question: "Is the profile evaluation really free?",
     answer:
-      "Yes. No payment, no card, no call. I do it because students who get an honest evaluation tend to come back when they're ready to apply. The ones who don't still leave knowing where they stand.",
+      "Yes. No payment, no card and no sales call. Students who get an honest answer tend to come back when they're ready to apply. The ones who don't still leave knowing where they stand.",
   },
   {
     question: "My CGPA is under 3.0, or I have a study gap. Should I bother?",
     answer:
-      "Send it. Cut-offs differ from programme to programme, and subject match often matters more than the number. If your options are limited, I'll tell you which ones are real.",
+      "Yes, send it. Cut-offs differ from programme to programme, and how well your subject matches often matters more than the number. If your options are limited, your evaluation shows which ones are real.",
   },
   {
     question: "I have a 2-year BA or BSc. Can I apply for a Master's?",
