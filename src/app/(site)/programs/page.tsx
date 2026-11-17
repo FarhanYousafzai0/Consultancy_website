@@ -1,6 +1,4 @@
-import { Suspense } from "react";
-import { ProgramsBrowser } from "@/components/programs/programs-browser";
-import { ProgramsBrowseSkeleton } from "@/components/ui/content-skeletons";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "International programmes",
@@ -9,9 +7,5 @@ export const metadata = {
 };
 
 export default function ProgramsPage() {
-  return (
-    <Suspense fallback={<ProgramsBrowseSkeleton />}>
-      <ProgramsBrowser />
-    </Suspense>
-  );
+  redirect("/scholarships");
 }

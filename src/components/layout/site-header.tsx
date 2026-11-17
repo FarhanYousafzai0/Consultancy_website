@@ -39,7 +39,7 @@ export async function SiteHeader() {
               </Button>
               <Button asChild size="sm" className="group hidden pr-1.5 sm:inline-flex">
                 <Link href="/consultation">
-                  Request consultation
+                  Free evaluation
                   <span className="grid size-6 place-items-center rounded-full bg-ink text-primary transition-transform duration-200 group-hover:rotate-45">
                     <ArrowUpRight weight="bold" className="size-3.5" />
                   </span>

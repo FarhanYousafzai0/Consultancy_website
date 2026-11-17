@@ -5,7 +5,7 @@ import type {
   ProgramField,
   ProgramStatus,
   ScholarshipLevel,
-  ScholarshipNationality,
+  ScholarshipFundingType,
 } from "./types";
 
 const CycleSchema = new Schema(
@@ -28,14 +28,14 @@ const ScholarshipSchema = new Schema(
     slug: { type: String, required: true, unique: true, trim: true },
     levels: {
       type: [String],
-      enum: ["master"] satisfies ScholarshipLevel[],
+      enum: ["bachelor", "master", "phd"] satisfies ScholarshipLevel[],
       default: [],
     },
     nationalities: {
       type: [String],
-      enum: ["pakistan", "any"] satisfies ScholarshipNationality[],
       default: ["any"],
     },
+    studyCountries: { type: [String], default: [] },
     fields: {
       type: [String],
       enum: [
@@ -59,6 +59,18 @@ const ScholarshipSchema = new Schema(
     mustBeEnrolled: { type: Boolean, default: false },
     amountSummary: { type: String, default: "" },
     coverage: { type: String, default: "" },
+    fundingType: {
+      type: String,
+      enum: [
+        "fully_funded",
+        "partially_funded",
+        "tuition_only",
+        "stipend",
+        "unknown",
+      ] satisfies ScholarshipFundingType[],
+      default: "unknown",
+    },
+    languageRequirements: { type: [String], default: [] },
     cycles: { type: [CycleSchema], default: [] },
     nextCycleStatus: {
       type: String,
@@ -66,7 +78,15 @@ const ScholarshipSchema = new Schema(
       default: "unknown",
     },
     sourceUrl: { type: String, required: true },
+    applicationUrl: { type: String, default: "" },
+    sourceDomain: { type: String, default: "" },
     lastVerifiedAt: { type: String, default: null },
+    lastCheckedAt: { type: String, default: null },
+    lastSuccessfulFetchAt: { type: String, default: null },
+    sourceContentHash: { type: String, default: null },
+    researchProvider: { type: String, enum: ["google", "openai", null], default: null },
+    researchModel: { type: String, default: null },
+    researchError: { type: String, default: null },
     status: {
       type: String,
       enum: ["draft", "published"] satisfies ProgramStatus[],
@@ -78,6 +98,13 @@ const ScholarshipSchema = new Schema(
 );
 
 ScholarshipSchema.index({ status: 1, provider: 1 });
+ScholarshipSchema.index({ status: 1, "cycles.closeAt": 1 });
+// MongoDB cannot build a compound index containing multiple array fields.
+ScholarshipSchema.index({ status: 1, levels: 1 });
+ScholarshipSchema.index({ status: 1, studyCountries: 1 });
+ScholarshipSchema.index({ status: 1, fields: 1 });
+ScholarshipSchema.index({ sourceUrl: 1 });
+ScholarshipSchema.index({ applicationUrl: 1 });
 
 export type ScholarshipDocument = InferSchemaType<typeof ScholarshipSchema> & {
   _id: mongoose.Types.ObjectId;

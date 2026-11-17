@@ -78,8 +78,11 @@ export function IntroVideo() {
         <Reveal className="mx-auto max-w-2xl text-center">
           <p className="section-label justify-center">Watch this first</p>
           <h2 className="mt-4 text-3xl font-bold text-balance md:text-4xl">
-            How studying for free in Germany actually works, and who qualifies
+            How free study in Germany works, and whether it works for you
           </h2>
+          <p className="mt-4 text-base text-foreground/70 md:text-lg">
+            Who qualifies, what it really costs, and what you get in your free evaluation.
+          </p>
         </Reveal>
 
         {/* Very light green border; the padding gives the video an even margin inside it. */}
@@ -96,7 +99,7 @@ export function IntroVideo() {
           <MagneticWrap>
             <Button asChild size="lg" className="group">
               <Link href="/consultation">
-                Get your free profile evaluation
+                Get my free evaluation
                 <ArrowRight weight="bold" className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>

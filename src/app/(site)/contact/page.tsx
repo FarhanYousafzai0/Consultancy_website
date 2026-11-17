@@ -44,7 +44,7 @@ export default function ContactPage() {
         </ul>
         <div className="mt-6 flex flex-wrap gap-3">
           <Button asChild size="lg">
-            <Link href="/consultation">Request a consultation</Link>
+            <Link href="/consultation">Get your free profile evaluation</Link>
           </Button>
           <Button asChild size="lg" variant="whatsapp">
             <a

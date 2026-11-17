@@ -74,13 +74,19 @@ export function HomeFaq() {
           </Reveal>
 
           <Reveal delay={0.1} className="mt-10 flex flex-col items-center gap-4 text-center">
-            <p className="text-base font-semibold tracking-[-0.01em] md:text-lg">
-              Still not sure? Your profile answers most of it.
-            </p>
+            <div>
+              <p className="text-lg font-bold tracking-[-0.01em] md:text-xl">
+                Your question isn&rsquo;t here?
+              </p>
+              <p className="mt-1 text-sm text-foreground/70 md:text-base">
+                Most answers depend on your degree and grades. Your free evaluation answers them for
+                your profile.
+              </p>
+            </div>
             <MagneticWrap>
               <Button asChild size="lg" className="group">
                 <Link href="/consultation">
-                  Get your free profile evaluation
+                  Get my free evaluation
                   <ArrowRight
                     weight="bold"
                     className="size-4 transition-transform group-hover:translate-x-0.5"

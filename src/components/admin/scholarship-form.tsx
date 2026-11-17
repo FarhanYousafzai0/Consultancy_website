@@ -6,6 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { ScholarshipInput, ScholarshipRecord } from "@/lib/db/types";
 
+const ALL_LEVELS = [
+  ["bachelor", "Bachelor's"],
+  ["master", "Master's"],
+  ["phd", "PhD"],
+] as const;
+
 const ALL_FIELDS = [
   "computer_science",
   "engineering",
@@ -99,6 +105,16 @@ export function ScholarshipForm({ initial }: { initial?: ScholarshipRecord }) {
     });
   }
 
+  function toggleLevel(level: ScholarshipInput["levels"][number]) {
+    setForm((prev) => {
+      const has = prev.levels.includes(level);
+      const levels = has
+        ? prev.levels.filter((item) => item !== level)
+        : [...prev.levels, level];
+      return { ...prev, levels: levels.length ? levels : prev.levels };
+    });
+  }
+
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setSaving(true);
@@ -188,6 +204,23 @@ export function ScholarshipForm({ initial }: { initial?: ScholarshipRecord }) {
 
 
       <div>
+        <p className="mb-2 text-sm font-semibold">Study levels</p>
+        <div className="mb-6 flex flex-wrap gap-2">
+          {ALL_LEVELS.map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => toggleLevel(value)}
+              className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
+                form.levels.includes(value)
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
         <p className="mb-2 text-sm font-semibold">Fields</p>
         <div className="flex flex-wrap gap-2">
           {ALL_FIELDS.map((field) => (

@@ -13,8 +13,9 @@ export const scholarshipInputSchema = z.object({
     .string()
     .min(2)
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "slug must be lowercase-kebab"),
-  levels: z.array(z.literal("master")).min(1),
-  nationalities: z.array(z.enum(["pakistan", "any"])).min(1),
+  levels: z.array(z.enum(["bachelor", "master", "phd"])).min(1),
+  nationalities: z.array(z.string().min(2)).min(1),
+  studyCountries: z.array(z.string().min(2)).default([]),
   fields: z
     .array(
       z.enum([
@@ -38,10 +39,22 @@ export const scholarshipInputSchema = z.object({
   mustBeEnrolled: z.boolean(),
   amountSummary: z.string().min(1),
   coverage: z.string().min(1),
+  fundingType: z
+    .enum(["fully_funded", "partially_funded", "tuition_only", "stipend", "unknown"])
+    .default("unknown"),
+  languageRequirements: z.array(z.string()).default([]),
   cycles: z.array(cycleSchema),
   nextCycleStatus: z.enum(["confirmed", "predicted", "unknown"]),
   sourceUrl: z.string().url(),
+  applicationUrl: z.string().url().optional(),
+  sourceDomain: z.string().optional(),
   lastVerifiedAt: z.string().nullable(),
+  lastCheckedAt: z.string().nullable().optional(),
+  lastSuccessfulFetchAt: z.string().nullable().optional(),
+  sourceContentHash: z.string().nullable().optional(),
+  researchProvider: z.enum(["google", "openai"]).nullable().optional(),
+  researchModel: z.string().nullable().optional(),
+  researchError: z.string().nullable().optional(),
   status: z.enum(["draft", "published"]),
   notes: z.string(),
 });

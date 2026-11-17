@@ -12,6 +12,7 @@ import {
   getScholarship,
 } from "@/lib/db/scholarships";
 import { whatsappLink } from "@/lib/site";
+import { scholarshipAvailability, scholarshipDeadline } from "@/lib/scholarships/status";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -43,6 +44,8 @@ export default async function ScholarshipDetailPage({ params }: Props) {
     `• ${scholarship.provider}`,
     `• Source: ${scholarship.sourceUrl}`,
   ].join("\n");
+  const availability = scholarshipAvailability(scholarship);
+  const deadline = scholarshipDeadline(scholarship);
 
   return (
     <div className="mx-auto max-w-3xl px-4 pb-28 pt-4 md:px-6 md:pb-16 md:pt-8">
@@ -54,11 +57,21 @@ export default async function ScholarshipDetailPage({ params }: Props) {
       </Button>
 
       <div className="flex flex-wrap gap-2">
-        <Badge variant="neutral">Master&apos;s</Badge>
-        <Badge variant="verified">
-          {scholarship.lastVerifiedAt
-            ? `Verified · ${scholarship.lastVerifiedAt}`
-            : "Published"}
+        {scholarship.levels.map((level) => (
+          <Badge key={level} variant="neutral">
+            {level === "bachelor" ? "Bachelor's" : level === "phd" ? "PhD" : "Master's"}
+          </Badge>
+        ))}
+        <Badge variant={availability === "open" || availability === "closing_soon" ? "verified" : "neutral"}>
+          {availability === "closing_soon"
+            ? "Closing soon"
+            : availability === "opening_soon"
+              ? "Opening soon"
+              : availability === "closed"
+                ? "Closed"
+                : availability === "unknown"
+                  ? "Date not confirmed"
+                  : "Open"}
         </Badge>
       </div>
 
@@ -72,6 +85,8 @@ export default async function ScholarshipDetailPage({ params }: Props) {
       <dl className="mt-8 grid gap-4 rounded-2xl bg-white p-6 shadow-card sm:grid-cols-2">
         <Item label="Amount" value={scholarship.amountSummary} />
         <Item label="Coverage" value={scholarship.coverage} />
+        <Item label="Study countries" value={scholarship.studyCountries.join(", ") || "Not listed"} />
+        <Item label="Deadline" value={deadline ?? "Not confirmed"} />
         <Item
           label="Fields"
           value={scholarship.fields.map((f) => f.replaceAll("_", " ")).join(", ")}
@@ -145,13 +160,13 @@ export default async function ScholarshipDetailPage({ params }: Props) {
           initiallySaved={saved}
           signedIn={Boolean(session)}
         />
-        <Button asChild size="lg" variant="outline">
+        <Button asChild size="lg">
           <a
-            href={scholarship.sourceUrl}
+            href={scholarship.applicationUrl || scholarship.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Official source
+            {availability === "open" || availability === "closing_soon" ? "Apply on official site" : "Visit official site"}
             <ArrowSquareOut />
           </a>
         </Button>

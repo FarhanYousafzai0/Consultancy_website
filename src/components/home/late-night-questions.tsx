@@ -236,7 +236,7 @@ export function LateNightQuestions() {
           <MagneticWrap className="mt-8">
             <Button asChild size="lg" className="group">
               <Link href="/consultation">
-                Get your free profile evaluation
+                Get answers for my profile
                 <ArrowRight
                   weight="bold"
                   className="size-4 transition-transform group-hover:translate-x-0.5"

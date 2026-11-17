@@ -205,6 +205,9 @@ export function StudentStories() {
         <h2 className="mt-4 text-3xl font-bold text-balance md:text-5xl md:leading-[1.05]">
           Students who started exactly where you are
         </h2>
+        <p className="mt-4 text-base text-foreground/70 md:text-lg">
+          Different degrees, different grades. Each one started with the same free evaluation.
+        </p>
       </Reveal>
 
       <div
@@ -223,9 +226,17 @@ export function StudentStories() {
         ))}
       </div>
 
-      <div className="mt-10 flex justify-center">
+      <div className="mt-10 flex flex-wrap justify-center gap-3">
         <MagneticWrap>
-          <Button asChild variant="dark">
+          <Button asChild size="lg" className="group">
+            <Link href="/consultation">
+              Get my free evaluation
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          </Button>
+        </MagneticWrap>
+        <MagneticWrap>
+          <Button asChild size="lg" variant="dark">
             <Link href="/stories">
               Read more stories
               <ArrowRight className="size-4" />

@@ -43,7 +43,7 @@ export function MobileNav({ signedIn }: { signedIn: boolean }) {
             </Link>
           </Button>
           <Button asChild size="lg" variant="outline" className="w-full" onClick={() => setOpen(false)}>
-            <Link href="/consultation">Request consultation</Link>
+            <Link href="/consultation">Get your free evaluation</Link>
           </Button>
         </div>
 
