@@ -1,17 +1,12 @@
+import { ScholarshipShowcase } from "@/components/scholarships/scholarship-showcase";
 import { Suspense } from "react";
-import { ScholarshipsBrowser } from "@/components/scholarships/scholarships-browser";
-import { ScholarshipsBrowseSkeleton } from "@/components/ui/content-skeletons";
 
 export const metadata = {
-  title: "Scholarships for Germany",
+  title: "Scholarship Finder",
   description:
-    "Find DAAD and other scholarships for students living in Pakistan, with honest odds.",
+    "Explore scholarships for Bachelor's, Master's, and PhD study. Search by level, subject, funding, and deadline.",
 };
 
 export default function ScholarshipsPage() {
-  return (
-    <Suspense fallback={<ScholarshipsBrowseSkeleton />}>
-      <ScholarshipsBrowser />
-    </Suspense>
-  );
+  return <Suspense fallback={<p className="p-12 text-center">Loading scholarships…</p>}><ScholarshipShowcase /></Suspense>;
 }

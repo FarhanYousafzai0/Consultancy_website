@@ -59,9 +59,20 @@ export type ProgramInput = Omit<
 >;
 
 /** Scholarships */
-/** Parwaaz lists funding for master's students only. */
-export type ScholarshipLevel = "master";
-export type ScholarshipNationality = "pakistan" | "any";
+export type ScholarshipLevel = "bachelor" | "master" | "phd";
+export type ScholarshipNationality = string;
+export type ScholarshipFundingType =
+  | "fully_funded"
+  | "partially_funded"
+  | "tuition_only"
+  | "stipend"
+  | "unknown";
+export type ScholarshipAvailability =
+  | "open"
+  | "closing_soon"
+  | "opening_soon"
+  | "closed"
+  | "unknown";
 export type ScholarshipOdds =
   | "strong"
   | "possible"
@@ -83,6 +94,7 @@ export type ScholarshipRecord = {
   slug: string;
   levels: ScholarshipLevel[];
   nationalities: ScholarshipNationality[];
+  studyCountries: string[];
   fields: ProgramField[];
   minGermanGrade: number | null;
   workExperienceYears: number;
@@ -91,10 +103,20 @@ export type ScholarshipRecord = {
   mustBeEnrolled: boolean;
   amountSummary: string;
   coverage: string;
+  fundingType: ScholarshipFundingType;
+  languageRequirements: string[];
   cycles: ScholarshipCycle[];
   nextCycleStatus: NextCycleStatus;
   sourceUrl: string;
+  applicationUrl: string;
+  sourceDomain: string;
   lastVerifiedAt: string | null;
+  lastCheckedAt: string | null;
+  lastSuccessfulFetchAt: string | null;
+  sourceContentHash: string | null;
+  researchProvider: "google" | "openai" | null;
+  researchModel: string | null;
+  researchError: string | null;
   status: ProgramStatus;
   notes: string;
   createdAt: string;
@@ -103,8 +125,37 @@ export type ScholarshipRecord = {
 
 export type ScholarshipInput = Omit<
   ScholarshipRecord,
-  "id" | "createdAt" | "updatedAt"
->;
+  | "id"
+  | "createdAt"
+  | "updatedAt"
+  | "studyCountries"
+  | "fundingType"
+  | "languageRequirements"
+  | "applicationUrl"
+  | "sourceDomain"
+  | "lastCheckedAt"
+  | "lastSuccessfulFetchAt"
+  | "sourceContentHash"
+  | "researchProvider"
+  | "researchModel"
+  | "researchError"
+> &
+  Partial<
+    Pick<
+      ScholarshipRecord,
+      | "studyCountries"
+      | "fundingType"
+      | "languageRequirements"
+      | "applicationUrl"
+      | "sourceDomain"
+      | "lastCheckedAt"
+      | "lastSuccessfulFetchAt"
+      | "sourceContentHash"
+      | "researchProvider"
+      | "researchModel"
+      | "researchError"
+    >
+  >;
 
 /** Guides / knowledge base */
 export type GuideTopic =
