@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Logo } from "@/components/layout/logo";
+import { AdminNav } from "@/components/admin/admin-nav";
 
 function Bars({
   count,
@@ -271,21 +273,54 @@ export function ScholarshipsBrowseSkeleton() {
 
 export function AdminPageSkeleton({ title }: { title: string }) {
   return (
-    <div className="min-h-screen">
-      <header className="border-b border-border bg-background">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6">
-          <div>
-            <p className="section-label">Admin</p>
-            <h1 className="mt-1 text-xl font-extrabold tracking-[-0.03em]">
-              {title}
-            </h1>
-            <Skeleton className="mt-1 h-4 w-40" />
+    <AdminLoadingFrame title={title}>
+      <div className="mb-6 flex flex-wrap gap-2">
+        {Array.from({ length: 5 }, (_, index) => <Skeleton key={index} className="h-9 w-20 rounded-full" />)}
+      </div>
+      <TableSkeleton rows={7} />
+    </AdminLoadingFrame>
+  );
+}
+
+export function AdminOverviewSkeleton() {
+  return (
+    <AdminLoadingFrame title="Dashboard">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {Array.from({ length: 4 }, (_, index) => (
+          <div key={index} className="rounded-[1.25rem] bg-white p-5 shadow-card">
+            <div className="flex items-start justify-between"><Skeleton className="h-4 w-28" /><Skeleton className="size-10 rounded-2xl" /></div>
+            <Skeleton className="mt-4 h-11 w-16" />
+            <Skeleton className="mt-4 h-3 w-32" />
           </div>
-        </div>
-      </header>
-      <main className="mx-auto max-w-6xl px-4 py-8 md:px-6">
-        <Skeleton className="mb-6 h-4 w-56" />
-        <TableSkeleton />
+        ))}
+      </div>
+      <div className="mt-7 overflow-hidden rounded-[1.25rem] bg-white shadow-card"><div className="border-b border-border px-6 py-5"><Skeleton className="h-3 w-28" /><Skeleton className="mt-3 h-6 w-48" /><Skeleton className="mt-2 h-3 w-72 max-w-full" /></div><div className="p-6"><Skeleton className="h-[250px] w-full rounded-xl" /></div></div>
+    </AdminLoadingFrame>
+  );
+}
+
+export function AdminConsultationDetailSkeleton() {
+  return (
+    <AdminLoadingFrame title="Consultation profile">
+      <Skeleton className="h-5 w-40" />
+      <div className="mt-6 rounded-[1.5rem] bg-ink p-8"><Skeleton className="h-10 w-64 bg-white/15" /><Skeleton className="mt-5 h-4 w-96 max-w-full bg-white/15" /></div>
+      <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
+        <div className="space-y-4">{Array.from({ length: 5 }, (_, index) => <div key={index} className="rounded-[1.25rem] bg-white p-5 shadow-card"><Skeleton className="h-5 w-32" /><Skeleton className="mt-5 h-20 w-full" /></div>)}</div>
+        <div className="space-y-4"><div className="rounded-[1.25rem] bg-white p-5 shadow-card"><Skeleton className="h-20 w-full" /></div><div className="rounded-[1.25rem] bg-white p-5 shadow-card"><Skeleton className="h-32 w-full" /></div></div>
+      </div>
+    </AdminLoadingFrame>
+  );
+}
+
+function AdminLoadingFrame({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className="min-h-screen bg-[#edf1ee] p-0 md:p-4" aria-busy="true">
+      <aside className="fixed inset-y-0 left-0 z-20 hidden w-72 flex-col border border-border bg-background md:inset-y-4 md:left-4 md:flex md:rounded-[1.5rem] md:shadow-card">
+        <div className="flex h-full flex-col px-4 py-6"><Logo /><p className="mt-8 px-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Workspace</p><div className="mt-3"><AdminNav /></div></div>
+      </aside>
+      <main className="mx-auto max-w-[1440px] px-4 py-6 pb-24 md:pl-[19rem] md:py-5 md:pb-5">
+        <div className="mb-7 px-1 py-1 md:px-2 md:py-2"><p className="section-label">Admin workspace</p><h1 className="mt-1 text-3xl font-extrabold tracking-[-0.04em]">{title}</h1><Skeleton className="mt-2 h-3 w-28" /></div>
+        {children}
       </main>
     </div>
   );

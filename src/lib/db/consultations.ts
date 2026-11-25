@@ -101,6 +101,42 @@ export async function listConsultations(status?: ConsultationStatus) {
   return docs.map(toRecord);
 }
 
+export async function listConsultationsPage(
+  status: ConsultationStatus | undefined,
+  page = 1,
+  pageSize = 10,
+  search = "",
+) {
+  await connectMongo();
+  const safePage = Math.max(1, page);
+  const query = {
+    ...(status ? { status } : {}),
+    ...(search.trim() ? { $or: [
+      { fullName: { $regex: search.trim(), $options: "i" } },
+      { email: { $regex: search.trim(), $options: "i" } },
+      { reference: { $regex: search.trim(), $options: "i" } },
+      { "answers.city": { $regex: search.trim(), $options: "i" } },
+      { "answers.university": { $regex: search.trim(), $options: "i" } },
+    ] } : {}),
+  };
+  const [docs, total] = await Promise.all([
+    ConsultationModel.find(query)
+      .sort({ createdAt: -1 })
+      .skip((safePage - 1) * pageSize)
+      .limit(pageSize)
+      .lean<ConsultationDocument[]>(),
+    ConsultationModel.countDocuments(query),
+  ]);
+
+  return {
+    items: docs.map(toRecord),
+    total,
+    page: safePage,
+    pageSize,
+    pages: Math.max(1, Math.ceil(total / pageSize)),
+  };
+}
+
 export async function getConsultation(id: string) {
   await connectMongo();
   if (!/^[a-f0-9]{24}$/i.test(id)) return null;

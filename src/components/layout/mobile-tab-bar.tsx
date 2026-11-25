@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { House, Medal, Target, User } from "@phosphor-icons/react";
+import { House, Medal, ShieldCheck, Target, User } from "@phosphor-icons/react";
 import { cn } from "cn";
 import { authClient } from "@/lib/auth/auth-client";
 
@@ -26,10 +26,18 @@ const userTabs: Tab[] = [
   { href: "/dashboard/profile", label: "Profile", icon: User },
 ];
 
-export function MobileTabBar() {
+const adminTabs: Tab[] = [
+  { href: "/", label: "Home", icon: House },
+  { href: "/scholarships", label: "Scholarships", icon: Medal },
+  { href: "/admin", label: "Admin", icon: ShieldCheck },
+];
+
+export function MobileTabBar({ role }: { role?: "admin" | "user" | null }) {
   const pathname = usePathname();
   const { data: session } = authClient.useSession();
-  const tabs = session ? userTabs : guestTabs;
+  const tabs = role === "admin" || (role === undefined && session?.user && (session.user as { role?: string }).role === "admin")
+    ? adminTabs
+    : session || role === "user" ? userTabs : guestTabs;
 
   // Hide on admin routes
   if (pathname.startsWith("/admin")) return null;

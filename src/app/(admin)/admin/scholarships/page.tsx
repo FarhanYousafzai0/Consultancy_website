@@ -15,16 +15,11 @@ export default async function AdminScholarshipsPage() {
   const scholarships = await listScholarships({ status: "all" });
 
   return (
-    <AdminShell title="Scholarships">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-muted-foreground">
-          {scholarships.length} scholarships · seed rows are illustrative until
-          verified.
-        </p>
+    <AdminShell title="Scholarships" headerActions={<div className="flex justify-end">
         <Button asChild>
           <Link href="/admin/scholarships/new">Add scholarship</Link>
         </Button>
-      </div>
+      </div>}>
 
       <div className="overflow-hidden rounded-2xl bg-white shadow-card">
         <table className="w-full min-w-[720px] text-left text-sm">
