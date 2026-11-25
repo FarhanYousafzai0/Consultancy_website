@@ -16,7 +16,6 @@ const guestTabs: Tab[] = [
   { href: "/", label: "Home", icon: House },
   { href: "/scholarships", label: "Scholarships", icon: Medal },
   { href: "/check", label: "Matches", icon: Target },
-  { href: "/login", label: "Profile", icon: User },
 ];
 
 const userTabs: Tab[] = [

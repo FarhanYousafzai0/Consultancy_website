@@ -214,16 +214,14 @@ export default async function ProgramDetailPage({ params }: Props) {
             <ArrowSquareOut />
           </a>
         </Button>
-        <Button asChild size="lg" variant="whatsapp">
-          <Link
-            href={whatsappLink(message)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <WhatsAppIcon className="text-white" />
-            Let&apos;s have a chat!
-          </Link>
-        </Button>
+        {whatsappLink(message) ? (
+          <Button asChild size="lg" variant="whatsapp">
+            <Link href={whatsappLink(message)!} target="_blank" rel="noopener noreferrer">
+              <WhatsAppIcon className="text-white" />
+              Let&apos;s have a chat!
+            </Link>
+          </Button>
+        ) : null}
       </div>
 
       {program.notes ? (

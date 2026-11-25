@@ -42,19 +42,14 @@ export async function SiteHeader() {
               </Button>
             </>
           ) : (
-            <>
-              <Button asChild variant="ghost" size="sm" className="hidden xl:inline-flex">
-                <Link href="/login">Log in</Link>
-              </Button>
-              <Button asChild size="sm" className="group hidden pr-1.5 sm:inline-flex">
-                <Link href="/consultation">
-                  Free evaluation
-                  <span className="grid size-6 place-items-center rounded-full bg-ink text-primary transition-transform duration-200 group-hover:rotate-45">
-                    <ArrowUpRight weight="bold" className="size-3.5" />
-                  </span>
-                </Link>
-              </Button>
-            </>
+            <Button asChild size="sm" className="group hidden pr-1.5 sm:inline-flex">
+              <Link href="/consultation">
+                Free evaluation
+                <span className="grid size-6 place-items-center rounded-full bg-ink text-primary transition-transform duration-200 group-hover:rotate-45">
+                  <ArrowUpRight weight="bold" className="size-3.5" />
+                </span>
+              </Link>
+            </Button>
           )}
           <MobileNav sessionRole={session?.role ?? null} />
         </div>

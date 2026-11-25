@@ -3,9 +3,12 @@ import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { whatsappLink } from "@/lib/site";
 
 export function WhatsAppFab() {
+  const href = whatsappLink("Hi! I'd like help applying to Germany.");
+  if (!href) return null;
+
   return (
     <Link
-      href={whatsappLink("Hi! I'd like help applying to Germany.")}
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed right-4 bottom-24 z-40 inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-3 text-sm font-semibold text-ink shadow-[0_8px_24px_rgb(37_211_102/0.35)] transition-transform hover:scale-105 md:right-6 md:bottom-6"

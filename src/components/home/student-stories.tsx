@@ -10,6 +10,7 @@ import {
   SealCheck,
 } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
+import { ComingSoon } from "@/components/ui/coming-soon";
 import { MagneticWrap } from "@/components/motion/magnetic-button";
 import { Reveal } from "@/components/motion/reveal";
 import { testimonials, type Testimonial } from "@/data/testimonials";
@@ -210,7 +211,7 @@ export function StudentStories() {
         </p>
       </Reveal>
 
-      <div
+      {testimonials.length ? <div
         className="scrollbar-none -mx-4 mt-12 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0"
         role="list"
       >
@@ -224,7 +225,13 @@ export function StudentStories() {
             <StoryCard t={t} index={index} />
           </Reveal>
         ))}
-      </div>
+      </div> : (
+        <ComingSoon
+          className="mx-auto mt-10 max-w-xl"
+          title="Verified stories coming soon"
+          description="We are collecting approved student stories before publishing them here."
+        />
+      )}
 
       <div className="mt-10 flex flex-wrap justify-center gap-3">
         <MagneticWrap>

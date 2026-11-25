@@ -57,6 +57,66 @@ export function ScholarshipCardSkeletonList({ count = 4 }: { count?: number }) {
   return <Bars count={count} card={() => <ScholarshipCardSkeleton />} />;
 }
 
+export function ScholarshipResultsSkeleton({ count = 3 }: { count?: number }) {
+  return (
+    <div
+      className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+      aria-hidden
+    >
+      {Array.from({ length: count }, (_, index) => (
+        <div
+          key={index}
+          className="flex min-h-[440px] flex-col rounded-3xl border border-border bg-white p-6 shadow-card"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <Skeleton className="size-11 rounded-2xl" />
+            <Skeleton className="h-7 w-24 rounded-full" />
+          </div>
+          <Skeleton className="mt-5 h-3 w-40" />
+          <Skeleton className="mt-3 h-6 w-full" />
+          <Skeleton className="mt-2 h-6 w-4/5" />
+          <div className="mt-4 flex gap-2">
+            <Skeleton className="h-7 w-20 rounded-full" />
+            <Skeleton className="h-7 w-14 rounded-full" />
+          </div>
+          <div className="mt-5 space-y-3">
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+          </div>
+          <div className="mt-auto pt-6">
+            <Skeleton className="mb-4 h-3 w-2/3" />
+            <Skeleton className="h-11 w-full rounded-full" />
+            <Skeleton className="mt-2 h-11 w-full rounded-full" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function ScholarshipPageSkeleton() {
+  return (
+    <div className="mx-auto max-w-7xl bg-background px-4 pb-16 pt-12 md:px-6 md:pt-16" aria-busy="true">
+      <div className="mx-auto max-w-2xl text-center">
+        <Skeleton className="mx-auto h-12 w-80 max-w-full" />
+        <Skeleton className="mx-auto mt-4 h-4 w-full max-w-xl" />
+        <Skeleton className="mx-auto mt-2 h-4 w-4/5 max-w-lg" />
+      </div>
+      <div className="mt-10 rounded-3xl border border-border bg-white p-4 md:p-6">
+        <Skeleton className="h-12 w-full rounded-full" />
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 8 }, (_, index) => <FilterFieldSkeleton key={index} />)}
+        </div>
+      </div>
+      <div className="mt-7">
+        <Skeleton className="mb-5 h-4 w-32" />
+        <ScholarshipResultsSkeleton />
+      </div>
+    </div>
+  );
+}
+
 export function ListingCardSkeleton() {
   return (
     <div className="rounded-2xl bg-white p-4 shadow-card">
@@ -69,6 +129,32 @@ export function ListingCardSkeleton() {
 
 export function ListingCardSkeletonList({ count = 4 }: { count?: number }) {
   return <Bars count={count} card={() => <ListingCardSkeleton />} />;
+}
+
+export function AusbildungCardSkeletonList({ count = 6 }: { count?: number }) {
+  return (
+    <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-hidden>
+      {Array.from({ length: count }, (_, index) => (
+        <li
+          key={index}
+          className="flex min-h-[300px] flex-col rounded-3xl border border-border bg-white p-5 shadow-card"
+        >
+          <div className="flex items-center justify-between gap-3">
+            <Skeleton className="h-7 w-24 rounded-full" />
+            <Skeleton className="size-9 rounded-xl" />
+          </div>
+          <Skeleton className="mt-5 h-6 w-full" />
+          <Skeleton className="mt-2 h-5 w-4/5" />
+          <div className="mt-5 space-y-3">
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-3/4" />
+            <Skeleton className="h-4 w-2/3" />
+          </div>
+          <Skeleton className="mt-auto h-11 w-full rounded-full" />
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export function GuideRowSkeletonList({ count = 4 }: { count?: number }) {

@@ -105,14 +105,6 @@ export function MobileNav({ sessionRole }: { sessionRole: "admin" | "user" | nul
           ))}
         </Accordion.Root>
 
-        {!sessionRole ? (
-          <div className="mt-auto border-t border-border px-5 py-4 text-sm">
-            <Link href="/login" onClick={() => setOpen(false)} className="font-semibold text-forest">
-              Log in
-            </Link>
-            <span className="text-muted-foreground"> to see your saved shortlist.</span>
-          </div>
-        ) : null}
       </SheetContent>
     </Sheet>
   );

@@ -288,16 +288,14 @@ async function DashboardHomeContent() {
             Share your profile with a consultant on WhatsApp.
           </p>
         </div>
-        <Button asChild size="lg" variant="whatsapp">
-          <a
-            href={whatsappLink(waMessage)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <WhatsAppIcon className="text-white" />
-            Let&apos;s have a chat!
-          </a>
-        </Button>
+        {whatsappLink(waMessage) ? (
+          <Button asChild size="lg" variant="whatsapp">
+            <a href={whatsappLink(waMessage)!} target="_blank" rel="noopener noreferrer">
+              <WhatsAppIcon className="text-white" />
+              Let&apos;s have a chat!
+            </a>
+          </Button>
+        ) : null}
       </section>
     </div>
   );
