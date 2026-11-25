@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { SignIn } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { GoogleIcon } from "@/components/icons/google-icon";
 import { SetPasswordForm } from "@/components/auth/set-password-form";
 import { authClient } from "@/lib/auth/auth-client";
 import { MIN_PASSWORD_LENGTH } from "@/lib/auth/constants";
@@ -19,25 +19,10 @@ type Mode = "login" | "signup";
 type Method = "password" | "code" | "reset";
 type Step = "auth" | "set-password";
 
-const GOOGLE_ERRORS: Record<string, string> = {
-  access_denied: "Google sign-in was cancelled.",
-  state_mismatch:
-    "Google sign-in expired or was opened in another tab. Please try again.",
-  account_not_linked:
-    "This email already has an account. Log in with your email code, then try Google again.",
-};
-
-function googleErrorMessage(code: string | null) {
-  if (!code) return null;
-  return GOOGLE_ERRORS[code] ?? "Google sign-in did not work. Please try again or use an email code.";
-}
-
 export function StudentAuthForm({
   mode,
-  googleEnabled = false,
 }: {
   mode: Mode;
-  googleEnabled?: boolean;
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -52,9 +37,7 @@ export function StudentAuthForm({
   const [otp, setOtp] = useState("");
   const [sent, setSent] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(
-    googleErrorMessage(searchParams.get("error"))
-  );
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState<"admin" | "user">("user");
 
@@ -73,7 +56,7 @@ export function StudentAuthForm({
     router.refresh();
   }
 
-  /** After a code or Google login, offer a password for next time. */
+  /** After a code login, offer a password for next time. */
   async function afterAuth(offerPassword: boolean) {
     const state = await loadLoginState();
     if (!state) {
@@ -174,22 +157,6 @@ export function StudentAuthForm({
     }
     await afterAuth(false);
     setLoading(false);
-  }
-
-  async function signInGoogle() {
-    setLoading(true);
-    setError(null);
-    const here = mode === "signup" ? "/signup" : "/login";
-    const { error: googleError } = await authClient.signIn.social({
-      provider: "google",
-      callbackURL: `/login/continue?next=${encodeURIComponent(next)}`,
-      newUserCallbackURL: `/login/continue?next=${encodeURIComponent(next)}&new=1`,
-      errorCallbackURL: `${here}?next=${encodeURIComponent(next)}`,
-    });
-    if (googleError) {
-      setLoading(false);
-      setError(googleError.message ?? "Google sign-in is not available right now.");
-    }
   }
 
   if (step === "set-password") {
@@ -348,9 +315,11 @@ export function StudentAuthForm({
             <Button
               type="button"
               variant="dark"
+              className="w-full"
               onClick={signInWithPassword}
               disabled={loading || !validEmail || !password}
             >
+              <SignIn className="size-5" />
               Log in
             </Button>
           ) : (
@@ -385,23 +354,6 @@ export function StudentAuthForm({
           ) : null}
         </div>
 
-        {googleEnabled && method !== "reset" ? (
-          <>
-            <div className="relative py-2 text-center text-xs text-muted-foreground before:absolute before:inset-x-0 before:top-1/2 before:border-t before:border-muted">
-              <span className="relative bg-white px-2">or</span>
-            </div>
-            <Button
-              type="button"
-              variant="ghost"
-              className="h-12 w-full gap-3 rounded-full bg-[#f8dce8] px-6 text-[15px] font-semibold text-ink hover:bg-[#f3c9db]"
-              onClick={signInGoogle}
-              disabled={loading}
-            >
-              <GoogleIcon className="size-5" />
-              {mode === "signup" ? "Sign up with Google" : "Log in with Google"}
-            </Button>
-          </>
-        ) : null}
       </div>
 
       <p className="mt-6 text-center text-sm text-muted-foreground">

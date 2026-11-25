@@ -43,7 +43,7 @@ export async function AdminShell({
           <div className="flex h-14 items-center justify-between px-4"><Logo /><AdminAccountMenu email={session.email} name={session.name} compact /></div>
         </header>
         <main className="mx-auto w-full max-w-[1440px] flex-1 px-4 py-6 pb-24 md:px-5 md:py-5 md:pb-5">
-          <AdminTopHeader title={title} actions={headerActions} />
+          <AdminTopHeader title={title} actions={headerActions} showTools={title === "Dashboard"} />
           {children}
         </main>
       </div>
