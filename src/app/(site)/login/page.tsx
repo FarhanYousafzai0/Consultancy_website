@@ -5,13 +5,6 @@ import { getSession } from "@/lib/auth/session";
 
 export const metadata = { title: "Log in" };
 
-function googleEnabled() {
-  return Boolean(
-    process.env.GOOGLE_CLIENT_ID?.trim() &&
-      process.env.GOOGLE_CLIENT_SECRET?.trim()
-  );
-}
-
 export default async function LoginPage() {
   const session = await getSession();
   if (session?.role === "admin") redirect("/admin/programs");
@@ -19,7 +12,7 @@ export default async function LoginPage() {
 
   return (
     <Suspense fallback={<div className="px-4 py-16 text-center">Loading…</div>}>
-      <StudentAuthForm mode="login" googleEnabled={googleEnabled()} />
+      <StudentAuthForm mode="login" />
     </Suspense>
   );
 }

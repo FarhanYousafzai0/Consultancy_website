@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ComingSoon } from "@/components/ui/coming-soon";
 import { webinars } from "@/data/webinars";
-import { whatsappLink } from "@/lib/site";
+import { safeHttpsUrl } from "@/lib/site";
 
 export const metadata = {
   title: "Webinars",
@@ -10,10 +11,6 @@ export const metadata = {
 };
 
 export default function WebinarsPage() {
-  const defaultRegister = whatsappLink(
-    "Hi! I'd like to register for the next Parwaaz webinar."
-  );
-
   return (
     <div className="mx-auto max-w-3xl px-4 py-10 md:py-14">
       <div className="mx-auto max-w-2xl text-center">
@@ -37,17 +34,21 @@ export default function WebinarsPage() {
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               {w.blurb}
             </p>
-            <div className="mt-4">
-              <Button asChild size="sm" variant="outline">
-                <a
-                  href={w.registerUrl || defaultRegister}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Register interest
-                </a>
-              </Button>
-            </div>
+            {safeHttpsUrl(w.registerUrl) ? (
+              <div className="mt-4">
+                <Button asChild size="sm" variant="outline">
+                  <a href={safeHttpsUrl(w.registerUrl)!} target="_blank" rel="noopener noreferrer">
+                    Register
+                  </a>
+                </Button>
+              </div>
+            ) : (
+              <ComingSoon
+                className="mt-4 p-4 text-left"
+                title="Registration coming soon"
+                description="The session date and registration link will appear here once they are confirmed."
+              />
+            )}
           </li>
         ))}
       </ul>

@@ -19,23 +19,43 @@ After setting Mongo, run: `npm run db:migrate`
 
 ### 2. Better Auth
 - `BETTER_AUTH_SECRET` — long random string (32+ chars). Generate: `openssl rand -base64 32`
-- `BETTER_AUTH_URL` — `http://localhost:3000` in dev
+- `BETTER_AUTH_URL` — `http://localhost:3000` in dev. **On the live site this must be the live address** (for example `https://www.your-domain.com`, no trailing slash). Google sends people back to `{BETTER_AUTH_URL}/api/auth/callback/google`; if it is wrong, Google login fails.
+- `BETTER_AUTH_TRUSTED_ORIGINS` (optional) — extra comma-separated addresses allowed to sign in. The `BETTER_AUTH_URL` address, its `www`/bare twin and the Vercel deployment URLs are allowed automatically.
+- Serve the site on **one** host: redirect `www` → bare domain (or the reverse) in Vercel → Domains, and use that host in `BETTER_AUTH_URL`. Google login started on the other host fails with "state mismatch".
 
 ### 3. Resend (email OTP + deadline alerts)
 1. Create account at https://resend.com
 2. Create an API key → `RESEND_API_KEY`
 3. Verify a sending domain (or use onboarding sender) → `EMAIL_FROM` (also accepts `RESEND_FROM_EMAIL`)
-4. Without `RESEND_API_KEY`, OTP is written to `DEV_OTP_FILE` and the server console (dev only).
-5. Deadline alerts: set `CRON_SECRET`, then call  
+4. Without `RESEND_API_KEY`, OTP is written to `DEV_OTP_FILE` and the server console (dev only). In production a missing key is an error shown to the user.
+5. `EMAIL_FROM` must be on a domain verified in **this** Resend account, for example `Parwaaz <no-reply@your-domain.com>`.
+6. Deadline alerts: set `CRON_SECRET`, then call  
    `GET /api/cron/deadline-alerts` with header `Authorization: Bearer <CRON_SECRET>`  
    (or `x-cron-secret`). Add `?dryRun=1` to list candidates without sending. Reminders fire at 30 / 14 / 7 days before shortlisted program or saved scholarship deadlines.
 
 ### 4. Admin allow-list
-`ADMIN_EMAILS` — comma-separated **real** emails that get the admin role after OTP login (use an inbox you can open when Resend is on).
+`ADMIN_EMAILS` — comma-separated **real** emails that get the admin role (use an inbox you can open when Resend is on).
+
+Create the admin account with a password:
+
+```
+npm run db:seed-admin
+```
+
+- Uses the first email in `ADMIN_EMAILS` (or `-- --email=you@example.com`).
+- Password comes from `ADMIN_SEED_PASSWORD`; if unset, a random one is saved to `ADMIN_SEED_PASSWORD_FILE` (default `D:\dev-cache\parwaz\admin-password.txt`).
+- Re-running keeps an existing password; add `-- --reset-password` to replace it.
+- The script writes to whatever database `MONGODB_URI` in `.env.local` points to.
+
+Admins sign in at `/admin/login` with password or email code. Students log in at `/login` with password, email code or Google; after a code or Google login they are offered a password, and can add or change it later on `/dashboard/profile`.
 
 ### 5. Google OAuth (optional)
 `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — enables “Sign in with Google” on `/login` and `/signup`.
-Redirect URI: `{BETTER_AUTH_URL}/api/auth/callback/google`
+In Google Cloud Console → APIs & Services → Credentials → your OAuth client:
+- Authorised JavaScript origins: `http://localhost:3000` and the live address.
+- Authorised redirect URIs: `http://localhost:3000/api/auth/callback/google` and `https://<live-host>/api/auth/callback/google`.
+- OAuth consent screen: publish the app ("In production"). While it is "Testing", only listed test users can sign in.
+- Set `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` in Vercel for Production too, then redeploy.
 
 ### 6. AI Advisor (Gemini + optional OpenAI)
 1. Create a Gemini API key in Google AI Studio → `GEMINI_API_KEY`

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PasswordSettings } from "@/components/dashboard/password-settings";
 import { ProfileEditor } from "@/components/dashboard/profile-editor";
 import { Button } from "@/components/ui/button";
 import { getSession } from "@/lib/auth/session";
@@ -33,6 +34,8 @@ export default async function DashboardProfilePage() {
       </div>
 
       <ProfileEditor initial={initial} />
+
+      <PasswordSettings />
 
       <Button asChild variant="outline">
         <Link href="/dashboard">Back to dashboard</Link>

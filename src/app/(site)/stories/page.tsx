@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ComingSoon } from "@/components/ui/coming-soon";
 import { successStories } from "@/data/success-stories";
 
 export const metadata = {
@@ -22,8 +23,9 @@ export default function StoriesPage() {
         </p>
       </div>
 
-      <ul className="mt-10 space-y-4">
-        {successStories.map((story) => (
+      {successStories.length ? (
+        <ul className="mt-10 space-y-4">
+          {successStories.map((story) => (
           <li key={story.id} className="rounded-2xl bg-white p-6 shadow-card">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <p className="text-lg font-extrabold">{story.initials}</p>
@@ -40,8 +42,15 @@ export default function StoriesPage() {
               {story.body}
             </p>
           </li>
-        ))}
-      </ul>
+          ))}
+        </ul>
+      ) : (
+        <ComingSoon
+          className="mt-10"
+          title="Verified stories coming soon"
+          description="We will publish student stories only after they are approved for sharing."
+        />
+      )}
 
       <div className="mt-10 flex flex-wrap gap-3">
         <Button asChild>

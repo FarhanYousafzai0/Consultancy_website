@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/dialog";
 import { dicebearAvatarUrl } from "@/lib/avatar/dicebear";
 import { whatsappLink } from "@/lib/site";
-import { cn } from "cn";
 
 export type AccountMenuProps = {
   name: string;
@@ -162,7 +161,7 @@ function AccountDialogBody({
   aiCredits: number;
   sopReviewUnlocked: boolean;
   freeAnalysisUsed: boolean;
-  creditWhatsApp: string;
+  creditWhatsApp: string | null;
   onClose: () => void;
 }) {
   return (
@@ -239,7 +238,7 @@ function AccountDialogBody({
               <CaretRight className="size-4" />
             </Link>
           </Button>
-          {!isPaid || aiCredits < 1 ? (
+          {(!isPaid || aiCredits < 1) && creditWhatsApp ? (
             <Button asChild variant="whatsapp" className="justify-center">
               <a
                 href={creditWhatsApp}

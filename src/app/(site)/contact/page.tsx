@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ComingSoon } from "@/components/ui/coming-soon";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { site, whatsappLink } from "@/lib/site";
 
@@ -46,18 +47,24 @@ export default function ContactPage() {
           <Button asChild size="lg">
             <Link href="/consultation">Get your free profile evaluation</Link>
           </Button>
-          <Button asChild size="lg" variant="whatsapp">
-            <a
-              href={whatsappLink(
-                "Hi! I'm contacting Parwaaz from the Contact page."
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <WhatsAppIcon className="size-[18px]" />
-              Open WhatsApp
-            </a>
-          </Button>
+          {whatsappLink("Hi! I'm contacting Parwaaz from the Contact page.") ? (
+            <Button asChild size="lg" variant="whatsapp">
+              <a
+                href={whatsappLink("Hi! I'm contacting Parwaaz from the Contact page.")!}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <WhatsAppIcon className="size-[18px]" />
+                Open WhatsApp
+              </a>
+            </Button>
+          ) : (
+            <ComingSoon
+              className="p-4 text-left"
+              title="WhatsApp contact coming soon"
+              description="A direct WhatsApp contact option will appear here once it is configured."
+            />
+          )}
           <Button asChild size="lg" variant="outline">
             <Link href="/services">View services</Link>
           </Button>

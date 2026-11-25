@@ -61,16 +61,24 @@ type RawJob = {
   refnr?: string;
   referenznummer?: string;
   titel?: string;
+  stellenangebotsTitel?: string;
   beruf?: string;
   arbeitgeber?: string;
+  firma?: string;
   arbeitsort?: { ort?: string; region?: string; plz?: string };
+  stellenlokationen?: Array<{
+    adresse?: { ort?: string; region?: string; plz?: string };
+  }>;
   externeUrl?: string;
+  externeURL?: string;
   aktuelleVeroeffentlichungsdatum?: string;
+  datumErsteVeroeffentlichung?: string;
   eintrittsdatum?: string;
 };
 
 type RawSearchResponse = {
   stellenangebote?: RawJob[];
+  ergebnisliste?: RawJob[];
   maxErgebnisse?: number | string;
   page?: number;
   size?: number;
@@ -91,26 +99,35 @@ export function cacheKey(params: JobsucheSearchParams): string {
 
 export function normalizeListing(raw: RawJob): AusbildungListing | null {
   const id = String(raw.refnr || raw.referenznummer || "").trim();
-  const title = String(raw.titel || raw.beruf || "").trim();
+  const title = String(
+    raw.stellenangebotsTitel || raw.titel || raw.beruf || ""
+  ).trim();
   if (!id || !title) return null;
 
+  const location = raw.stellenlokationen?.[0]?.adresse;
   const city =
+    location?.ort?.trim() ||
+    location?.region?.trim() ||
     raw.arbeitsort?.ort?.trim() ||
     raw.arbeitsort?.region?.trim() ||
     "Germany";
 
   // Public Jobsuche detail page — works without encoding the ref for basic UX
   const url =
+    raw.externeURL?.trim() ||
     raw.externeUrl?.trim() ||
     `https://www.arbeitsagentur.de/jobsuche/jobdetail/${encodeURIComponent(id)}`;
 
   return {
     id,
     title,
-    employer: String(raw.arbeitgeber || "Employer").trim() || "Employer",
+    employer: String(raw.firma || raw.arbeitgeber || "Employer").trim() || "Employer",
     city,
     url,
-    publishedAt: raw.aktuelleVeroeffentlichungsdatum?.trim() || null,
+    publishedAt:
+      raw.datumErsteVeroeffentlichung?.trim() ||
+      raw.aktuelleVeroeffentlichungsdatum?.trim() ||
+      null,
   };
 }
 
@@ -119,15 +136,19 @@ export function normalizeSearchResponse(
   page: number,
   size: number
 ): JobsucheSearchResult {
-  const listings = (data.stellenangebote ?? [])
+  const listings = (data.ergebnisliste ?? data.stellenangebote ?? [])
     .map(normalizeListing)
     .filter((x): x is AusbildungListing => Boolean(x));
   const totalRaw = data.maxErgebnisse;
   const total =
     typeof totalRaw === "number"
-      ? totalRaw
+      ? Number.isFinite(totalRaw) && totalRaw >= 0
+        ? totalRaw
+        : listings.length
       : typeof totalRaw === "string"
-        ? Number(totalRaw) || listings.length
+        ? Number.isFinite(Number(totalRaw)) && Number(totalRaw) >= 0
+          ? Number(totalRaw)
+          : listings.length
         : listings.length;
   return { listings, page, size, total };
 }

@@ -4,5 +4,5 @@ import type { ReactNode } from "react";
 export const dynamic = "force-dynamic";
 
 export default function AdminGroupLayout({ children }: { children: ReactNode }) {
-  return <div className="min-h-screen bg-muted/40 text-foreground">{children}</div>;
+  return <div className="min-h-screen bg-[#edf1ee] text-foreground">{children}</div>;
 }

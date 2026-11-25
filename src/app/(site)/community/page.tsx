@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { whatsappLink, site } from "@/lib/site";
+import { ComingSoon } from "@/components/ui/coming-soon";
+import {
+  DEFAULT_COMMUNITY_WHATSAPP_URL,
+  safeWhatsAppUrl,
+  site,
+  whatsappLink,
+} from "@/lib/site";
 
 export const metadata = {
   title: "Community",
@@ -9,8 +15,10 @@ export const metadata = {
 };
 
 function communityUrl() {
-  const custom = process.env.NEXT_PUBLIC_COMMUNITY_WHATSAPP_URL?.trim();
+  const custom = safeWhatsAppUrl(process.env.NEXT_PUBLIC_COMMUNITY_WHATSAPP_URL?.trim());
   if (custom) return custom;
+  const configuredDefault = safeWhatsAppUrl(DEFAULT_COMMUNITY_WHATSAPP_URL);
+  if (configuredDefault) return configuredDefault;
   return whatsappLink(
     `Hi ${site.name}! I'd like to join the student community.`
   );
@@ -40,11 +48,19 @@ export default function CommunityPage() {
           <li>Share wins — admissions stay student-reported, never fake %</li>
         </ul>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Button asChild size="lg" variant="whatsapp">
-            <a href={href} target="_blank" rel="noopener noreferrer">
-              Join on WhatsApp
-            </a>
-          </Button>
+          {href ? (
+            <Button asChild size="lg" variant="whatsapp">
+              <a href={href} target="_blank" rel="noopener noreferrer">
+                Join on WhatsApp
+              </a>
+            </Button>
+          ) : (
+            <ComingSoon
+              className="p-4 text-left"
+              title="Community invite coming soon"
+              description="The community link will appear here once it is configured."
+            />
+          )}
           <Button asChild size="lg" variant="outline">
             <Link href="/webinars">See webinars</Link>
           </Button>

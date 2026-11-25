@@ -13,7 +13,8 @@
     "db:import-scale": "tsx --env-file=.env.local scripts/import-scale-programs.ts",
     "db:fix-aps": "tsx --env-file=.env.local scripts/fix-aps.ts",
     "ai:bench": "tsx --env-file=.env.local scripts/ai-benchmark.ts",
-    "scholarships:research": "tsx --env-file=.env.local scripts/research-scholarships.ts"
+    "scholarships:research": "tsx --env-file=.env.local scripts/research-scholarships.ts",
+    "db:seed-admin": "tsx --env-file=.env.local scripts/seed-admin.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.88",

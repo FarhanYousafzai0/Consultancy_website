@@ -9,25 +9,35 @@ import {
   ANGEBOTSART_AUSBILDUNG,
 } from "@/lib/ausbildung/jobsuche";
 
-const fixture = {
+const currentApiFixture = {
   maxErgebnisse: 2,
-  stellenangebote: [
+  ergebnisliste: [
     {
-      refnr: "10001-ABC",
-      titel: "Ausbildung Fachinformatiker/in",
-      arbeitgeber: "Example GmbH",
-      arbeitsort: { ort: "Berlin" },
-      aktuelleVeroeffentlichungsdatum: "2026-10-01",
+      stellenangebotsTitel: "Ausbildung zum Ergotherapeuten (m/w/d)",
+      firma: "Evang. Diakonissenhaus Berlin Teltow Lehnin Stiftung",
+      referenznummer: "15245-2026kzygjhmb-000-S",
+      stellenlokationen: [
+        {
+          adresse: {
+            plz: "15926",
+            ort: "Luckau, Niederlausitz",
+            region: "BRANDENBURG",
+          },
+        },
+      ],
+      datumErsteVeroeffentlichung: "2026-11-25",
     },
     {
-      referenznummer: "10002-XYZ",
-      beruf: "Pflegefachmann/-frau",
-      arbeitgeber: "Klinik Nord",
-      arbeitsort: { region: "Bayern" },
+      stellenangebotsTitel: "Ausbildung Ergotherapeut (m/w/d)",
+      firma: "Privates Bildungszentrum Oschatz gGmbH",
+      referenznummer: "12781-16421307-KAL-S",
+      stellenlokationen: [{ adresse: { ort: "Oschatz", region: "SACHSEN" } }],
+      externeURL: "https://www.kalaydo.de/jobs/16421307/",
+      datumErsteVeroeffentlichung: "2026-11-25",
     },
     {
       // missing id — skipped
-      titel: "Broken row",
+      stellenangebotsTitel: "Broken row",
     },
   ],
 };
@@ -47,14 +57,44 @@ describe("jobsuche field mapping", () => {
 describe("jobsuche normalization", () => {
   beforeEach(() => clearJobsucheCache());
 
-  it("normalizes API rows and drops incomplete ones", () => {
-    const result = normalizeSearchResponse(fixture, 1, 20);
+  it("normalizes the current Jobsuche response and drops incomplete rows", () => {
+    const result = normalizeSearchResponse(currentApiFixture, 1, 20);
     assert.equal(result.listings.length, 2);
     assert.equal(result.total, 2);
-    assert.equal(result.listings[0].title, "Ausbildung Fachinformatiker/in");
-    assert.equal(result.listings[0].city, "Berlin");
-    assert.ok(result.listings[0].url.includes("10001-ABC"));
-    assert.equal(result.listings[1].city, "Bayern");
+    assert.equal(result.listings[0].title, "Ausbildung zum Ergotherapeuten (m/w/d)");
+    assert.equal(result.listings[0].employer, "Evang. Diakonissenhaus Berlin Teltow Lehnin Stiftung");
+    assert.equal(result.listings[0].city, "Luckau, Niederlausitz");
+    assert.equal(result.listings[0].publishedAt, "2026-11-25");
+    assert.ok(result.listings[0].url.includes("15245-2026kzygjhmb-000-S"));
+    assert.equal(result.listings[1].city, "Oschatz");
+    assert.equal(result.listings[1].url, "https://www.kalaydo.de/jobs/16421307/");
+  });
+
+  it("uses safe fallbacks when current API fields are missing", () => {
+    const listing = normalizeListing({
+      referenznummer: "fallback-1",
+      stellenangebotsTitel: "Ausbildung ohne Zusatzdaten",
+      stellenlokationen: [{}],
+    });
+
+    assert.deepEqual(listing, {
+      id: "fallback-1",
+      title: "Ausbildung ohne Zusatzdaten",
+      employer: "Employer",
+      city: "Germany",
+      url: "https://www.arbeitsagentur.de/jobsuche/jobdetail/fallback-1",
+      publishedAt: null,
+    });
+  });
+
+  it("preserves an empty API response as an empty result", () => {
+    const result = normalizeSearchResponse(
+      { ergebnisliste: [], maxErgebnisse: 0 },
+      2,
+      20
+    );
+
+    assert.deepEqual(result, { listings: [], page: 2, size: 20, total: 0 });
   });
 
   it("builds Ausbildung-filtered search URLs", () => {

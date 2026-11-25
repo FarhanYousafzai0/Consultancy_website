@@ -8,6 +8,8 @@ import { FilterSelect } from "@/components/ui/filter-select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { subjectGroupOptions } from "@/lib/daad/catalog";
+import { ScholarshipResultsSkeleton } from "@/components/ui/content-skeletons";
+import { PaginationControls } from "@/components/ui/pagination-controls";
 
 type Scholarship = {
   id: string;
@@ -174,12 +176,19 @@ export function ScholarshipShowcase() {
       </section>
 
       <section aria-label="Scholarship results" aria-busy={loading} className="mt-7">
-        <p role="status" className="mb-5 text-sm text-muted-foreground">{loading ? "Loading scholarships…" : error ? "Unable to load results" : `${result?.total ?? 0} scholarships`}</p>
+        <p role="status" className="sr-only">{loading ? "Loading scholarships" : error ? "Unable to load results" : `${result?.total ?? 0} scholarships loaded`}</p>
         {error && !loading ? <div role="alert" className="rounded-3xl border border-border p-8 text-center"><p>{error}</p><Button className="mt-4" onClick={() => { setLoadedQuery(""); setRetry((value) => value + 1); }}>Try again</Button></div>
-          : loading ? <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{[0, 1, 2].map((key) => <div key={key} aria-hidden className="h-80 rounded-3xl border border-border bg-muted/40 motion-safe:animate-pulse" />)}</div>
+          : loading ? <ScholarshipResultsSkeleton />
           : result?.scholarships.length ? <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{result.scholarships.map((scholarship) => <li key={scholarship.id} className="min-w-0"><ShowcaseCard scholarship={scholarship} /></li>)}</ul>
           : <div className="rounded-3xl border border-dashed border-border px-6 py-14 text-center"><p className="font-semibold">No scholarships found</p><p className="mt-2 text-sm text-muted-foreground">Try another search or clear your filters to see the full collection.</p></div>}
-        {!loading && !error && (filters.page > 1 || result?.hasMore) && <nav aria-label="Scholarship pages" className="mt-8 flex items-center justify-center gap-4"><Button variant="outline" disabled={filters.page <= 1} onClick={() => void setFilters({ page: filters.page - 1 })}>Previous</Button><span className="text-sm">Page {filters.page}</span><Button variant="outline" disabled={!result?.hasMore} onClick={() => void setFilters({ page: filters.page + 1 })}>Next</Button></nav>}
+        {!loading && !error && result ? (
+          <PaginationControls
+            currentPage={filters.page}
+            totalPages={Math.ceil(result.total / (result.meta?.pageSize ?? 12))}
+            onPageChange={(page) => void setFilters({ page })}
+            label="Scholarship pages"
+          />
+        ) : null}
       </section>
     </div>
   );

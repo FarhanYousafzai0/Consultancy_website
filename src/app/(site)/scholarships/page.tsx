@@ -1,4 +1,5 @@
 import { ScholarshipShowcase } from "@/components/scholarships/scholarship-showcase";
+import { ScholarshipPageSkeleton } from "@/components/ui/content-skeletons";
 import { Suspense } from "react";
 
 export const metadata = {
@@ -8,5 +9,5 @@ export const metadata = {
 };
 
 export default function ScholarshipsPage() {
-  return <Suspense fallback={<p className="p-12 text-center">Loading scholarships…</p>}><ScholarshipShowcase /></Suspense>;
+  return <Suspense fallback={<ScholarshipPageSkeleton />}><ScholarshipShowcase /></Suspense>;
 }

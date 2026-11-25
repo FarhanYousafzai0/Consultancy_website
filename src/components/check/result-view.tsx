@@ -243,10 +243,10 @@ export function ResultView() {
       </section>
 
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        {result.showConsultant ? (
+        {result.showConsultant && whatsappLink(whatsappSummary(answers)) ? (
           <Button asChild size="lg" variant="whatsapp">
             <Link
-              href={whatsappLink(whatsappSummary(answers))}
+              href={whatsappLink(whatsappSummary(answers))!}
               target="_blank"
               rel="noopener noreferrer"
             >

@@ -183,8 +183,12 @@ export function AdvisorChat() {
       const fallback = whatsappLink(
         "Hi! I'd like help applying to Germany after chatting with the advisor."
       );
-      setHandoffUrl(fallback);
-      window.open(fallback, "_blank", "noopener,noreferrer");
+      if (fallback) {
+        setHandoffUrl(fallback);
+        window.open(fallback, "_blank", "noopener,noreferrer");
+      } else {
+        setLocalError("WhatsApp contact is coming soon. Please use the consultation form instead.");
+      }
     }
   }
 

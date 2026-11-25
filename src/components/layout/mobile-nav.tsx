@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { navGroups } from "./nav-links";
 
-export function MobileNav({ signedIn }: { signedIn: boolean }) {
+export function MobileNav({ sessionRole }: { sessionRole: "admin" | "user" | null }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname() ?? "/";
   const defaultOpen = navGroups.find((g) => g.links.some((l) => pathname.startsWith(l.href) && l.href !== "/"))?.label;
@@ -34,17 +34,14 @@ export function MobileNav({ signedIn }: { signedIn: boolean }) {
         </div>
 
         <div className="space-y-2 px-4 py-4">
-          <Button asChild size="lg" className="w-full justify-between pr-2" onClick={() => setOpen(false)}>
-            <Link href="/check">
-              Check eligibility
-              <span className="grid size-8 place-items-center rounded-full bg-ink text-primary">
-                <ArrowRight weight="bold" className="size-4" />
-              </span>
-            </Link>
-          </Button>
-          <Button asChild size="lg" variant="outline" className="w-full" onClick={() => setOpen(false)}>
-            <Link href="/consultation">Get your free evaluation</Link>
-          </Button>
+          {sessionRole === "admin" ? (
+            <Button asChild size="lg" className="w-full justify-between pr-2" onClick={() => setOpen(false)}><Link href="/admin">Open admin workspace <span className="grid size-8 place-items-center rounded-full bg-ink text-primary"><ArrowRight weight="bold" className="size-4" /></span></Link></Button>
+          ) : (
+            <>
+              <Button asChild size="lg" className="w-full justify-between pr-2" onClick={() => setOpen(false)}><Link href="/check">Check eligibility <span className="grid size-8 place-items-center rounded-full bg-ink text-primary"><ArrowRight weight="bold" className="size-4" /></span></Link></Button>
+              <Button asChild size="lg" variant="outline" className="w-full" onClick={() => setOpen(false)}><Link href="/consultation">Get your free evaluation</Link></Button>
+            </>
+          )}
         </div>
 
         <Accordion.Root type="single" collapsible defaultValue={defaultOpen ?? navGroups[0]?.label} className="px-2 pb-6">
@@ -108,14 +105,6 @@ export function MobileNav({ signedIn }: { signedIn: boolean }) {
           ))}
         </Accordion.Root>
 
-        {!signedIn ? (
-          <div className="mt-auto border-t border-border px-5 py-4 text-sm">
-            <Link href="/login" onClick={() => setOpen(false)} className="font-semibold text-forest">
-              Log in
-            </Link>
-            <span className="text-muted-foreground"> to see your saved shortlist.</span>
-          </div>
-        ) : null}
       </SheetContent>
     </Sheet>
   );

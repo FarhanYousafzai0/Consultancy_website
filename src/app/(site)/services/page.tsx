@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight, CheckCircle, Prohibit } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
+import { ComingSoon } from "@/components/ui/coming-soon";
 import { WhatsAppIcon } from "@/components/icons/whatsapp-icon";
 import { PackageCta } from "@/components/services/package-cta";
 import {
@@ -120,18 +121,24 @@ export default function ServicesPage() {
           packages come next when you want us to do the work.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Button asChild size="lg" variant="whatsapp">
-            <a
-              href={whatsappLink(
-                "Hi! I'd like to talk about consultancy services on Parwaaz."
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <WhatsAppIcon className="size-[18px]" />
-              Message on WhatsApp
-            </a>
-          </Button>
+          {whatsappLink("Hi! I'd like to talk about consultancy services on Parwaaz.") ? (
+            <Button asChild size="lg" variant="whatsapp">
+              <a
+                href={whatsappLink("Hi! I'd like to talk about consultancy services on Parwaaz.")!}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <WhatsAppIcon className="size-[18px]" />
+                Message on WhatsApp
+              </a>
+            </Button>
+          ) : (
+            <ComingSoon
+              className="bg-white/10 p-4 text-left text-white"
+              title="WhatsApp contact coming soon"
+              description="A direct contact option will appear here once it is configured."
+            />
+          )}
           <Button
             asChild
             size="lg"

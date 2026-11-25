@@ -903,15 +903,17 @@ function SuccessView({ reference, name, channel }: { reference: string; name: st
         <p className="mt-2 text-xs text-muted-foreground">Quote this when you message us.</p>
       </div>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <Button asChild size="lg" variant="whatsapp">
-          <a
-            href={whatsappLink(`Hi! I just requested a consultation on Parwaaz. My reference is ${reference}.`)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <WhatsAppIcon className="size-[18px]" /> Message us now
-          </a>
-        </Button>
+        {whatsappLink(`Hi! I just requested a consultation on Parwaaz. My reference is ${reference}.`) ? (
+          <Button asChild size="lg" variant="whatsapp">
+            <a
+              href={whatsappLink(`Hi! I just requested a consultation on Parwaaz. My reference is ${reference}.`)!}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <WhatsAppIcon className="size-[18px]" /> Message us now
+            </a>
+          </Button>
+        ) : null}
         <Button asChild size="lg" variant="outline">
           <Link href="/programs">Browse master&apos;s programmes</Link>
         </Button>

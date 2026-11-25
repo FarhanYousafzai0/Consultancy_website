@@ -17,14 +17,16 @@ export function PackageCta({
     <Button asChild size={size} variant="dark" className={className}>
       {pkg.href ? (
         <Link href={pkg.href}>Get started</Link>
-      ) : (
+      ) : whatsappLink(pkg.whatsappMessage) ? (
         <a
-          href={whatsappLink(pkg.whatsappMessage)}
+          href={whatsappLink(pkg.whatsappMessage)!}
           target="_blank"
           rel="noopener noreferrer"
         >
           Get started
         </a>
+      ) : (
+        <span aria-disabled="true">Contact option coming soon</span>
       )}
     </Button>
   );
