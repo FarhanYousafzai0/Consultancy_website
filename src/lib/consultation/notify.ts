@@ -51,7 +51,7 @@ export async function notifyNewConsultation(record: ConsultationRecord) {
         `Hi ${record.fullName.split(" ")[0]},`,
         "",
         `Thanks for requesting a consultation with Parwaaz. Your reference is ${record.reference}.`,
-        "A consultant will review your profile and contact you within 1 business day on your preferred channel.",
+        "Thank you so much for completing your evaluation with us. Our team will review your profile and contact you within 1 business day on your preferred channel.",
         "",
         "Parwaaz Consultancy",
       ].join("\n"),

@@ -1,6 +1,7 @@
 import type { Icon } from "@phosphor-icons/react";
 import {
   Bank,
+  Briefcase,
   BookOpenText,
   ChatsCircle,
   CurrencyEur,
@@ -50,6 +51,7 @@ export const navGroups: NavGroup[] = [
     },
     links: [
       { href: "/scholarships", label: "All scholarships", description: "Matched to Pakistani master's applicants", icon: Medal },
+      { href: "/internships", label: "International internships", description: "Verified opportunities worldwide", icon: Briefcase },
       { href: "/guides/faq-daad", label: "DAAD quick facts", description: "Who wins and what it covers", icon: Star },
       { href: "/tools/cost-calculator", label: "Cost calculator", description: "Tuition, rent and blocked account", icon: CurrencyEur },
       { href: "/guides/faq-public-private", label: "Public vs private", description: "What you'll really pay", icon: Bank },

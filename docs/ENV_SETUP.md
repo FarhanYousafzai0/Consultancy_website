@@ -17,6 +17,37 @@ That starts an in-process MongoDB (binaries on `D:\dev-cache\mongodb-binaries`).
 
 After setting Mongo, run: `npm run db:migrate`
 
+## Internship research automation
+
+The internship research job reads only the curated official sources in
+`src/data/internship-sources.ts`. It validates extracted evidence and reports
+uncertain records for review; it does not publish records automatically.
+
+Required variables for the scheduled job:
+
+- `MONGODB_URI` — the database to update (not needed for dry-run)
+- `CRON_SECRET` — non-empty operational secret required by the research CLI
+- `GEMINI_API_KEY` or `OPENAI_API_KEY` — AI extraction provider credentials
+
+Run locally with the same command used by GitHub Actions:
+
+```
+npm run internships:research -- --dry-run
+npm run internships:research -- --sources=cern-internships --concurrency=1
+npm run internships:research -- --force --concurrency=4
+```
+
+Supported flags are `--dry-run`, `--force`, `--sources=id,id`, and
+`--concurrency=1..8`. Dry-run fetches and validates sources without creating
+research runs, changing source state, or writing internship records. Every run
+prints per-source results and a JSON summary containing successes, failures,
+extracted/upserted records, records needing review, skipped unchanged sources,
+provider usage, active published records, and error messages.
+
+GitHub Actions runs this workflow daily and exposes the same flags through
+manual dispatch. The workflow uses the `internship-research` concurrency group
+with cancellation disabled, so a scheduled run and a manual run cannot overlap.
+
 ### 2. Better Auth
 - `BETTER_AUTH_SECRET` — long random string (32+ chars). Generate: `openssl rand -base64 32`
 - `BETTER_AUTH_URL` — `http://localhost:3000` in dev. **On the live site this must be the live address** (for example `https://www.your-domain.com`, no trailing slash). Google sends people back to `{BETTER_AUTH_URL}/api/auth/callback/google`; if it is wrong, Google login fails.

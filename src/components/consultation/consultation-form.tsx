@@ -885,20 +885,23 @@ function ChoiceCard({
   );
 }
 
-function SuccessView({ reference, name, channel }: { reference: string; name: string; channel: string }) {
+export function SuccessView({ reference, name, channel }: { reference: string; name: string; channel: string }) {
   const first = name.split(" ")[0] || "there";
   return (
-    <div className="mx-auto max-w-xl px-4 py-12 text-center md:py-20">
-      <span className="mx-auto grid size-16 place-items-center rounded-full bg-primary">
+    <div className="mx-auto max-w-2xl px-4 py-12 md:py-20">
+      <section aria-labelledby="evaluation-success-title" className="relative overflow-hidden rounded-3xl border border-[#c2c7bc] bg-white p-6 text-center shadow-card sm:p-10 md:p-12">
+      <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-20 size-48 rounded-full bg-primary/20 blur-3xl" />
+      <span className="relative mx-auto grid size-16 place-items-center rounded-full bg-primary">
         <Check weight="bold" className="size-8 text-ink" />
       </span>
-      <h1 className="mt-6 text-3xl font-extrabold tracking-[-0.03em]">Request received, {first}</h1>
-      <p className="mt-3 text-muted-foreground">
-        A consultant will review your profile and contact you on{" "}
+      <p className="relative mt-6 text-xs font-bold uppercase tracking-[0.14em] text-forest">Evaluation submitted</p>
+      <h1 id="evaluation-success-title" className="relative mt-3 text-3xl font-extrabold tracking-[-0.03em] md:text-4xl">Thank you, {first}!</h1>
+      <p className="relative mx-auto mt-4 max-w-lg leading-relaxed text-muted-foreground">
+        Thank you so much for completing your evaluation with us. Our team will review your profile and contact you by{" "}
         {channel === "call" ? "a phone call" : channel === "email" ? "email" : "WhatsApp"} within 1 business day.
       </p>
-      <div className="mx-auto mt-8 max-w-sm rounded-2xl bg-white p-5 shadow-card">
-        <p className="text-xs uppercase tracking-wide text-muted-foreground">Your reference</p>
+      <div className="relative mx-auto mt-8 max-w-sm rounded-2xl border border-forest/10 bg-[#f5f8f1] p-5">
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Your reference</p>
         <p className="mt-1 font-mono text-2xl font-bold tracking-wider">{reference}</p>
         <p className="mt-2 text-xs text-muted-foreground">Quote this when you message us.</p>
       </div>
@@ -914,14 +917,15 @@ function SuccessView({ reference, name, channel }: { reference: string; name: st
             </a>
           </Button>
         ) : null}
-        <Button asChild size="lg" variant="outline">
-          <Link href="/programs">Browse master&apos;s programmes</Link>
+        <Button asChild size="lg">
+          <Link href="/scholarships"><GraduationCap aria-hidden="true" className="size-5" />Find scholarships</Link>
         </Button>
       </div>
       <p className="mt-8 text-sm text-muted-foreground">
         While you wait: run the{" "}
-        <Link href="/check" className="font-medium text-forest hover:underline">eligibility check</Link> and note a few programmes you like — it makes the first call more useful.
+        <Link href="/check" className="font-medium text-forest hover:underline">eligibility check</Link> and explore scholarships that interest you.
       </p>
+      </section>
     </div>
   );
 }

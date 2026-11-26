@@ -70,9 +70,10 @@ export function SiteFooter() {
           ))}
         </div>
         <div className="border-t border-white/10">
-          <p className="px-5 py-6 text-xs text-white/50 md:px-8">
-            © {new Date().getFullYear()} {site.name}. Program data is verified against official sources — always confirm on the university website before applying.
-          </p>
+          <div className="flex flex-col items-start gap-3 px-5 py-6 text-xs text-white/50 md:flex-row md:items-center md:justify-between md:gap-6 md:px-8">
+            <p className="shrink-0">Developed with ❤️ by <a href="https://muhammadfarhan.dev/" target="_blank" rel="noopener noreferrer" className="font-semibold text-white/80 underline-offset-4 transition-colors hover:text-primary hover:underline focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">Muhammad Farhan</a></p>
+            <p className="md:text-right">© {new Date().getFullYear()} {site.name}. Program data is verified against official sources — always confirm on the university website before applying.</p>
+          </div>
         </div>
       </div>
     </footer>

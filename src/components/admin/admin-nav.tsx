@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BookOpen,
+  Briefcase,
   ClipboardText,
   GraduationCap,
   House,
@@ -17,6 +18,7 @@ const nav = [
   { href: "/admin/leads", label: "Leads", icon: UsersThree },
   { href: "/admin/programs", label: "Programs", icon: GraduationCap },
   { href: "/admin/scholarships", label: "Scholarships", icon: BookOpen },
+  { href: "/admin/internships", label: "Internships", icon: Briefcase },
 ] as const;
 
 export function AdminNav({ consultationCount = 0, newConsultationCount = 0 }: { consultationCount?: number; newConsultationCount?: number }) {

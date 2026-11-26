@@ -95,6 +95,69 @@ export function ScholarshipResultsSkeleton({ count = 3 }: { count?: number }) {
   );
 }
 
+export function InternshipResultsSkeleton({ count = 6 }: { count?: number }) {
+  return (
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-hidden>
+      {Array.from({ length: count }, (_, index) => (
+        <div
+          key={index}
+          className="flex min-h-[500px] flex-col overflow-hidden rounded-3xl border border-border bg-white shadow-card"
+        >
+          <div className="flex items-center justify-between gap-3 bg-ink px-5 py-4">
+            <Skeleton className="size-11 rounded-2xl bg-white/15" />
+            <Skeleton className="h-7 w-24 rounded-full bg-white/15" />
+          </div>
+          <div className="flex flex-1 flex-col p-5 md:p-6">
+            <Skeleton className="h-3 w-40" />
+            <Skeleton className="mt-3 h-6 w-full" />
+            <Skeleton className="mt-2 h-6 w-4/5" />
+            <Skeleton className="mt-3 h-4 w-full" />
+            <Skeleton className="mt-2 h-4 w-11/12" />
+            <Skeleton className="mt-2 h-4 w-3/4" />
+            <div className="mt-5 flex gap-2">
+              <Skeleton className="h-7 w-28 rounded-full" />
+              <Skeleton className="h-7 w-24 rounded-full" />
+            </div>
+            <div className="mt-5 space-y-3">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-4/5" />
+              <Skeleton className="h-4 w-11/12" />
+            </div>
+            <div className="mt-auto pt-6">
+              <Skeleton className="mb-4 h-3 w-2/3" />
+              <Skeleton className="h-11 w-full rounded-full" />
+              <Skeleton className="mt-2 h-8 w-2/5 self-center rounded-full" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function InternshipPageSkeleton() {
+  return (
+    <div className="mx-auto max-w-7xl bg-background px-4 pb-16 pt-12 md:px-6 md:pt-16" aria-busy="true">
+      <div className="mx-auto max-w-3xl text-center">
+        <Skeleton className="mx-auto h-4 w-40" />
+        <Skeleton className="mx-auto mt-4 h-12 w-96 max-w-full" />
+        <Skeleton className="mx-auto mt-4 h-4 w-full max-w-2xl" />
+        <Skeleton className="mx-auto mt-2 h-4 w-4/5 max-w-xl" />
+      </div>
+      <div className="mt-10 rounded-3xl border border-border bg-white p-4 md:p-6">
+        <Skeleton className="h-12 w-full rounded-full" />
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 8 }, (_, index) => <FilterFieldSkeleton key={index} />)}
+        </div>
+      </div>
+      <div className="mt-8">
+        <Skeleton className="mb-5 h-4 w-36" />
+        <InternshipResultsSkeleton />
+      </div>
+    </div>
+  );
+}
+
 export function ScholarshipPageSkeleton() {
   return (
     <div className="mx-auto max-w-7xl bg-background px-4 pb-16 pt-12 md:px-6 md:pt-16" aria-busy="true">
@@ -154,6 +217,39 @@ export function AusbildungCardSkeletonList({ count = 6 }: { count?: number }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+export function AusbildungPageSkeleton() {
+  return (
+    <div className="mx-auto max-w-5xl px-4 py-10 md:py-14" aria-busy="true">
+      <section className="rounded-[2rem] bg-muted px-6 py-10 md:px-10 md:py-14">
+        <div className="mx-auto max-w-2xl text-center">
+          <Skeleton className="mx-auto h-4 w-24" />
+          <Skeleton className="mx-auto mt-4 h-12 w-full max-w-xl" />
+          <Skeleton className="mx-auto mt-4 h-4 w-full max-w-2xl" />
+          <Skeleton className="mx-auto mt-2 h-4 w-4/5 max-w-xl" />
+        </div>
+        <div className="mt-6 flex justify-center gap-3">
+          <Skeleton className="h-11 w-40 rounded-full" />
+          <Skeleton className="h-11 w-32 rounded-full" />
+        </div>
+      </section>
+      <section className="mt-10 space-y-4">
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-8 w-72 max-w-full" />
+        <Skeleton className="h-4 w-full max-w-2xl" />
+        <div className="pt-3">
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row">
+            <Skeleton className="h-11 flex-1 rounded-full" />
+            <Skeleton className="h-11 flex-1 rounded-full" />
+            <Skeleton className="h-11 flex-1 rounded-full" />
+            <Skeleton className="h-11 w-28 rounded-full" />
+          </div>
+          <AusbildungCardSkeletonList />
+        </div>
+      </section>
+    </div>
   );
 }
 

@@ -157,6 +157,131 @@ export type ScholarshipInput = Omit<
     >
   >;
 
+/** International internships */
+export type InternshipWorkMode = "remote" | "hybrid" | "on_site" | "unknown";
+export type InternshipDurationUnit = "weeks" | "months" | "year" | "unknown";
+export type InternshipDeadlineStatus =
+  | "confirmed"
+  | "rolling"
+  | "not_published"
+  | "ambiguous";
+export type InternshipFundingStatus =
+  | "paid"
+  | "unpaid"
+  | "fully_funded"
+  | "partially_funded"
+  | "unknown";
+export type InternshipVerificationStatus =
+  | "verified"
+  | "needs_review"
+  | "rejected";
+export type InternshipPublicationStatus =
+  | "draft"
+  | "published"
+  | "expired"
+  | "archived";
+export type InternshipOrganizationType =
+  | "government"
+  | "international_organization"
+  | "university"
+  | "research_institute"
+  | "company"
+  | "exchange_program"
+  | "other"
+  | "unknown";
+export type InternshipEducationLevel =
+  | "high_school"
+  | "undergraduate"
+  | "graduate"
+  | "phd"
+  | "postdoctoral"
+  | "professional"
+  | "other"
+  | "unknown";
+export type InternshipResearchProvider = "google" | "openai";
+
+export type InternshipEvidence = {
+  field: string;
+  quote: string;
+  sourceUrl: string;
+  capturedAt: string;
+};
+
+export type InternshipRecord = {
+  id: string;
+  title: string;
+  slug: string;
+  organizationName: string;
+  organizationLogoUrl: string | null;
+  summary: string;
+  description: string;
+  countryCode: string | null;
+  city: string | null;
+  locationLabel: string | null;
+  workMode: InternshipWorkMode;
+  durationValue: number | null;
+  durationUnit: InternshipDurationUnit;
+  startDate: string | null;
+  endDate: string | null;
+  durationText: string | null;
+  deadline: string | null;
+  deadlineStatus: InternshipDeadlineStatus;
+  eligibilityCriteria: string[];
+  eligibleNationalities: string[];
+  studyFields: ProgramField[];
+  educationLevels: InternshipEducationLevel[];
+  experienceRequirements: string | null;
+  fundingStatus: InternshipFundingStatus;
+  stipendSummary: string | null;
+  benefits: string[];
+  applicationUrl: string | null;
+  sourceUrl: string;
+  sourceDomain: string;
+  sourceOrganizationType: InternshipOrganizationType;
+  canonicalIdentity: string;
+  lastVerifiedAt: string | null;
+  lastCheckedAt: string | null;
+  lastSuccessfulFetchAt: string | null;
+  sourceContentHash: string | null;
+  verificationStatus: InternshipVerificationStatus;
+  publicationStatus: InternshipPublicationStatus;
+  researchProvider: InternshipResearchProvider | null;
+  researchModel: string | null;
+  researchError: string | null;
+  evidence: InternshipEvidence[];
+  notes: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type InternshipInput = Omit<
+  InternshipRecord,
+  | "id"
+  | "createdAt"
+  | "updatedAt"
+  | "sourceDomain"
+  | "canonicalIdentity"
+  | "lastCheckedAt"
+  | "lastSuccessfulFetchAt"
+  | "researchError"
+> &
+  Partial<
+    Pick<
+      InternshipRecord,
+      | "sourceDomain"
+      | "canonicalIdentity"
+      | "lastCheckedAt"
+      | "lastSuccessfulFetchAt"
+      | "researchError"
+    >
+  >;
+
+export type InternshipResearchFailure = {
+  canonicalIdentity: string;
+  lastCheckedAt?: string;
+  researchError: string;
+};
+
 /** Guides / knowledge base */
 export type GuideTopic =
   | "aps"
