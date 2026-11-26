@@ -1,0 +1,66 @@
+name: Research internships
+
+on:
+  schedule:
+    - cron: "47 3 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Validate and report without database writes
+        required: false
+        default: false
+        type: boolean
+      force:
+        description: Reprocess sources even when content is unchanged
+        required: false
+        default: false
+        type: boolean
+      sources:
+        description: Optional comma-separated source IDs
+        required: false
+        default: ""
+        type: string
+      concurrency:
+        description: Maximum parallel sources (1-8)
+        required: false
+        default: "4"
+        type: string
+
+concurrency:
+  group: internship-research
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Research internship sources
+        shell: bash
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AI_RESEARCH_PROVIDER: google
+          AI_RESEARCH_GOOGLE_MODEL: gemini-3.5-flash-lite
+          AI_RESEARCH_OPENAI_MODEL: gpt-4o-mini
+          RESEARCH_CONCURRENCY: ${{ inputs.concurrency || '4' }}
+          RESEARCH_DRY_RUN: ${{ inputs.dry_run || 'false' }}
+          RESEARCH_FORCE: ${{ inputs.force || 'false' }}
+          RESEARCH_SOURCES: ${{ inputs.sources || '' }}
+        run: |
+          args=("--concurrency=$RESEARCH_CONCURRENCY")
+          if [[ "$RESEARCH_DRY_RUN" == "true" ]]; then args+=("--dry-run"); fi
+          if [[ "$RESEARCH_FORCE" == "true" ]]; then args+=("--force"); fi
+          if [[ -n "$RESEARCH_SOURCES" ]]; then args+=("--sources=$RESEARCH_SOURCES"); fi
+          npx tsx scripts/research-internships.ts "${args[@]}"

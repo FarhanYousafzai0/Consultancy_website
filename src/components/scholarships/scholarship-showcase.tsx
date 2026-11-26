@@ -176,7 +176,6 @@ export function ScholarshipShowcase() {
       </section>
 
       <section aria-label="Scholarship results" aria-busy={loading} className="mt-7">
-        <p role="status" className="sr-only">{loading ? "Loading scholarships" : error ? "Unable to load results" : `${result?.total ?? 0} scholarships loaded`}</p>
         {error && !loading ? <div role="alert" className="rounded-3xl border border-border p-8 text-center"><p>{error}</p><Button className="mt-4" onClick={() => { setLoadedQuery(""); setRetry((value) => value + 1); }}>Try again</Button></div>
           : loading ? <ScholarshipResultsSkeleton />
           : result?.scholarships.length ? <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{result.scholarships.map((scholarship) => <li key={scholarship.id} className="min-w-0"><ShowcaseCard scholarship={scholarship} /></li>)}</ul>

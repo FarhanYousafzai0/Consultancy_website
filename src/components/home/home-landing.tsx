@@ -5,7 +5,12 @@ import { motion, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
   ArrowUpRight,
+  Briefcase,
   CheckCircle,
+  GraduationCap,
+  Compass,
+  FileMagnifyingGlass,
+  Wallet,
 } from "@phosphor-icons/react/ssr";
 import { Button } from "@/components/ui/button";
 import { AfterEvaluation } from "@/components/home/after-evaluation";
@@ -21,18 +26,26 @@ import { site } from "@/lib/site";
 
 const whoWeArePoints = [
   {
+    icon: GraduationCap,
+    label: "YOUR STARTING POINT",
     title: "Built for Pakistani degrees",
     text: "4-year BS, 2-year BA/BSc, CGPA or percentage: your evaluation is based on the degree you actually have.",
   },
   {
+    icon: Compass,
+    label: "OUR FOCUS",
     title: "Germany only",
     text: "Master's programmes at public and private universities, plus the scholarships for them. One country, known in depth.",
   },
   {
+    icon: FileMagnifyingGlass,
+    label: "HOW WE WORK",
     title: "Facts with a source",
     text: "Every deadline and requirement on this site links to its official source and shows when it was last checked.",
   },
   {
+    icon: Wallet,
+    label: "NO SURPRISES",
     title: "Free until you want more",
     text: "The tools and your evaluation are free. You only pay if you ask me to handle your applications or review your LOM and CV, and you see the fee in writing first.",
   },
@@ -82,6 +95,7 @@ function HeroArrow() {
 }
 
 export function HomeLanding() {
+  const reduceMotion = useReducedMotion();
   return (
     <>
       {/* No background. The flight runs the full screen width right under the header
@@ -120,9 +134,18 @@ export function HomeLanding() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-muted text-foreground hover:bg-border"
+                  className="border border-[#c2c7bc] bg-muted text-foreground hover:border-[#9aa392] hover:bg-border"
                 >
-                  <Link href="/scholarships">Find scholarships</Link>
+                  <Link href="/scholarships"><GraduationCap aria-hidden="true" className="size-5" />Find scholarships</Link>
+                </Button>
+              </MagneticWrap>
+              <MagneticWrap>
+                <Button
+                  asChild
+                  size="lg"
+                  className="border border-[#c2c7bc] bg-muted text-foreground hover:border-[#9aa392] hover:bg-border"
+                >
+                  <Link href="/internships"><Briefcase aria-hidden="true" className="size-5" />Find internships</Link>
                 </Button>
               </MagneticWrap>
             </div>
@@ -176,37 +199,44 @@ export function HomeLanding() {
 
       <section className="mx-auto max-w-[90rem] px-4 pt-16 pb-4 md:px-6 md:pt-24">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl bg-muted">
-            <div className="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-primary/40 blur-3xl" />
+          <div className="relative overflow-hidden rounded-[2rem] bg-[#e9eee8]">
+            <div className="pointer-events-none absolute -right-16 -top-20 size-72 rounded-full bg-primary/30 blur-3xl" />
             <div className="relative px-6 py-12 md:px-12 md:py-16">
-              <div className="mx-auto max-w-2xl text-center">
-                <p className="section-label justify-center">Who we are</p>
-                <h2 className="mt-4 text-3xl font-bold md:text-4xl">
-                  {site.name}
-                </h2>
-                <p className="mt-4 text-sm leading-relaxed text-foreground/75 md:text-base">
-                  One consultancy, one goal: getting students from Pakistan into a master&rsquo;s
-                  in Germany. Honest advice comes first, so you only spend money when it makes
-                  sense. We advise; universities and German authorities decide.
-                </p>
+              <div className="text-center">
+                <p className="section-label">Who we are</p>
               </div>
-              <ul className="mx-auto mt-10 grid max-w-4xl gap-3 sm:grid-cols-2">
-                {whoWeArePoints.map((point) => (
-                  <li key={point.title} className="rounded-2xl bg-white p-5 text-left">
-                    <p className="font-semibold">{point.title}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{point.text}</p>
+              <h2 className="mx-auto mt-4 max-w-3xl text-center text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] md:text-5xl">
+                Your journey, <span className="text-lime-ink">clearly mapped.</span>
+              </h2>
+              <div className="mt-10 grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+              <div className="flex flex-col items-start lg:pt-6">
+                <p className="max-w-md text-base leading-relaxed text-foreground/75">
+                  {site.name} helps students from Pakistan understand their path to a master&rsquo;s in Germany. We advise; universities and German authorities decide.
+                </p>
+                <div className="relative mt-7 w-full max-w-sm overflow-hidden rounded-2xl border border-forest/10 bg-white/65 px-5 py-4">
+                  <p className="text-[10px] font-bold tracking-[0.18em] text-forest/70">YOUR JOURNEY</p>
+                  <svg aria-hidden="true" viewBox="0 0 320 62" fill="none" className="mt-2 h-16 w-full overflow-visible">
+                    <path d="M16 31 C 80 -4, 135 64, 200 29 S 278 8, 304 31" stroke="currentColor" className="text-forest/25" strokeWidth="2" strokeDasharray="3 7" strokeLinecap="round" />
+                    <motion.circle cx="16" cy="31" r="5" className="fill-forest" initial={false} whileInView={reduceMotion ? undefined : { scale: [1, 1.3, 1] }} viewport={{ once: true }} transition={{ duration: 0.7 }} />
+                    <circle cx="304" cy="31" r="9" className="fill-primary" />
+                    <circle cx="304" cy="31" r="3" className="fill-forest" />
+                  </svg>
+                  <div className="flex justify-between text-xs font-bold text-forest"><span>Pakistan</span><span>Germany</span></div>
+                </div>
+                <div className="mt-7">
+                  <MagneticWrap><Button asChild size="lg" className="group"><Link href="/consultation">Get my free evaluation<ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" /></Link></Button></MagneticWrap>
+                </div>
+              </div>
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {whoWeArePoints.map((point, index) => (
+                  <li key={point.title} className="group relative flex min-h-44 flex-col rounded-2xl border border-forest/10 bg-white/80 p-5 transition-colors hover:border-forest/30 hover:bg-white md:p-6">
+                    <div className="flex items-start justify-between gap-4"><span className="grid size-11 place-items-center rounded-xl bg-[#e9f4db] text-forest"><point.icon aria-hidden="true" weight="duotone" className="size-6" /></span><span aria-hidden="true" className="font-mono text-xs text-forest/40">0{index + 1}</span></div>
+                    <p className="mt-5 text-[10px] font-bold tracking-[0.15em] text-forest/65">{point.label}</p>
+                    <h3 className="mt-1 text-base font-bold tracking-tight">{point.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-foreground/65">{point.text}</p>
                   </li>
                 ))}
               </ul>
-              <div className="mt-10 flex justify-center">
-                <MagneticWrap>
-                  <Button asChild size="lg" className="group">
-                    <Link href="/consultation">
-                      Get my free evaluation
-                      <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-                    </Link>
-                  </Button>
-                </MagneticWrap>
               </div>
             </div>
           </div>
