@@ -1,4 +1,4 @@
-import { ConsultationForm } from "@/components/consultation/consultation-form";
+import { ConsultationForm, SuccessView } from "@/components/consultation/consultation-form";
 import { getSession } from "@/lib/auth/session";
 
 export const metadata = {
@@ -10,12 +10,16 @@ export const metadata = {
 export default async function ConsultationPage({
   searchParams,
 }: {
-  searchParams: Promise<{ service?: string }>;
+  searchParams: Promise<{ service?: string; preview?: string }>;
 }) {
   const [session, params] = await Promise.all([
     getSession().catch(() => null),
     searchParams,
   ]);
+
+  if (process.env.NODE_ENV === "development" && params.preview === "success") {
+    return <><p className="px-4 pt-6 text-center text-sm text-muted-foreground">Preview only — no evaluation has been submitted.</p><SuccessView reference="PZ-PREVIEW" name="Ahsan" channel="whatsapp" /></>;
+  }
 
   return (
     <ConsultationForm
